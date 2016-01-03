@@ -1,4 +1,3 @@
 #!/usr/bin/env lsc
 
-console.log 'online'
-# set-timeout (-> console.log 'online'), 100
+set-timeout (-> console.log 'online'), 100

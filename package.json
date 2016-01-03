@@ -1,0 +1,19 @@
+{
+  "name": "observable-process",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Originate/observable-process.git"
+  },
+  "author": "Kevin Goslar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Originate/observable-process/issues"
+  },
+  "homepage": "https://github.com/Originate/observable-process#readme"
+}

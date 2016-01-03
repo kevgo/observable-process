@@ -4,6 +4,9 @@
   "description": "High-level support for spawning, observing, and interacting with child processes in Node.js",
   "main": "lib/observable-process.js",
   "scripts": {
+    "postpublish": "git push && git push --tags",
+    "prepublish": "bin/build",
+    "preversion": "npm test",
     "test": "cucumber-js"
   },
   "repository": {

@@ -13,14 +13,13 @@ module.exports = ->
 
   @When /^I wait for the output "([^"]*)"$/, (search-text, done) ->
     @called = 0
-    @start-time = process.hrtime![1]
+    @start-time = new Date!
     @observable-process.wait search-text, ~>
       @called += 1
-      @end-time = process.hrtime![1]
+      @end-time = new Date!
       done!
 
 
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
     expect(@called).to.equal 1
-    actual-delay = @end-time - @start-time
-    expect(actual-delay).to.be.above expected-delay
+    expect(@end-time - @start-time).to.be.above expected-delay

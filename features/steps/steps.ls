@@ -11,7 +11,7 @@ module.exports = ->
     @observable-process = new ObservableProcess "features/example-apps/delay-#{delay}"
 
 
-  @Given /^I spawn the "([^"]*)" process with logging (enabled|disabled)$/, (process-name, logging) ->
+  @Given /^I spawn the "([^"]*)" process with verbose (enabled|disabled)$/, (process-name, verbose) ->
     @log-text = ''
     @log-error = ''
     @console =
@@ -19,7 +19,7 @@ module.exports = ->
       error: (text) ~> @log-error += text
     @exit = no
     @observable-process = new ObservableProcess "features/example-apps/#{process-name}",
-                                                log: (logging is 'enabled'),
+                                                verbose: (verbose is 'enabled'),
                                                 console: @console,
                                                 on-exit: ~> @exit = yes
 

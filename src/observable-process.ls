@@ -14,9 +14,9 @@ require! {
 class ObservableProcess
 
   # command - the command to run, including all parameters, as a string
-  # options.log: whether to log
+  # options.verbose: whether to log
   #        .console: the console to log to
-  (command, {@log, @console, @on-exit} = {}) ->
+  (command, {@verbose, @console, @on-exit} = {}) ->
     @console ||= console
     command-parts = command.split ' '
     @process = spawn(path.join(process.cwd!, head command-parts),
@@ -25,7 +25,7 @@ class ObservableProcess
 
     @text-stream-search = new TextStreamSearch @process.stdout
 
-    if @log
+    if @verbose
       @process.stdout.on 'data', (data) ~> @console.log data.to-string!
       @process.stderr.on 'data', (data) ~> @console.error data.to-string!
 
@@ -41,7 +41,7 @@ class ObservableProcess
 
   on-close: (err) ~>
     | @killed  =>  return
-    if @log
+    if @verbose
       @console?.log 'PROCESS ENDED'
       @console?.log "\nEXIT CODE: #{err}"
     @on-exit?!

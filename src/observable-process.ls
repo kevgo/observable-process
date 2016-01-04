@@ -13,18 +13,24 @@ require! {
 # and allows to observe it.
 class ObservableProcess
 
-  (command, @options) ->
+  # command - the command to run, including all parameters, as a string
+  # options.log: whether to log
+  #        .console: the console to log to
+  (command, {@log, @console, @on-exit} = {}) ->
+    @console ||= console
     command-parts = command.split ' '
     @process = spawn(path.join(process.cwd!, head command-parts),
-                     tail(command-parts),
-                     options)
+                     tail(command-parts))
       ..on 'close', @on-close
 
     @text-stream-search = new TextStreamSearch @process.stdout
 
+    if @log
+      @process.stdout.on 'data', (data) ~> @console.log data.to-string!
+      @process.stderr.on 'data', (data) ~> @console.error data.to-string!
 
     # whether this process has been officially killed
-    # (to avoid unnecessary panic if it ends)
+    # (to avoid unnecessary panic if it is killed)
     @killed = no
 
 
@@ -35,8 +41,10 @@ class ObservableProcess
 
   on-close: (err) ~>
     | @killed  =>  return
-    console.log 'PROCESS ENDED' if options?.verbose
-    console.log "\nEXIT CODE: #{err}"
+    if @log
+      @console?.log 'PROCESS ENDED'
+      @console?.log "\nEXIT CODE: #{err}"
+    @on-exit?!
 
 
 

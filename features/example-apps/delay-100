@@ -1,3 +1,6 @@
 #!/usr/bin/env lsc
 
+# This is an example app used for testing.
+# It outputs text after a delay.
+
 set-timeout (-> console.log 'online'), 100

@@ -5,8 +5,10 @@ Feature: Logging the server output
   So that spawning a process feels the same as running it directly.
 
   Rules:
+  - logging is disabled by default
   - logging is enabled by providing the option "verbose: true" to the constructor
   - when enabled, all stdout and stderr from the spawned process is printed on the console.
+  - a custom stdio stream can be provided via the "console" parameter
 
 
   Scenario: verbose enabled

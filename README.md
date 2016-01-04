@@ -18,6 +18,11 @@ observer.wait('listening on port 3000', function() {
 });
 ```
 
+More details around waiting for output of spawned processes
+in the [spec](features/observable-process.feature)
+and its [implementation](features/steps/steps.ls).
+
+
 ## Logging the output
 
 * by default the output of the observed process is hidden
@@ -31,6 +36,9 @@ observer = new ObservableProcess('my-server', { verbose: true });
 observer = new ObservableProcess('my-server', { verbose: true, console: myConsole });
 // output goes to your myConsole object
 ```
+
+More details around logging options in the [spec](features/verbose.feature)
+and its [implementation](features/steps/steps.ls).
 
 
 ## Killing the process

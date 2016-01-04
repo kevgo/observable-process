@@ -1,6 +1,6 @@
 {
   "name": "observable-process",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "High-level support for spawning, observing, and interacting with child processes in Node.js",
   "main": "lib/observable-process.js",
   "scripts": {

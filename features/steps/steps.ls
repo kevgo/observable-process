@@ -33,22 +33,6 @@ module.exports = ->
       done!
 
 
-  @Then /^the stderr I provided receives "([^"]*)"$/, (text, done) ->
-    wait-until (~> @log-error.includes text), done
-
-
-  @Then /^the stderr I provided received no data$/, ->
-    expect(@log-error).to.equal ''
-
-
-  @Then /^the stdout I provided receives "([^"]*)"$/, (text, done) ->
-    wait-until (~> @log-text.includes text), done
-
-
-  @Then /^the stdout I provided received no data$/, ->
-    expect(@log-text).to.equal ''
-
-
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
     expect(@called).to.equal 1
     expect(@end-time - @start-time).to.be.above expected-delay
@@ -56,3 +40,19 @@ module.exports = ->
 
   @When /^the process ends$/, (done) ->
     wait-until (~> @exit is yes), done
+
+
+  @Then /^the stderr I provided received no data$/, ->
+    expect(@log-error).to.equal ''
+
+
+  @Then /^the stderr I provided receives "([^"]*)"$/, (text, done) ->
+    wait-until (~> @log-error.includes text), done
+
+
+  @Then /^the stdout I provided received no data$/, ->
+    expect(@log-text).to.equal ''
+
+
+  @Then /^the stdout I provided receives "([^"]*)"$/, (text, done) ->
+    wait-until (~> @log-text.includes text), done

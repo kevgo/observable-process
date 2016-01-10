@@ -16,11 +16,14 @@ class ObservableProcess
   # command - the command to run, including all parameters, as a string
   # options.verbose: whether to log
   #        .console: the console to log to
-  (command, {@verbose, @console, @on-exit} = {}) ->
+  (command, {@verbose, @cwd, @console, @on-exit} = {}) ->
     @console ||= console
     command-parts = command.split ' '
+    options = {}
+    options.cwd = @cwd if @cwd
     @process = spawn(path.join(process.cwd!, head command-parts),
-                     tail(command-parts))
+                     tail(command-parts),
+                     options)
       ..on 'close', @on-close
 
     @text-stream-search = new TextStreamSearch @process.stdout

@@ -1,11 +1,20 @@
 require! {
   '../..' : ObservableProcess
   'chai' : {expect}
-  'wait' : {wait-until}
+  'nitroglycerin' : N
+  'portfinder'
+  'request'
+  'wait' : {wait, wait-until}
 }
 
 
 module.exports = ->
+
+  @Given /^I spawn a long\-running process$/, (done) ->
+    portfinder.get-port N (@port) ~>
+      @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
+        ..wait "online at port #{@port}", done
+
 
   @Given /^I spawn a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
     @observable-process = new ObservableProcess "features/example-apps/delay-#{delay}"
@@ -24,12 +33,28 @@ module.exports = ->
                                                 on-exit: ~> @exit = yes
 
 
+
+  @When /^I kill it$/, ->
+    @observable-process.kill!
+
+
   @When /^I wait for the output "([^"]*)"$/, (search-text, done) ->
     @called = 0
     @start-time = new Date!
     @observable-process.wait search-text, ~>
       @called += 1
       @end-time = new Date!
+      done!
+
+
+
+  @Then /^it is marked as killed$/, ->
+    expect(@observable-process.killed).to.be.true
+
+
+  @Then /^it is no longer running$/, (done) ->
+    request "http://localhost:#{@port}", (err) ->
+      expect(err.code).to.equal 'ECONNREFUSED'
       done!
 
 

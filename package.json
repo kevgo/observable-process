@@ -31,6 +31,7 @@
     "david": "^7.0.0",
     "livescript": "^1.4.0",
     "nitroglycerin": "^1.0.3",
+    "portfinder": "^0.4.0",
     "request": "^2.67.0",
     "wait": "^0.1.0"
   }

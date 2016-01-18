@@ -20,6 +20,11 @@ module.exports = ->
     @observable-process = new ObservableProcess "features/example-apps/delay-#{delay}"
 
 
+  @Given /^I spawn a volatile proces$/, (done) ->
+    @observable-process = new ObservableProcess "features/example-apps/volatile", on-exit: (~> @on-exit-called = yes)
+      ..wait "running", done
+
+
   @Given /^I spawn the "([^"]*)" process with verbose (enabled|disabled)$/, (process-name, verbose) ->
     @log-text = ''
     @log-error = ''
@@ -47,6 +52,19 @@ module.exports = ->
       done!
 
 
+  @When /^it crashes$/, (done) ->
+    @observable-process.stdin.write "\n"
+    @observable-process.wait "crashed", done
+
+
+  @When /^the process ends$/, (done) ->
+    wait-until (~> @exit is yes), done
+
+
+
+  @Then /^it invokes the on\-exit callback$/, (done) ->
+    wait-until (~> @on-exit-called = yes), done
+
 
   @Then /^it is marked as killed$/, ->
     expect(@observable-process.killed).to.be.true
@@ -54,7 +72,7 @@ module.exports = ->
 
   @Then /^it is no longer running$/, (done) ->
     request "http://localhost:#{@port}", (err) ->
-      expect(err.code).to.equal 'ECONNREFUSED'
+      expect(err?.code).to.equal 'ECONNREFUSED'
       done!
 
 
@@ -63,8 +81,10 @@ module.exports = ->
     expect(@end-time - @start-time).to.be.above expected-delay
 
 
-  @When /^the process ends$/, (done) ->
-    wait-until (~> @exit is yes), done
+  @Then /^the "([^"]*)" property is (true|false)$/, (property-name, value, done) ->
+    process.next-tick ~>
+      expect(@observable-process[property-name]).to.equal eval(value)
+      done!
 
 
   @Then /^the stderr I provided received no data$/, ->

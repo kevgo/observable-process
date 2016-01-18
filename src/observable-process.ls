@@ -21,6 +21,7 @@ class ObservableProcess
     command-parts = command.split ' '
     options = {}
     options.cwd = @cwd if @cwd
+    @crashed = no
     @process = spawn(path.join(process.cwd!, head command-parts),
                      tail(command-parts),
                      options)
@@ -36,6 +37,8 @@ class ObservableProcess
     # (to avoid unnecessary panic if it is killed)
     @killed = no
 
+    @stdin = @process.stdin
+
 
   kill: ->
     @killed = yes
@@ -44,6 +47,7 @@ class ObservableProcess
 
   on-close: (err) ~>
     | @killed  =>  return
+    @crashed = yes
     if @verbose
       @console?.log 'PROCESS ENDED'
       @console?.log "\nEXIT CODE: #{err}"

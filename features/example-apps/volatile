@@ -1,0 +1,9 @@
+#!/usr/bin/env lsc
+
+# This is an example app used for testing.
+# It output text on both the stdout and stderr streams.
+
+console.log 'running'
+process.stdin.on 'data', ->
+  console.log 'crashed'
+  process.exit!

@@ -27,7 +27,7 @@ class ObservableProcess
                      options)
       ..on 'close', @on-close
 
-    @text-stream-search = new TextStreamSearch @process.stdout
+    @text-stream-search = new TextStreamSearch merge-stream(@process.stdout, @process.stderr)
 
     if @verbose
       @process.stdout.on 'data', (data) ~> @console.log data.to-string!

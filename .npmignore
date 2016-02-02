@@ -1,4 +1,6 @@
-bin/
+bin/build
+bin/spec
+bin/watch
 cucumber.js
 features/
 src/

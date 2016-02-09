@@ -6,6 +6,7 @@ require! {
   'request'
   'text-stream-search' : TextStreamSearch
 }
+debug = require('debug')('observable-process')
 
 
 
@@ -20,11 +21,14 @@ class ObservableProcess
     @console ||= console
     command-parts = command.split ' '
     options = env: process.env
-    options.cwd = @cwd if @cwd
+    if @cwd
+      options.cwd = @cwd
+      debug "using cwd: #{@cwd}"
     @crashed = no
-    @process = spawn(path.join(process.cwd!, head command-parts),
-                     tail(command-parts),
-                     options)
+    command = head command-parts
+    params = tail command-parts
+    debug "spawning '#{command}' with arguments '#{params}'"
+    @process = spawn(command, params, options)
       ..on 'close', @on-close
 
     @text-stream-search = new TextStreamSearch merge-stream(@process.stdout, @process.stderr)

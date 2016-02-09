@@ -6,9 +6,8 @@
   "scripts": {
     "postpublish": "git push && git push --tags",
     "prepublish": "bin/build",
-    "preversion": "npm test && npm run update",
-    "test": "cucumber-js",
-    "update": "david update"
+    "preversion": "npm test && david",
+    "test": "cucumber-js"
   },
   "repository": {
     "type": "git",

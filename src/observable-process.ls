@@ -19,7 +19,7 @@ class ObservableProcess
   (command, {@verbose, @cwd, @console, @on-exit} = {}) ->
     @console ||= console
     command-parts = command.split ' '
-    options = {}
+    options = env: process.env
     options.cwd = @cwd if @cwd
     @crashed = no
     @process = spawn(path.join(process.cwd!, head command-parts),

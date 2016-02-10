@@ -25,7 +25,7 @@ class ObservableProcess
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"
     @crashed = no
-    command = path.join (@cwd || process.cwd!), head(command-parts)
+    command = head command-parts
     params = tail command-parts
     debug "spawning '#{command}' with arguments '#{params}'"
     @process = spawn(command, params, options)

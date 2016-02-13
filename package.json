@@ -3,8 +3,10 @@
   "version": "0.6.5",
   "author": "Kevin Goslar",
   "dependencies": {
+    "debug": "^2.2.0",
     "merge-stream": "^1.0.0",
     "prelude-ls": "^1.1.2",
+    "request": "^2.67.0",
     "text-stream-search": "^0.2.0"
   },
   "description": "High-level support for spawning, observing, and interacting with child processes in Node.js",
@@ -12,10 +14,10 @@
     "chai": "^3.4.1",
     "cucumber": "^0.9.2",
     "david": "^7.0.0",
+    "dependency-lint": "^3.0.0",
     "livescript": "^1.4.0",
     "nitroglycerin": "^1.0.3",
     "portfinder": "^1.0.0",
-    "request": "^2.67.0",
     "wait": "^0.1.0"
   },
   "files": [
@@ -29,6 +31,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "scripts": {
+    "lint-dependencies": "dependency-lint",
     "postpublish": "git push && git push --tags",
     "prepublish": "bin/build",
     "preversion": "npm test && david",

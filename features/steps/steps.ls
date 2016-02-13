@@ -1,5 +1,5 @@
 require! {
-  '../../src/observable-process' : ObservableProcess
+  '../..' : ObservableProcess
   'chai' : {expect}
   'nitroglycerin' : N
   'portfinder'

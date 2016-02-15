@@ -3,7 +3,7 @@
   "version": "0.6.5",
   "author": "Kevin Goslar",
   "dependencies": {
-    "merge-stream": "^1.0.1",
+    "merge-stream": "^1.0.0",
     "prelude-ls": "^1.1.2",
     "text-stream-search": "^0.2.0"
   },

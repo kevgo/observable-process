@@ -34,7 +34,7 @@
     "lint-dependencies": "dependency-lint",
     "postpublish": "git push && git push --tags",
     "prepublish": "bin/build",
-    "preversion": "npm test && david",
+    "preversion": "npm test",
     "test": "bin/spec"
   }
 }

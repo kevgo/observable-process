@@ -37,7 +37,7 @@ class ObservableProcess
       @process.stdout.on 'data', (data) ~> @console.log data.to-string!
       @process.stderr.on 'data', (data) ~> @console.error data.to-string!
 
-    # whether this process has been officially killed
+    # indicates whether this process has been officially killed
     # (to avoid unnecessary panic if it is killed)
     @killed = no
 

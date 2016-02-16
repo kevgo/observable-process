@@ -7,3 +7,11 @@ test:
   pre:
     - bin/build
     - npm run lint-dependencies
+
+
+deployment:
+  publish:
+    branch: release
+    commands:
+      - npm set //registry.npmjs.org/:_authToken $AUTH_TOKEN
+      - npm publish

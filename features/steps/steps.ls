@@ -2,6 +2,7 @@ require! {
   '../..' : ObservableProcess
   'chai' : {expect}
   'nitroglycerin' : N
+  'path'
   'portfinder'
   'request'
   'wait' : {wait, wait-until}
@@ -23,6 +24,16 @@ module.exports = ->
   @Given /^I spawn a volatile proces$/, (done) ->
     @observable-process = new ObservableProcess "features/example-apps/volatile", on-exit: (~> @on-exit-called = yes)
       ..wait "running", done
+
+
+  @Given /^I spawn the global command "([^"]*)"$/, (command) ->
+    @observable-process = new ObservableProcess command
+
+
+  @Given /^I spawn the local command "([^"]*)"$/, (command) ->
+    command = path.join process.cwd!, 'features', 'example-apps', command
+    @observable-process = new ObservableProcess command
+
 
 
   @Given /^I spawn the "([^"]*)" process with verbose (enabled|disabled)$/, (process-name, verbose) ->
@@ -74,6 +85,10 @@ module.exports = ->
     request "http://localhost:#{@port}", (err) ->
       expect(err?.code).to.equal 'ECONNREFUSED'
       done!
+
+
+  @Then /^it prints "([^"]*)"$/, (output, done) ->
+    @observable-process.wait output, done
 
 
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->

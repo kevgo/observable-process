@@ -54,6 +54,13 @@ module.exports = ->
     @observable-process.kill!
 
 
+  @When /^I spawn the "([^"]*)" application with the environment variables:$/, (app-name, env) ->
+    env = env.rows-hash!
+    delete env.key
+    @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', app-name),
+                                                env: env
+
+
   @When /^I wait for the output "([^"]*)"$/, (search-text, done) ->
     @called = 0
     @start-time = new Date!

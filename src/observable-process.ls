@@ -17,10 +17,12 @@ class ObservableProcess
   # command - the command to run, including all parameters, as a string
   # options.verbose: whether to log
   #        .console: the console to log to
-  (command, {@verbose, @cwd, @console, @on-exit} = {}) ->
+  (command, {@env, @verbose, @cwd, @console, @on-exit} = {}) ->
     @console ||= console
     command-parts = command.split ' '
     options = env: process.env
+    for key, value of @env
+      options.env[key] = value
     if @cwd
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"

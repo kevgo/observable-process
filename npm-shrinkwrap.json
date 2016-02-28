@@ -99,7 +99,7 @@
     },
     "chai": {
       "version": "3.5.0",
-      "from": "chai@>=3.4.1 <4.0.0",
+      "from": "chai@3.5.0",
       "resolved": "https://registry.npmjs.org/chai/-/chai-3.5.0.tgz"
     },
     "chalk": {
@@ -161,7 +161,7 @@
     },
     "cucumber": {
       "version": "0.9.5",
-      "from": "cucumber@>=0.9.2 <0.10.0",
+      "from": "cucumber@0.9.5",
       "resolved": "https://registry.npmjs.org/cucumber/-/cucumber-0.9.5.tgz"
     },
     "cucumber-html": {
@@ -188,7 +188,7 @@
     },
     "debug": {
       "version": "2.2.0",
-      "from": "debug@>=2.2.0 <3.0.0",
+      "from": "debug@2.2.0",
       "resolved": "https://registry.npmjs.org/debug/-/debug-2.2.0.tgz"
     },
     "deep-eql": {
@@ -462,7 +462,7 @@
     },
     "livescript": {
       "version": "1.4.0",
-      "from": "livescript@>=1.4.0 <2.0.0",
+      "from": "livescript@1.4.0",
       "resolved": "https://registry.npmjs.org/livescript/-/livescript-1.4.0.tgz"
     },
     "lodash": {
@@ -492,7 +492,7 @@
     },
     "merge-stream": {
       "version": "1.0.0",
-      "from": "merge-stream@>=1.0.0 <2.0.0",
+      "from": "merge-stream@1.0.0",
       "resolved": "https://registry.npmjs.org/merge-stream/-/merge-stream-1.0.0.tgz"
     },
     "mime-db": {
@@ -532,7 +532,7 @@
     },
     "nitroglycerin": {
       "version": "1.0.3",
-      "from": "nitroglycerin@>=1.0.3 <2.0.0",
+      "from": "nitroglycerin@1.0.3",
       "resolved": "https://registry.npmjs.org/nitroglycerin/-/nitroglycerin-1.0.3.tgz"
     },
     "node-uuid": {
@@ -2269,7 +2269,7 @@
     },
     "prelude-ls": {
       "version": "1.1.2",
-      "from": "prelude-ls@>=1.1.2 <2.0.0",
+      "from": "prelude-ls@1.1.2",
       "resolved": "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz"
     },
     "process-nextick-args": {
@@ -2289,7 +2289,7 @@
     },
     "request": {
       "version": "2.69.0",
-      "from": "request@>=2.67.0 <3.0.0",
+      "from": "request@2.69.0",
       "resolved": "https://registry.npmjs.org/request/-/request-2.69.0.tgz"
     },
     "rimraf": {
@@ -2359,7 +2359,7 @@
     },
     "text-stream-search": {
       "version": "0.2.0",
-      "from": "text-stream-search@>=0.2.0 <0.3.0",
+      "from": "text-stream-search@0.2.0",
       "resolved": "https://registry.npmjs.org/text-stream-search/-/text-stream-search-0.2.0.tgz"
     },
     "timers-ext": {
@@ -2409,7 +2409,7 @@
     },
     "wait": {
       "version": "0.1.0",
-      "from": "wait@>=0.1.0 <0.2.0",
+      "from": "wait@0.1.0",
       "resolved": "https://registry.npmjs.org/wait/-/wait-0.1.0.tgz"
     },
     "wordwrap": {

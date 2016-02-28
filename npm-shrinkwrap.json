@@ -2262,10 +2262,22 @@
       "from": "pinkie-promise@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/pinkie-promise/-/pinkie-promise-2.0.0.tgz"
     },
+    "port-reservation": {
+      "version": "0.2.2",
+      "from": "port-reservation@0.2.2",
+      "resolved": "https://registry.npmjs.org/port-reservation/-/port-reservation-0.2.2.tgz"
+    },
     "portfinder": {
-      "version": "1.0.1",
-      "from": "portfinder@1.0.1",
-      "resolved": "https://registry.npmjs.org/portfinder/-/portfinder-1.0.1.tgz"
+      "version": "0.4.0",
+      "from": "portfinder@>=0.4.0 <0.5.0",
+      "resolved": "https://registry.npmjs.org/portfinder/-/portfinder-0.4.0.tgz",
+      "dependencies": {
+        "async": {
+          "version": "0.9.0",
+          "from": "async@0.9.0",
+          "resolved": "https://registry.npmjs.org/async/-/async-0.9.0.tgz"
+        }
+      }
     },
     "prelude-ls": {
       "version": "1.1.2",

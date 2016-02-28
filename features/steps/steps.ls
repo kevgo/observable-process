@@ -3,7 +3,7 @@ require! {
   'chai' : {expect}
   'nitroglycerin' : N
   'path'
-  'portfinder'
+  'port-reservation'
   'request'
   'wait' : {wait, wait-until}
 }
@@ -12,7 +12,7 @@ require! {
 module.exports = ->
 
   @Given /^I spawn a long\-running process$/, (done) ->
-    portfinder.get-port N (@port) ~>
+    port-reservation.get-port N (@port) ~>
       @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
         ..wait "online at port #{@port}", done
 

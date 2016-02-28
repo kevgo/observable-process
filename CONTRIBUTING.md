@@ -8,17 +8,20 @@
 
 ## Testing
 
-* `npm test` or `cucumber-js`
+```
+$ spec
+```
 
 
 ## Update
 
-* `npm run update`
+```
+$ update
+```
 
 
 ## Deploy a new version
 
 ```
-npm version <patch|minor|major>
-npm publish
+publish <patch|minor|major>
 ```

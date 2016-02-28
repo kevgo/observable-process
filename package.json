@@ -16,7 +16,7 @@
     "dependency-lint": "^3.0.0",
     "livescript": "^1.4.0",
     "nitroglycerin": "^1.0.3",
-    "npm-check-updates": "^2.5.8",
+    "o-tools": "0.1.4",
     "portfinder": "^0.4.0",
     "wait": "^0.1.0"
   },
@@ -31,10 +31,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "scripts": {
-    "lint-dependencies": "dependency-lint",
-    "postpublish": "git push && git push --tags",
     "prepublish": "bin/build",
-    "preversion": "bin/check-update && bin/spec",
     "test": "bin/spec"
   }
 }

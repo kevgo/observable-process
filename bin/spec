@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-bin/build
-DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' cucumber-js "$@"
+if [ "$#" == "0" ]; then
+  bin/lint
+  cucumber-js
+else
+  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' cucumber-js "$@"
+fi

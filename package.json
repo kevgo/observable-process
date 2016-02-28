@@ -21,7 +21,8 @@
     "wait": "0.1.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "npm-shrinkwrap.json"
   ],
   "homepage": "https://github.com/Originate/observable-process",
   "license": "ISC",

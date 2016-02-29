@@ -20,6 +20,9 @@
     "port-reservation": "0.2.2",
     "wait": "0.1.0"
   },
+  "engines": {
+    "npm": ">= 3.0.0"
+  },
   "files": [
     "dist",
     "npm-shrinkwrap.json"

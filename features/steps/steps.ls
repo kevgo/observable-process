@@ -5,7 +5,7 @@ require! {
   'path'
   'port-reservation'
   'request'
-  'wait' : {wait, wait-until}
+  'wait' : {wait-until}
 }
 
 
@@ -15,6 +15,12 @@ module.exports = ->
     port-reservation.get-port N (@port) ~>
       @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
         ..wait "online at port #{@port}", done
+
+
+  @Given /^I spawn a process that has generated the output "([^"]*)"$/, (output, done) ->
+    @observable-process = new ObservableProcess "features/example-apps/print-output #{output}"
+      ..wait output, done
+
 
 
   @Given /^I spawn a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
@@ -52,6 +58,10 @@ module.exports = ->
 
   @When /^I kill it$/, ->
     @observable-process.kill!
+
+
+  @When /^I run 'process\.fullOutput\(\)'$/, ->
+    @result = @observable-process.full-output!
 
 
   @When /^I spawn the "([^"]*)" application with the environment variables:$/, (app-name, env) ->
@@ -96,6 +106,10 @@ module.exports = ->
 
   @Then /^it prints "([^"]*)"$/, (output, done) ->
     @observable-process.wait output, done
+
+
+  @Then /^it returns "([^"]*)"$/, (expected-text) ->
+    expect(@result.trim!).to.equal expected-text
 
 
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->

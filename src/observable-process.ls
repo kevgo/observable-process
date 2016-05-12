@@ -46,6 +46,10 @@ class ObservableProcess
     @stdin = @process.stdin
 
 
+  full-output: ->
+    @text-stream-search.full-text!
+
+
   kill: ->
     @killed = yes
     @process.kill!

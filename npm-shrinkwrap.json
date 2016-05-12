@@ -555,6 +555,7 @@
     "o-tools": {
       "version": "0.1.4",
       "from": "o-tools@0.1.4",
+      "resolved": "https://registry.npmjs.org/o-tools/-/o-tools-0.1.4.tgz",
       "dependencies": {
         "ansi-escapes": {
           "version": "1.1.1",
@@ -2412,9 +2413,9 @@
       "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-2.0.0.tgz"
     },
     "text-stream-search": {
-      "version": "0.3.0",
-      "from": "text-stream-search@0.3.0",
-      "resolved": "https://registry.npmjs.org/text-stream-search/-/text-stream-search-0.3.0.tgz",
+      "version": "1.0.0",
+      "from": "text-stream-search@1.0.0",
+      "resolved": "https://registry.npmjs.org/text-stream-search/-/text-stream-search-1.0.0.tgz",
       "dependencies": {
         "d": {
           "version": "0.1.1",

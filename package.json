@@ -6,18 +6,18 @@
     "debug": "2.2.0",
     "merge-stream": "1.0.0",
     "prelude-ls": "1.1.2",
-    "request": "2.69.0",
+    "request": "2.72.0",
     "text-stream-search": "1.0.0"
   },
   "description": "High-level support for spawning, observing, and interacting with child processes in Node.js",
   "devDependencies": {
     "chai": "3.5.0",
-    "cucumber": "0.9.5",
-    "dependency-lint": "3.1.2",
+    "cucumber": "0.10.2",
+    "dependency-lint": "4.0.1",
     "livescript": "1.4.0",
     "nitroglycerin": "1.1.1",
     "o-tools": "0.1.4",
-    "port-reservation": "0.3.1",
+    "port-reservation": "0.3.2",
     "wait": "0.1.0"
   },
   "engines": {

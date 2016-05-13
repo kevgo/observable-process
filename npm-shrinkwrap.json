@@ -2302,9 +2302,9 @@
       }
     },
     "o-tools-livescript": {
-      "version": "1.0.2",
-      "from": "o-tools-livescript@latest",
-      "resolved": "https://registry.npmjs.org/o-tools-livescript/-/o-tools-livescript-1.0.2.tgz"
+      "version": "1.0.3",
+      "from": "o-tools-livescript@1.0.3",
+      "resolved": "https://registry.npmjs.org/o-tools-livescript/-/o-tools-livescript-1.0.3.tgz"
     },
     "oauth-sign": {
       "version": "0.8.2",

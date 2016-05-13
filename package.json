@@ -17,6 +17,7 @@
     "livescript": "1.4.0",
     "nitroglycerin": "1.1.1",
     "o-tools": "0.1.4",
+    "o-tools-livescript": "1.0.2",
     "port-reservation": "0.3.2",
     "wait": "0.1.0"
   },
@@ -35,7 +36,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "scripts": {
-    "prepublish": "bin/build",
+    "prepublish": "node_modules/.bin/build",
     "test": "bin/spec"
   }
 }

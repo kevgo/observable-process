@@ -2264,6 +2264,11 @@
         }
       }
     },
+    "o-tools-livescript": {
+      "version": "1.0.2",
+      "from": "o-tools-livescript@latest",
+      "resolved": "https://registry.npmjs.org/o-tools-livescript/-/o-tools-livescript-1.0.2.tgz"
+    },
     "oauth-sign": {
       "version": "0.8.2",
       "from": "oauth-sign@>=0.8.1 <0.9.0",

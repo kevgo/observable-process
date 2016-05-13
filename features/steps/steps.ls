@@ -24,7 +24,7 @@ module.exports = ->
 
 
   @Given /^I spawn a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
-    @observable-process = new ObservableProcess "features/example-apps/delay-#{delay}"
+    @observable-process = new ObservableProcess "features/example-apps/delay #{delay}"
 
 
   @Given /^I spawn a volatile proces$/, (done) ->

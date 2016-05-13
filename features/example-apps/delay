@@ -3,4 +3,4 @@
 # This is an example app used for testing.
 # It outputs text after a delay.
 
-set-timeout (-> console.log 'online'), 100
+set-timeout (-> console.log 'online'), process.argv[2]

@@ -18,7 +18,7 @@ class ObservableProcess
   # options.verbose: whether to log
   #        .console: the console to log to
   (command, {@env, @verbose, @cwd, @console, @on-exit} = {}) ->
-    @console ||= console
+    @console or= global.console
     command-parts = command.split ' '
     options = env: process.env
     for key, value of @env

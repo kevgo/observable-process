@@ -2,7 +2,7 @@
 set -e
 
 if [ "$#" == "0" ]; then
-  bin/lint
+  node_modules/o-tools/bin/lint
   cucumber-js
 else
   DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' cucumber-js "$@"

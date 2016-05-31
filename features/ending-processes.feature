@@ -9,8 +9,8 @@ Feature: Recognizing process termination
 
 
   Scenario: a process that ends
-    Given I spawn a volatile proces
-    Then the "ended" property is false
+    Given I spawn an interactive process
+    Then the processes "ended" property is false
     When it ends
-    Then it invokes the on-exit callback
-    And the "ended" property is true
+    Then the on-exit event is emitted
+    And the processes "ended" property is true

@@ -1,5 +1,6 @@
 require! {
   'child_process' : {spawn}
+  'events' : EventEmitter
   'merge-stream'
   'path'
   'prelude-ls' : {head, tail}
@@ -12,12 +13,12 @@ debug = require('debug')('observable-process')
 
 # Spawns the given command into a separate, parallel process
 # and allows to observe it.
-class ObservableProcess
+class ObservableProcess extends EventEmitter
 
   # command - the command to run, including all parameters, as a string
   # options.verbose: whether to log
   #        .console: the console to log to
-  (command, {@env, @verbose, @cwd, @console, @on-exit} = {}) ->
+  (command, {@env, @verbose, @cwd, @console} = {}) ->
     @console or= global.console
     command-parts = command.split ' '
     options = env: process.env
@@ -61,7 +62,7 @@ class ObservableProcess
     if @verbose
       @console?.log 'PROCESS ENDED'
       @console?.log "\nEXIT CODE: #{err}"
-    @on-exit?!
+    @emit 'ended'
 
 
 

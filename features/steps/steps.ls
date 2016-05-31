@@ -27,8 +27,10 @@ module.exports = ->
     @observable-process = new ObservableProcess "features/example-apps/delay #{delay}"
 
 
-  @Given /^I spawn a volatile proces$/, (done) ->
-    @observable-process = new ObservableProcess "features/example-apps/volatile", on-exit: (~> @on-exit-called = yes)
+  @Given /^I spawn an interactive process$/, (done) ->
+    @on-exit-called = no
+    @observable-process = new ObservableProcess "features/example-apps/interactive"
+      ..on 'ended', ~> @on-exit-called = yes
       ..wait "running", done
 
 
@@ -52,7 +54,7 @@ module.exports = ->
     @observable-process = new ObservableProcess "features/example-apps/#{process-name}",
                                                 verbose: (verbose is 'enabled'),
                                                 console: @console,
-                                                on-exit: ~> @exit = yes
+    @observable-process.on 'ended', ~> @exit = yes
 
 
 
@@ -90,8 +92,9 @@ module.exports = ->
 
 
 
-  @Then /^it invokes the on\-exit callback$/, (done) ->
-    wait-until (~> @on-exit-called = yes), done
+  @Then /^the on\-exit event is emitted/, (done) ->
+    wait-until (~> @on-exit-called is yes), ->
+      done!
 
 
   @Then /^it is marked as killed$/, ->
@@ -117,7 +120,7 @@ module.exports = ->
     expect(@end-time - @start-time).to.be.above expected-delay
 
 
-  @Then /^the "([^"]*)" property is (true|false)$/, (property-name, value, done) ->
+  @Then /^the processes "([^"]*)" property is (true|false)$/, (property-name, value, done) ->
     process.next-tick ~>
       expect(@observable-process[property-name]).to.equal eval(value)
       done!

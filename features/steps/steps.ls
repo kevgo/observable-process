@@ -80,9 +80,9 @@ module.exports = ->
       done!
 
 
-  @When /^it crashes$/, (done) ->
+  @When /^it ends/, (done) ->
     @observable-process.stdin.write "\n"
-    @observable-process.wait "crashed", done
+    @observable-process.wait "ended", done
 
 
   @When /^the process ends$/, (done) ->

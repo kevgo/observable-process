@@ -1,0 +1,16 @@
+Feature: Recognizing process termination
+
+  As a developer running a process that I expect to be running
+  I want to be able to recognize if it has ended
+  So that I run the next steps after the command is over, or am aware of unexpected crashes.
+
+  Rules:
+  - when the process ends, it sets the "ended" property to true
+
+
+  Scenario: a process that ends
+    Given I spawn a volatile proces
+    Then the "ended" property is false
+    When it ends
+    Then it invokes the on-exit callback
+    And the "ended" property is true

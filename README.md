@@ -54,7 +54,7 @@ provide it a callback via the `onExit` parameter:
 
 ```javascript
 observer = new ObservableProcess('my-server', onExit: function() {
-  // here the server has ended/crashed
+  // here the server has ended
 });
 ```
 

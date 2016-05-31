@@ -5,5 +5,5 @@
 
 console.log 'running'
 process.stdin.on 'data', ->
-  console.log 'crashed'
+  console.log 'ended'
   process.exit!

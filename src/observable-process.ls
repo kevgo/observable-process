@@ -26,7 +26,7 @@ class ObservableProcess
     if @cwd
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"
-    @crashed = no
+    @ended = no
     command = head command-parts
     params = tail command-parts
     debug "spawning '#{command}' with arguments '#{params}'"
@@ -57,7 +57,7 @@ class ObservableProcess
 
   on-close: (err) ~>
     | @killed  =>  return
-    @crashed = yes
+    @ended = yes
     if @verbose
       @console?.log 'PROCESS ENDED'
       @console?.log "\nEXIT CODE: #{err}"

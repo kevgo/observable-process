@@ -56,13 +56,13 @@ class ObservableProcess extends EventEmitter
     @process.kill!
 
 
-  on-close: (err) ~>
+  on-close: (@exit-code) ~>
     | @killed  =>  return
     @ended = yes
     if @verbose
       @console?.log 'PROCESS ENDED'
-      @console?.log "\nEXIT CODE: #{err}"
-    @emit 'ended'
+      @console?.log "\nEXIT CODE: #{@exit-code}"
+    @emit 'ended', @exit-code
 
 
 

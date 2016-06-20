@@ -6,4 +6,4 @@
 console.log 'running'
 process.stdin.on 'data', ->
   console.log 'ended'
-  process.exit!
+  process.exit 1

@@ -12,5 +12,6 @@ Feature: Recognizing process termination
     Given I spawn an interactive process
     Then the processes "ended" property is false
     When it ends
-    Then the on-exit event is emitted
+    Then the on-exit event is emitted with the exit code 1
     And the processes "ended" property is true
+    And the exit code is set in the .exitCode property

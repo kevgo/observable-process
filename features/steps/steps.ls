@@ -30,7 +30,7 @@ module.exports = ->
   @Given /^I spawn an interactive process$/, (done) ->
     @on-exit-called = no
     @observable-process = new ObservableProcess "features/example-apps/interactive"
-      ..on 'ended', ~> @on-exit-called = yes
+      ..on 'ended', (@exit-code) ~> @on-exit-called = yes
       ..wait "running", done
 
 
@@ -92,8 +92,13 @@ module.exports = ->
 
 
 
-  @Then /^the on\-exit event is emitted/, (done) ->
-    wait-until (~> @on-exit-called is yes), ->
+  @Then /^the exit code is set in the \.exitCode property$/ ->
+    expect(@observable-process.exit-code).to.equal 1
+
+
+  @Then /^the on\-exit event is emitted with the exit code (\d+)$/, (expected-exit-code, done) ->
+    wait-until (~> @on-exit-called is yes), ~>
+      expect(@exit-code).to.equal parse-int(expected-exit-code)
       done!
 
 

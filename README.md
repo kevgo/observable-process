@@ -50,12 +50,13 @@ observer.kill()
 ```
 
 To let ObservableProcess notify you when a process ended,
-provide it a callback via the `onExit` parameter:
+subscribe to the `ended` event:
 
 ```javascript
-observer = new ObservableProcess('my-server', onExit: function() {
-  // here the server has ended
-});
+observer = new ObservableProcess('my-server')
+observer.on 'ended', (exitCode) => {
+  // the server has ended
+}
 ```
 
 

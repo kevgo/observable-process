@@ -55,7 +55,7 @@ subscribe to the `ended` event:
 ```javascript
 observer = new ObservableProcess('my-server')
 observer.on 'ended', (exitCode) => {
-  // the server has ended
+  // the process has ended
 }
 ```
 

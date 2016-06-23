@@ -30,7 +30,7 @@ module.exports = ->
   @Given /^I spawn an interactive process$/, (done) ->
     @on-exit-called = no
     @observable-process = new ObservableProcess "features/example-apps/interactive"
-      ..on 'ended', (@exit-code) ~> @on-exit-called = yes
+      ..on 'ended', (@err, @exit-code) ~> @on-exit-called = yes
       ..wait "running", done
 
 

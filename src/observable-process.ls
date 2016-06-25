@@ -62,7 +62,7 @@ class ObservableProcess extends EventEmitter
     if @verbose
       @console?.log 'PROCESS ENDED'
       @console?.log "\nEXIT CODE: #{@exit-code}"
-    @emit 'ended', null, @exit-code
+    @emit 'ended', @exit-code
 
 
 

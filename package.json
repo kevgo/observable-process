@@ -12,9 +12,9 @@
   "description": "High-level support for spawning, observing, and interacting with child processes in Node.js",
   "devDependencies": {
     "chai": "3.5.0",
-    "cucumber": "1.0.0",
+    "cucumber": "1.2.0",
     "cucumber-snippets-livescript": "1.0.1",
-    "dependency-lint": "4.0.1",
+    "dependency-lint": "4.0.2",
     "livescript": "1.5.0",
     "nitroglycerin": "1.1.1",
     "o-tools": "0.4.0",

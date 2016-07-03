@@ -1,26 +1,29 @@
-Feature: Logging the server output
+Feature: Enabling more detailed output
 
   As a developer spawning a child process
-  I want to be able to see its output on the command line
-  So that spawning a process feels the same as running it directly.
+  I want to be able to see extra details on the command line
+  So that I can debug it easier.
 
   Rules:
-  - logging is disabled by default
-  - logging is enabled by providing the option "verbose: true" to the constructor
-  - when enabled, all stdout and stderr from the spawned process is printed on the console.
-  - a custom stdio stream can be provided via the "console" parameter
+  - more detailed output is enabled via the option "verbose: true"
+  - when enabled, ObservableProcess outputs more detailed runtime information:
+    - when the process ends
+    - the exit code
+  - the extra output goes to the current console object
+
+
+  Scenario: default behavior
+    When I run the "console-output" process with a custom console object
+    Then my console object does not receive "PROCESS ENDED"
 
 
   Scenario: verbose enabled
-    Given I spawn the "console-output" process with verbose enabled
-    Then the stdout I provided receives "normal output"
-    And the stderr I provided receives "error output"
-    When the process ends
-    Then the stdout I provided receives "PROCESS ENDED"
+    When I run the "console-output" process with verbose enabled and a custom console object
+    Then my console object receives "PROCESS ENDED"
+    And my console object receives "EXIT CODE: 0"
 
 
   Scenario: verbose disabled
-    Given I spawn the "console-output" process with verbose disabled
-    When the process ends
-    Then the stdout I provided received no data
-    And the stderr I provided received no data
+    When I run the "console-output" process with verbose disabled and a custom console object
+    Then my console object does not receive "PROCESS ENDED"
+    And my console object does not receive "EXIT CODE: 0"

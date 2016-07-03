@@ -44,26 +44,46 @@ module.exports = ->
 
 
 
-  @Given /^I spawn the "([^"]*)" process with verbose (enabled|disabled)$/, (process-name, verbose) ->
-    @log-text = ''
-    @log-error = ''
-    @console =
-      log: (text) ~> @log-text += text
-      error: (text) ~> @log-error += text
-    @exit = no
-    @observable-process = new ObservableProcess "features/example-apps/#{process-name}",
-                                                verbose: (verbose is 'enabled'),
-                                                console: @console,
-    @observable-process.on 'ended', ~> @exit = yes
-
-
-
   @When /^I kill it$/, ->
     @observable-process.kill!
 
 
   @When /^I run 'process\.fullOutput\(\)'$/, ->
     @result = @observable-process.full-output!
+
+
+  @Given /^I run the "([^"]*)" process$/ (process-name, done) ->
+    @observable-process = new ObservableProcess "features/example-apps/#{process-name}"
+      ..on 'ended', done
+
+
+  @Given /^I run the "([^"]*)" process with a custom console object$/ (process-name, done) ->
+    @log-text = ''
+    @log-error = ''
+    @console =
+      log: (text) ~> @log-text += text
+      error: (text) ~> @log-error += text
+    @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
+                                                console: @console)
+      ..on 'ended', done
+
+
+  @Given /^I run the "([^"]*)" process with a null console$/ (process-name, done) ->
+    @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
+                                                console: null)
+      ..on 'ended', done
+
+
+  @When /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom console object$/ (process-name, verbose, done) ->
+    @log-text = ''
+    @log-error = ''
+    @console =
+      log: (text) ~> @log-text += text
+      error: (text) ~> @log-error += text
+    @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
+                                                console: @console,
+                                                verbose: (verbose is 'enabled'))
+      ..on 'ended', done
 
 
   @When /^I spawn the "([^"]*)" application with the environment variables:$/, (app-name, env) ->
@@ -120,9 +140,20 @@ module.exports = ->
     expect(@result.trim!).to.equal expected-text
 
 
+  @Then /^my console object does not receive "([^"]*)"$/ (expected-text) ->
+    expect(@log-text).to.not.contain expected-text
+
+
+  @Then /^my console object receives "([^"]*)"$/ (expected-text) ->
+    expect(@log-text).to.contain expected-text
+
+
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
     expect(@called).to.equal 1
     expect(@end-time - @start-time).to.be.above expected-delay
+
+
+  @Then /^the process ends without errors$/ ->
 
 
   @Then /^the processes "([^"]*)" property is (true|false)$/, (property-name, value, done) ->

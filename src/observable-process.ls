@@ -36,7 +36,7 @@ class ObservableProcess extends EventEmitter
 
     @text-stream-search = new TextStreamSearch merge-stream(@process.stdout, @process.stderr)
 
-    if @verbose
+    if @console
       @process.stdout.on 'data', (data) ~> @console.log data.to-string!
       @process.stderr.on 'data', (data) ~> @console.error data.to-string!
 

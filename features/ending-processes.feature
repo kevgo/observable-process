@@ -9,7 +9,7 @@ Feature: Recognizing process termination
 
 
   Scenario: a process that ends
-    Given I spawn an interactive process
+    Given I start an interactive process
     Then the processes "ended" property is false
     When it ends
     Then the on-exit event is emitted with the exit code 1

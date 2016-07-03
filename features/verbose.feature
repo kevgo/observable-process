@@ -1,6 +1,6 @@
 Feature: Enabling more detailed output
 
-  As a developer spawning a child process
+  As a developer running a child process
   I want to be able to see extra details on the command line
   So that I can debug it easier.
 

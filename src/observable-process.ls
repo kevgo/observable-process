@@ -11,7 +11,7 @@ debug = require('debug')('observable-process')
 
 
 
-# Spawns the given command into a separate, parallel process
+# Runs the given command as a separate, parallel process
 # and allows to observe it.
 class ObservableProcess extends EventEmitter
 
@@ -30,7 +30,7 @@ class ObservableProcess extends EventEmitter
     @ended = no
     command = head command-parts
     params = tail command-parts
-    debug "spawning '#{command}' with arguments '#{params}'"
+    debug "starting '#{command}' with arguments '#{params}'"
     @process = spawn(command, params, options)
       ..on 'close', @on-close
 

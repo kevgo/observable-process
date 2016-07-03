@@ -1,8 +1,8 @@
 Feature: Printing the server output
 
-  As a developer spawning a child process
+  As a developer running a child process
   I want to be able to see its output on the command line
-  So that spawning a process feels the same as running it directly.
+  So that running a process feels the same as running it directly.
 
   Rules:
   - output gets logged onto the console by default

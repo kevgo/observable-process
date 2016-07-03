@@ -11,34 +11,34 @@ require! {
 
 module.exports = ->
 
-  @Given /^I spawn a long\-running process$/, (done) ->
+  @Given /^I start a long\-running process$/, (done) ->
     port-reservation.get-port N (@port) ~>
       @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
         ..wait "online at port #{@port}", done
 
 
-  @Given /^I spawn a process that has generated the output "([^"]*)"$/, (output, done) ->
+  @Given /^I run a process that has generated the output "([^"]*)"$/, (output, done) ->
     @observable-process = new ObservableProcess "features/example-apps/print-output #{output}"
       ..wait output, done
 
 
 
-  @Given /^I spawn a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
+  @Given /^I start a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
     @observable-process = new ObservableProcess "features/example-apps/delay #{delay}"
 
 
-  @Given /^I spawn an interactive process$/, (done) ->
+  @Given /^I start an interactive process$/, (done) ->
     @on-exit-called = no
     @observable-process = new ObservableProcess "features/example-apps/interactive"
       ..on 'ended', (@exit-code) ~> @on-exit-called = yes
       ..wait "running", done
 
 
-  @Given /^I spawn the global command "([^"]*)"$/, (command) ->
+  @Given /^I run the global command "([^"]*)"$/, (command) ->
     @observable-process = new ObservableProcess command
 
 
-  @Given /^I spawn the local command "([^"]*)"$/, (command) ->
+  @Given /^I run the local command "([^"]*)"$/, (command) ->
     command = path.join process.cwd!, 'features', 'example-apps', command
     @observable-process = new ObservableProcess command
 
@@ -48,7 +48,7 @@ module.exports = ->
     @observable-process.kill!
 
 
-  @When /^I run 'process\.fullOutput\(\)'$/, ->
+  @When /^calling 'process\.fullOutput\(\)'$/, ->
     @result = @observable-process.full-output!
 
 
@@ -86,7 +86,7 @@ module.exports = ->
       ..on 'ended', done
 
 
-  @When /^I spawn the "([^"]*)" application with the environment variables:$/, (app-name, env) ->
+  @When /^I run the "([^"]*)" application with the environment variables:$/, (app-name, env) ->
     env = env.rows-hash!
     delete env.key
     @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', app-name),

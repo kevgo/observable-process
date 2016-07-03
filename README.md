@@ -5,8 +5,8 @@
 [![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
 
 
-A high-level API for spawning child processes in Node.js
-and waiting until they output a certain text.
+High-level support for running, observing, and interacting with child processes
+in Node.js
 
 
 ```javascript
@@ -18,7 +18,7 @@ observer.wait('listening on port 3000', function() {
 });
 ```
 
-More details around waiting for output of spawned processes
+More details around waiting for output of running processes are
 in the [spec](features/observable-process.feature)
 and its [implementation](features/steps/steps.ls).
 

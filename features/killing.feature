@@ -10,7 +10,7 @@ Feature: killing a running process
 
 
   Scenario: killing a running process
-    Given I spawn a long-running process
+    Given I start a long-running process
     When I kill it
     Then it is marked as killed
     And it is no longer running

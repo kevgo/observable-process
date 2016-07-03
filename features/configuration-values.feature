@@ -1,6 +1,6 @@
 Feature: providing configuration values
 
-  As a developer spawning a subprocess
+  As a developer running a subprocess
   I want to be able to provide configuration values to my subprocess
   So that I can start it up in a way that suits my needs.
 
@@ -10,7 +10,7 @@ Feature: providing configuration values
 
 
   Scenario: providing configuration data
-    When I spawn the "config-values" application with the environment variables:
+    When I run the "config-values" application with the environment variables:
       | KEY         | VALUE |
       | port        | 3000  |
       | exocommPort | 3100  |

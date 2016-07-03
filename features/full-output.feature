@@ -8,6 +8,6 @@ Feature: retrieving the complete text output so far
 
 
   Scenario: the process has generated some output
-    Given I spawn a process that has generated the output "hello"
-    When I run 'process.fullOutput()'
+    Given I run a process that has generated the output "hello"
+    When calling 'process.fullOutput()'
     Then it returns "hello"

@@ -57,7 +57,6 @@ class ObservableProcess extends EventEmitter
 
 
   on-close: (@exit-code) ~>
-    | @killed  =>  return
     @ended = yes
     if @verbose
       @console?.log 'PROCESS ENDED'

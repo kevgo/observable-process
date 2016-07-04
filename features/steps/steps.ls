@@ -44,8 +44,10 @@ module.exports = ->
 
 
 
-  @When /^I kill it$/, ->
-    @observable-process.kill!
+  @When /^I kill it$/, (done) ->
+    @observable-process
+      ..on 'ended', -> done!
+      ..kill!
 
 
   @When /^calling 'process\.fullOutput\(\)'$/, ->
@@ -120,6 +122,10 @@ module.exports = ->
     wait-until (~> @on-exit-called is yes), ~>
       expect(@exit-code).to.equal parse-int(expected-exit-code)
       done!
+
+
+  @Then /^it is marked as ended/, ->
+    expect(@observable-process.ended).to.be.true
 
 
   @Then /^it is marked as killed$/, ->

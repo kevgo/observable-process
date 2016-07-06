@@ -16,7 +16,7 @@ ignoreErrors:
   shouldBeDependency: []
   shouldBeDevDependency: []
   unused:
-    - livescript
+    - cucumber-snippets-livescript
 
 requiredModules:
   files:

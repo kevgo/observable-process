@@ -15,9 +15,9 @@
     "cucumber": "1.2.1",
     "cucumber-snippets-livescript": "1.0.1",
     "dependency-lint": "4.0.2",
-    "nitroglycerin": "1.1.1",
-    "o-tools": "0.4.0",
-    "o-tools-livescript": "1.1.1",
+    "nitroglycerin": "1.1.2",
+    "o-tools": "0.4.16",
+    "o-tools-livescript": "1.1.2",
     "port-reservation": "0.3.2",
     "wait": "0.1.0"
   },

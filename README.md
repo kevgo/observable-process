@@ -10,59 +10,94 @@ in Node.js
 
 
 ```javascript
-ObservableProcess = require('observable-process');
+ObservableProcess = require('observable-process')
+process = new ObservableProcess('my-server --port 3000')
+```
 
-observer = new ObservableProcess('my-server --port 3000');
-observer.wait('listening on port 3000', function() {
-  // the child process says it is ready now
+You can also provide the process to run as an _argv_ array:
+
+```javascript
+process = new ObservableProcess(['my-server', '--port', '3000'])
+```
+
+
+## Set the working directory of the subshell
+
+```javascript
+process = new ObservableProcess('my-server', { cwd: '~/tmp' })
+```
+
+
+## Set environment variables in the subshell
+
+
+```javascript
+process = new ObservableProcess('my-server', { env: { foo: 'bar' } })
+```
+
+## Waiting for output
+
+You can be notified when the process prints given text on the console:
+
+```javascript
+process.wait('listening on port 3000', function() {
+  // this method runs after the process prints "listening on port 3000"
 });
 ```
 
-You can also provide the process to run as an argv array:
+This is useful for waiting until slow-starting services are fully booted up.
 
-```javascript
-observer = new ObservableProcess(['my-server', '--port', '3000']);
+
+## Configure console output
+
+By default the output of the observed process is printed on the console.
+To disable logging:
+
+```js
+process = new ObservableProcess('my-server', { console: false });
 ```
 
-More details around waiting for output of running processes are
-in the [spec](features/observable-process.feature)
-and its [implementation](features/steps/steps.ls).
-
-
-## Logging the output
-
-* by default the output of the observed process is hidden
-* provide the option `verbose: true` to log the output on stdio
-* provide custom console streams via the option `console`
+You can also customize logging by providing a custom `console` object
+(which needs to have the method `log`):
 
 ```javascript
-observer = new ObservableProcess('my-server', { verbose: true });
-// output goes to your terminal
-
-observer = new ObservableProcess('my-server', { verbose: true, console: myConsole });
-// output goes to your myConsole object
+myConsole = {
+  log: (text) => { file.write(text) }
+}
+process = new ObservableProcess('my-server', { console: myConsole })
 ```
 
-More details around logging options in the [spec](features/verbose.feature)
-and its [implementation](features/steps/steps.ls).
+You can use [dim-console](https://github.com/kevgo/dim-console-node)
+to print output from the subshell dimmed,
+so that it is easy to distinguish from output of the main thread.
+
+```javascript
+dimConsole = require('dim-console')
+process = new ObservableProcess('my-server', { console: dimConsole.console })
+```
+
+To get more detailed output (including lifecycle events of the subshell):
+
+```javascript
+process = new ObservableProcess('my-server', { verbose: true })
+```
 
 
-## Killing the process
+## Kill the process
 
 If the process is running, you can kill it via:
 
 ```javascript
-observer.kill()
+process.kill()
 ```
 
 To let ObservableProcess notify you when a process ended,
 subscribe to the `ended` event:
 
 ```javascript
-observer = new ObservableProcess('my-server')
-observer.on 'ended', (err, exitCode) => {
+process.on 'ended', (err, exitCode) => {
   // the process has ended here
-  // you can also access the exit code via observer.exitCode
+  // you can also access the exit code via process.exitCode
 }
 ```
 

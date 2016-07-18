@@ -113,6 +113,19 @@ module.exports = ->
     wait-until (~> @exit is yes), done
 
 
+  @When /^running the process "([^"]*)"$/ (command, done) ->
+    @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', command), console: off
+      ..on 'ended', ~>
+        @result = @observable-process.full-output!
+        done!
+
+  @When /^running the process \[([^"]+)\]$/ (args, done) ->
+    args = eval "[#{args}]"
+    @observable-process = new ObservableProcess args, console: off
+      ..on 'ended', ~>
+        @result = @observable-process.full-output!
+        done!
+
 
   @Then /^the exit code is set in the \.exitCode property$/ ->
     expect(@observable-process.exit-code).to.equal 1

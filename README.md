@@ -18,6 +18,12 @@ observer.wait('listening on port 3000', function() {
 });
 ```
 
+You can also provide the process to run as an argv array:
+
+```javascript
+observer = new ObservableProcess(['my-server', '--port', '3000']);
+```
+
 More details around waiting for output of running processes are
 in the [spec](features/observable-process.feature)
 and its [implementation](features/steps/steps.ls).

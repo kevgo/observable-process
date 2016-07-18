@@ -19,8 +19,11 @@ class ObservableProcess extends EventEmitter
   # options.verbose: whether to log
   #        .console: the console to log to
   (command, {@env, @verbose, @cwd, @console} = {}) ->
-    @console or= global.console
-    command-parts = command.split ' '
+    @console ?= global.console
+    command-parts = if Array.is-array command
+      command
+    else
+      command.split ' '
     options = env: process.env
     for key, value of @env
       options.env[key] = value

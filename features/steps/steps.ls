@@ -44,14 +44,14 @@ module.exports = ->
 
 
 
+  @When /^calling 'process\.fullOutput\(\)'$/, ->
+    @result = @observable-process.full-output!
+
+
   @When /^I kill it$/, (done) ->
     @observable-process
       ..on 'ended', -> done!
       ..kill!
-
-
-  @When /^calling 'process\.fullOutput\(\)'$/, ->
-    @result = @observable-process.full-output!
 
 
   @Given /^I run the "([^"]*)" process$/ (process-name, done) ->

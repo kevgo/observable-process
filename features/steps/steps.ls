@@ -76,6 +76,10 @@ module.exports = ->
       ..on 'ended', done
 
 
+  @When /^gettings its PID$/ ->
+    @pid = @observable-process.pid!
+
+
   @When /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom console object$/ (process-name, verbose, done) ->
     @log-text = ''
     @log-error = ''
@@ -125,6 +129,10 @@ module.exports = ->
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
+
+
+  @Then /^I receive a number$/ ->
+    expect(+@pid).to.be.above 0
 
 
   @Then /^the exit code is set in the \.exitCode property$/ ->

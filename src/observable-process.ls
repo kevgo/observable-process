@@ -67,6 +67,9 @@ class ObservableProcess extends EventEmitter
     @emit 'ended', @exit-code
 
 
+  pid: ->
+    @process?.pid
+
 
   # Calls the given handler when the given text shows up in the output
   wait: (text, handler) ->

@@ -101,6 +101,12 @@ process.on 'ended', (err, exitCode) => {
 }
 ```
 
+## Get the process id
+
+```
+process.pid()
+```
+
 
 ## related libraries
 

@@ -91,6 +91,9 @@ If the process is running, you can kill it via:
 process.kill()
 ```
 
+This sets the `killed` property on the ObservableProcess instance,
+so that manual kills can be distinguished from crashes.
+
 To let ObservableProcess notify you when a process ended,
 subscribe to the `ended` event:
 

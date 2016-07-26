@@ -54,7 +54,7 @@ By default the output of the observed process is printed on the console.
 To disable logging:
 
 ```js
-process = new ObservableProcess('my-server', { console: false });
+process = new ObservableProcess('my-server', { console: false })
 ```
 
 You can also customize logging by providing a custom `console` object

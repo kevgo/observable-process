@@ -98,7 +98,7 @@ To let ObservableProcess notify you when a process ended,
 subscribe to the `ended` event:
 
 ```javascript
-process.on 'ended', (err, exitCode) => {
+process.on 'ended', (exitCode, killed) => {
   // the process has ended here
   // you can also access the exit code via process.exitCode
 }

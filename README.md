@@ -1,4 +1,4 @@
-# Node.js Child Process Observer
+# High-level, interactive, child process runner for Node.JS
 
 [![Circle CI](https://circleci.com/gh/Originate/observable-process.svg?style=shield)](https://circleci.com/gh/Originate/observable-process)
 [![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)

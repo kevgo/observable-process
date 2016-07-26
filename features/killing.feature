@@ -15,3 +15,4 @@ Feature: killing a running process
     Then it is marked as ended
     And it is marked as killed
     And it is no longer running
+    And it emits the 'ended' event with exit code "null" and killed "true"

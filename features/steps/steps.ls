@@ -15,6 +15,7 @@ module.exports = ->
     port-reservation.get-port N (@port) ~>
       @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
         ..wait "online at port #{@port}", done
+        ..on 'ended', (@exit-code, @killed) ~>
 
 
   @Given /^I run a process that has generated the output "([^"]*)"$/, (output, done) ->
@@ -133,6 +134,11 @@ module.exports = ->
 
   @Then /^I receive a number$/ ->
     expect(+@pid).to.be.above 0
+
+
+  @Then /^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/ (expected-exit-code, expected-killed) ->
+    expect(eval expected-exit-code).to.equal @exit-code
+    expect(eval expected-killed).to.equal @killed
 
 
   @Then /^the exit code is set in the \.exitCode property$/ ->

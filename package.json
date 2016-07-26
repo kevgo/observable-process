@@ -1,6 +1,6 @@
 {
   "name": "observable-process",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "author": "Kevin Goslar",
   "dependencies": {
     "debug": "2.2.0",

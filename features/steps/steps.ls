@@ -124,6 +124,12 @@ module.exports = ->
         @result = @observable-process.full-output!
         done!
 
+  @When /^running the global process "([^"]*)"$/ (command, done) ->
+    @observable-process = new ObservableProcess command, console: off
+      ..on 'ended', ~>
+        @result = @observable-process.full-output!
+        done!
+
   @When /^running the process \[([^"]+)\]$/ (args, done) ->
     args = eval "[#{args}]"
     @observable-process = new ObservableProcess args, console: off

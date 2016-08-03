@@ -5,10 +5,10 @@ require! {
   'path'
   'prelude-ls' : {head, tail}
   'request'
+  'string-argv'
   'text-stream-search' : TextStreamSearch
 }
 debug = require('debug')('observable-process')
-
 
 
 # Runs the given command as a separate, parallel process
@@ -23,7 +23,7 @@ class ObservableProcess extends EventEmitter
     command-parts = if Array.is-array command
       command
     else
-      command.split ' '
+      string-argv command
     options = env: process.env
     for key, value of @env
       options.env[key] = value

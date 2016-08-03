@@ -13,6 +13,11 @@ Feature: Providing the command to run in various formats
     Then it returns "hello"
 
 
+  Scenario: calling with a string that contains quotes
+    When running the global process "bash -c 'echo hello'"
+    Then it returns "hello"
+
+
   Scenario: calling with an array
     When running the process ['./features/example-apps/print-output', 'hello']
     Then it returns "hello"

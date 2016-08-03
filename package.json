@@ -7,6 +7,7 @@
     "merge-stream": "1.0.0",
     "prelude-ls": "1.1.2",
     "request": "2.74.0",
+    "string-argv": "0.0.2",
     "text-stream-search": "1.0.0"
   },
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",

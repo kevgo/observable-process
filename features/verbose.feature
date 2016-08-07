@@ -9,21 +9,21 @@ Feature: Enabling more detailed output
   - when enabled, ObservableProcess outputs more detailed runtime information:
     - when the process ends
     - the exit code
-  - the extra output goes to the current console object
+  - the extra output goes to the current stdout object
 
 
   Scenario: default behavior
-    When I run the "console-output" process with a custom console object
-    Then my console object does not receive "PROCESS ENDED"
+    When I run the "console-output" process with a custom stream
+    Then my stderr stream does not receive "PROCESS ENDED"
 
 
   Scenario: verbose enabled
-    When I run the "console-output" process with verbose enabled and a custom console object
-    Then my console object receives "PROCESS ENDED"
-    And my console object receives "EXIT CODE: 0"
+    When I run the "console-output" process with verbose enabled and a custom stream
+    Then my stderr stream receives "PROCESS ENDED"
+    And my stderr stream receives "EXIT CODE: 0"
 
 
   Scenario: verbose disabled
-    When I run the "console-output" process with verbose disabled and a custom console object
-    Then my console object does not receive "PROCESS ENDED"
-    And my console object does not receive "EXIT CODE: 0"
+    When I run the "console-output" process with verbose disabled and a custom stream
+    Then my stderr stream does not receive "PROCESS ENDED"
+    And my stderr stream does not receive "EXIT CODE: 0"

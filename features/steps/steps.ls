@@ -1,6 +1,7 @@
 require! {
   '../..' : ObservableProcess
   'chai' : {expect}
+  'livescript'
   'nitroglycerin' : N
   'path'
   'port-reservation'
@@ -60,35 +61,43 @@ module.exports = ->
       ..on 'ended', done
 
 
-  @Given /^I run the "([^"]*)" process with a custom console object$/ (process-name, done) ->
+  @Given /^I run the "([^"]*)" process with a custom stream$/ (process-name, done) ->
     @log-text = ''
     @log-error = ''
-    @console =
-      log: (text) ~> @log-text += text
-      error: (text) ~> @log-error += text
+    @stdout = write: (text) ~> @log-text += text
+    @stderr = write: (text) ~> @log-error += text
     @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
-                                                console: @console)
+                                                {@stdout, @stderr})
       ..on 'ended', done
 
 
-  @Given /^I run the "([^"]*)" process with a null console$/ (process-name, done) ->
+  @Given /^I run the "([^"]*)" process with a null stream/ (process-name, done) ->
     @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
-                                                console: null)
+                                                stdout: null, stderr: null)
       ..on 'ended', done
+
+
+
+  @When /^trying to instantiate ObservableProcess with the option "([^"]*)"$/ (option-code) ->
+    eval livescript.compile "options = #{option-code}", bare: yes, header: no
+    try
+      new ObservableProcess 'ls', options
+    catch
+      @error = e
 
 
   @When /^gettings its PID$/ ->
     @pid = @observable-process.pid!
 
 
-  @When /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom console object$/ (process-name, verbose, done) ->
+  @When /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom stream$/ (process-name, verbose, done) ->
     @log-text = ''
     @log-error = ''
-    @console =
-      log: (text) ~> @log-text += text
-      error: (text) ~> @log-error += text
+    @stdout = write: (text) ~> @log-text += text
+    @stderr = write: (text) ~> @log-error += text
     @observable-process = new ObservableProcess("features/example-apps/#{process-name}",
-                                                console: @console,
+                                                stdout: @stdout,
+                                                stderr: @stderr,
                                                 verbose: (verbose is 'enabled'))
       ..on 'ended', done
 
@@ -119,20 +128,20 @@ module.exports = ->
 
 
   @When /^running the process "([^"]*)"$/ (command, done) ->
-    @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', command), console: off
+    @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', command), stdout: off
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
 
   @When /^running the global process "([^"]*)"$/ (command, done) ->
-    @observable-process = new ObservableProcess command, console: off
+    @observable-process = new ObservableProcess command, stdout: off, stderr: off
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
 
   @When /^running the process \[([^"]+)\]$/ (args, done) ->
     args = eval "[#{args}]"
-    @observable-process = new ObservableProcess args, console: off
+    @observable-process = new ObservableProcess args, stdout: off
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
@@ -145,6 +154,10 @@ module.exports = ->
   @Then /^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/ (expected-exit-code, expected-killed) ->
     expect(eval expected-exit-code).to.equal @exit-code
     expect(eval expected-killed).to.equal @killed
+
+
+  @Then /^it throws the exception:$/ (string) ->
+    expect(@error.message).to.include string
 
 
   @Then /^the exit code is set in the \.exitCode property$/ ->
@@ -179,12 +192,12 @@ module.exports = ->
     expect(@result.trim!).to.equal expected-text
 
 
-  @Then /^my console object does not receive "([^"]*)"$/ (expected-text) ->
-    expect(@log-text).to.not.contain expected-text
+  @Then /^my stderr stream does not receive "([^"]*)"$/ (expected-text) ->
+    expect(@log-error).to.not.contain expected-text
 
 
-  @Then /^my console object receives "([^"]*)"$/ (expected-text) ->
-    expect(@log-text).to.contain expected-text
+  @Then /^my stderr stream receives "([^"]*)"$/ (expected-text) ->
+    expect(@log-error).to.contain expected-text
 
 
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->

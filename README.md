@@ -37,7 +37,7 @@ process = new ObservableProcess('my-server', { env: { foo: 'bar' } })
 
 ## Waiting for output
 
-You can be notified when the process prints given text on the console:
+You can be notified when the process prints given text on stdout or stderr:
 
 ```javascript
 process.wait('listening on port 3000', function() {
@@ -54,29 +54,32 @@ By default the output of the observed process is printed on the console.
 To disable logging:
 
 ```js
-process = new ObservableProcess('my-server', { console: false })
+process = new ObservableProcess('my-server', { stdout: false, stderr: false })
 ```
 
-You can also customize logging by providing a custom `console` object
+You can also customize logging by providing custom `stdout` and `stderr` objects
 (which needs to have the method `log`):
 
 ```javascript
-myConsole = {
-  log: (text) => { file.write(text) }
+myStdOut = {
+  write: (text) => { ... }
 }
-process = new ObservableProcess('my-server', { console: myConsole })
+myStdErr = {
+  write: (text) => { ... }
+}
+process = new ObservableProcess('my-server', { stdout: myStdOut, stderr: myStdErr })
 ```
 
-You can use [dim-console](https://github.com/kevgo/dim-console-node)
+You can use [dim-stream](https://github.com/kevgo/dim-stream-node)
 to print output from the subshell dimmed,
 so that it is easy to distinguish from output of the main thread.
 
 ```javascript
-dimConsole = require('dim-console')
-process = new ObservableProcess('my-server', { console: dimConsole.console })
+dimStream = require('dim-stream')
+process = new ObservableProcess('my-server', { stdout: dimStream.stdout, stderr: dimStream.stderr })
 ```
 
-To get more detailed output (including lifecycle events of the subshell):
+To get more detailed output like lifecycle events of the subshell (printed to stderr):
 
 ```javascript
 process = new ObservableProcess('my-server', { verbose: true })

@@ -17,9 +17,12 @@ class ObservableProcess extends EventEmitter
 
   # command - the command to run, including all parameters, as a string
   # options.verbose: whether to log
-  #        .console: the console to log to
-  (command, {@env, @verbose, @cwd, @console} = {}) ->
-    @console ?= global.console
+  #        .stdout: the stdout stream to write output to
+  #        .stderr: the stderr stream to write errors to
+  (command, {@env, @verbose, @cwd, @stdout, @stderr, @console} = {}) ->
+    | @console?  =>  throw new Error 'Deprecated option: console\nPlease use the new options "stdout" and "stderr"'
+    @stdout ?= process.stdout
+    @stderr ?= process.stderr
     command-parts = if Array.is-array command
       command
     else
@@ -34,14 +37,15 @@ class ObservableProcess extends EventEmitter
     command = head command-parts
     params = tail command-parts
     debug "starting '#{command}' with arguments '#{params}'"
-    @process = spawn(command, params, options)
+    @process = spawn command, params, options
       ..on 'close', @on-close
 
     @text-stream-search = new TextStreamSearch merge-stream(@process.stdout, @process.stderr)
 
-    if @console
-      @process.stdout.on 'data', (data) ~> @console.log data.to-string!
-      @process.stderr.on 'data', (data) ~> @console.error data.to-string!
+    if @stdout
+      @process.stdout.on 'data', (data) ~> @stdout.write data.to-string!
+    if @stderr
+      @process.stderr.on 'data', (data) ~> @stderr.write data.to-string!
 
     # indicates whether this process has been officially killed
     # (to avoid unnecessary panic if it is killed)
@@ -62,8 +66,8 @@ class ObservableProcess extends EventEmitter
   on-close: (@exit-code) ~>
     @ended = yes
     if @verbose
-      @console?.log 'PROCESS ENDED'
-      @console?.log "\nEXIT CODE: #{@exit-code}"
+      @stderr?.write 'PROCESS ENDED\n'
+      @stderr?.write "\nEXIT CODE: #{@exit-code}"
     @emit 'ended', @exit-code, @killed
 
 

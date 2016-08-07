@@ -5,13 +5,13 @@ Feature: Printing the server output
   So that running a process feels the same as running it directly.
 
   Rules:
-  - output gets logged onto the console by default
-  - logging is disabled by providing "console: null" as a parameter
-  - custom console objects must implement the "stdout" and "stdin" methods
+  - output gets logged to process.stdout by default
+  - logging is disabled by providing "stdout: null" and "stderr: null" as a parameter
+  - custom stdout and stderr objects must implement the "write" methods
 
 
-  Scenario: providing custom console streams
-    When I run the "console-output" process with a custom console object
+  Scenario: providing custom streams
+    When I run the "console-output" process with a custom stream
     Then the stdout I provided receives "normal output"
     And the stderr I provided receives "error output"
 
@@ -21,6 +21,6 @@ Feature: Printing the server output
     Then the process ends without errors
 
 
-  Scenario: console disabled
-    When I run the "console-output" process with a null console
+  Scenario: streams disabled
+    When I run the "console-output" process with a null stream
     Then the process ends without errors

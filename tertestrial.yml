@@ -1,1 +1,17 @@
-mappings: js-cucumber-mocha
+# This is an example Tertestrial configuration file.
+# Please adapt it to your project, and then delete this comment.
+
+name: 'JS: Cucumber + Mocha'
+actions:
+
+  - command: 'node_modules/o-tools-livescript/bin/build && cucumber-js'
+
+  - filename: '\.feature$'
+    command: 'node_modules/o-tools-livescript/bin/build && cucumber-js {{filename}}'
+
+  - filename: '\.feature$'
+    line: '\d+'
+    command: 'node_modules/o-tools-livescript/bin/build && cucumber-js {{filename}}:{{line}}'
+
+  - filename: '\.ls$'
+    command: 'mocha --compilers ls:livescript {{filename}}'

@@ -13,7 +13,7 @@
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "devDependencies": {
     "chai": "3.5.0",
-    "cucumber": "1.2.1",
+    "cucumber": "1.2.2",
     "cucumber-snippets-livescript": "1.0.1",
     "dependency-lint": "4.1.0",
     "livescript": "1.5.0",

@@ -67,7 +67,7 @@ process = new ObservableProcess('my-server', { stdout: false, stderr: false })
 ```
 
 You can also customize logging by providing custom `stdout` and `stderr` objects
-(which needs to have the method `log`):
+(which needs to have the method `write`):
 
 ```javascript
 myStdOut = {
@@ -79,16 +79,16 @@ myStdErr = {
 process = new ObservableProcess('my-server', { stdout: myStdOut, stderr: myStdErr })
 ```
 
-You can use [dim-stream](https://github.com/kevgo/dim-stream-node)
+You can use [dim-console](https://github.com/kevgo/dim-console-node)
 to print output from the subshell dimmed,
 so that it is easy to distinguish from output of the main thread.
 
 ```javascript
-dimStream = require('dim-stream')
-process = new ObservableProcess('my-server', { stdout: dimStream.stdout, stderr: dimStream.stderr })
+dimConsole = require('dim-console')
+process = new ObservableProcess('my-server', { stdout: dimConsole.stdout, stderr: dimConsole.stderr })
 ```
 
-To get more detailed output like lifecycle events of the subshell (printed to stderr):
+To get more detailed output like lifecycle events of the subshell (printed to the error stream):
 
 ```javascript
 process = new ObservableProcess('my-server', { verbose: true })

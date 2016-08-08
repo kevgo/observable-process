@@ -48,7 +48,16 @@ process.wait('listening on port 3000', function() {
 This is useful for waiting until slow-starting services are fully booted up.
 
 
-## Configure console output
+## Get console output
+
+You can retrieve the output to the various IO streams:
+
+```js
+process.fullOutput()  // returns all the output produced by the subprocess so far
+```
+
+
+## Configure how console output is printed
 
 By default the output of the observed process is printed on the console.
 To disable logging:

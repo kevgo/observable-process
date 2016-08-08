@@ -1,6 +1,6 @@
 #!/usr/bin/env lsc
 
 # This is an example app used for testing.
-# It output text.
+# It outputs text.
 
 console.log process.argv[2]

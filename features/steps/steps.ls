@@ -45,6 +45,11 @@ module.exports = ->
     @observable-process = new ObservableProcess command
 
 
+  @Given /^an observableProcess with accumulated output text$/ (done) ->
+    output = "hello world"
+    @observable-process = new ObservableProcess "features/example-apps/print-output '#{output}'"
+      ..wait output, done
+
 
   @When /^calling 'process\.fullOutput\(\)'$/, ->
     @result = @observable-process.full-output!
@@ -76,6 +81,9 @@ module.exports = ->
                                                 stdout: null, stderr: null)
       ..on 'ended', done
 
+
+  @When /^calling the "([^"]*)" method$/ (method-name) ->
+    @observable-process[method-name]!
 
 
   @When /^trying to instantiate ObservableProcess with the option "([^"]*)"$/ (option-code) ->
@@ -228,3 +236,7 @@ module.exports = ->
 
   @Then /^the stdout I provided receives "([^"]*)"$/, (text, done) ->
     wait-until (~> @log-text.includes text), done
+
+
+  @Then /^its accumulated output is empty$/ ->
+    expect(@observable-process.full-output!).to.be.empty  

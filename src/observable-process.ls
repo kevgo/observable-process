@@ -80,5 +80,7 @@ class ObservableProcess extends EventEmitter
     @text-stream-search.wait text, handler
 
 
+  reset-output-streams: ->
+    @text-stream-search.reset!
 
 module.exports = ObservableProcess

@@ -5,7 +5,7 @@ Feature: Resetting accumulated text stream
   So that I may search through only new and relevant data.
 
   Rules:
-  - call ".resetOutputStreams()" of the observable process to clear all accumulated output text
+  - call ".resetOutputStreams()" to clear all accumulated output text
 
 
   Scenario: clear accumulated output text

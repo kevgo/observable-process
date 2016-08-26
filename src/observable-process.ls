@@ -25,9 +25,7 @@ class ObservableProcess extends EventEmitter
     @stderr ?= process.stderr
     options = env: {}
     extend options.env, process.env, @env
-    if @cwd
-      options.cwd = @cwd
-      debug "using cwd: #{@cwd}"
+    options.cwd = @cwd if @cwd
     @ended = no
     [runnable, ...params] = @_split-command command
     debug "starting '#{runnable}' with arguments '#{params}'"

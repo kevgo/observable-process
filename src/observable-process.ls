@@ -3,7 +3,6 @@ require! {
   'events' : EventEmitter
   'merge-stream'
   'path'
-  'prelude-ls' : {head, tail}
   'request'
   'string-argv'
   'text-stream-search' : TextStreamSearch
@@ -32,11 +31,9 @@ class ObservableProcess extends EventEmitter
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"
     @ended = no
-    command-parts = @_split-command command
-    command = head command-parts
-    params = tail command-parts
-    debug "starting '#{command}' with arguments '#{params}'"
-    @process = spawn command, params, options
+    [runnable, ...params] = @_split-command command
+    debug "starting '#{runnable}' with arguments '#{params}'"
+    @process = spawn runnable, params, options
       ..on 'close', @on-close
 
     @text-stream-search = new TextStreamSearch merge-stream(@process.stdout, @process.stderr)

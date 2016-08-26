@@ -27,7 +27,9 @@ class ObservableProcess extends EventEmitter
       command
     else
       string-argv command
-    options = env: process.env
+    options = env: {}
+    for key, value of process.env
+      options.env[key] = value
     for key, value of @env
       options.env[key] = value
     if @cwd

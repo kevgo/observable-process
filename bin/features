@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+node_modules/o-tools-livescript/bin/build
+if [ "$#" == "0" ]; then
+  cucumber-js
+else
+  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' cucumber-js "$@"
+fi

@@ -23,10 +23,6 @@ class ObservableProcess extends EventEmitter
     | @console?  =>  throw new Error 'Deprecated option: console\nPlease use the new options "stdout" and "stderr"'
     @stdout ?= process.stdout
     @stderr ?= process.stderr
-    command-parts = if Array.is-array command
-      command
-    else
-      string-argv command
     options = env: {}
     for key, value of process.env
       options.env[key] = value
@@ -36,6 +32,7 @@ class ObservableProcess extends EventEmitter
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"
     @ended = no
+    command-parts = @_split-command command
     command = head command-parts
     params = tail command-parts
     debug "starting '#{command}' with arguments '#{params}'"
@@ -84,5 +81,14 @@ class ObservableProcess extends EventEmitter
 
   reset-output-streams: ->
     @text-stream-search.reset!
+
+
+  _split-command: (command) ->
+    if Array.is-array command
+      command
+    else
+      string-argv command
+
+
 
 module.exports = ObservableProcess

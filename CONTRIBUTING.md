@@ -3,15 +3,14 @@
 ## Install
 
 * `npm i`
-* add `./bin/` to your PATH
+* add `./bin/` and `./node_modules/.bin` to your PATH
 
 
 ## Testing
 
-```
-$ spec
-$ lint
-```
+- run all tests: `bin/spec`
+- run linter: `bin/lint`
+- run feature specs: `features`
 
 
 ## Update

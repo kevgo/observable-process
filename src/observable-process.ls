@@ -1,6 +1,7 @@
 require! {
   'child_process' : {spawn}
   'events' : EventEmitter
+  'extend'
   'merge-stream'
   'path'
   'request'
@@ -23,10 +24,7 @@ class ObservableProcess extends EventEmitter
     @stdout ?= process.stdout
     @stderr ?= process.stderr
     options = env: {}
-    for key, value of process.env
-      options.env[key] = value
-    for key, value of @env
-      options.env[key] = value
+    extend options.env, process.env, @env
     if @cwd
       options.cwd = @cwd
       debug "using cwd: #{@cwd}"

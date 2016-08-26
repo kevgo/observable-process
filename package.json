@@ -4,6 +4,7 @@
   "author": "Kevin Goslar",
   "dependencies": {
     "debug": "2.2.0",
+    "extend": "3.0.0",
     "merge-stream": "1.0.0",
     "request": "2.74.0",
     "string-argv": "0.0.2",

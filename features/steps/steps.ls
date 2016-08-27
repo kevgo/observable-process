@@ -72,6 +72,14 @@ module.exports = ->
       ..wait "running", done
 
 
+  @Given /^I start the "([^"]*)" process$/ (process-name) ->
+    @process = new ObservableProcess "features/example-apps/#{process-name}"
+
+
+
+  @When /^calling "([^"]*)"$/ (code) ->
+    eval "this.result = this.#{code}"
+
 
   @When /^calling 'process\.fullOutput\(\)'$/, ->
     @result = @process.full-output!

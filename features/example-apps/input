@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+read input
+echo You entered $input

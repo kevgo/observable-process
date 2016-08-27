@@ -46,6 +46,12 @@ class ObservableProcess extends EventEmitter
     @stdin = @process.stdin
 
 
+  # Enters the given text into the subprocess.
+  # Types the ENTER key automatically.
+  enter: (text) ->
+    @stdin.write "#{text}\n"
+
+
   full-output: ->
     @text-stream-search.full-text!
 

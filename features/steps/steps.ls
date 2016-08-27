@@ -239,4 +239,4 @@ module.exports = ->
 
 
   @Then /^its accumulated output is empty$/ ->
-    expect(@observable-process.full-output!).to.be.empty  
+    expect(@observable-process.full-output!).to.be.empty

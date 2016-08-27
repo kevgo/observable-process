@@ -15,7 +15,7 @@
     "chai": "3.5.0",
     "cucumber": "1.2.2",
     "cucumber-snippets-livescript": "1.0.1",
-    "dependency-lint": "4.1.0",
+    "dependency-lint": "4.1.1",
     "livescript": "1.5.0",
     "nitroglycerin": "1.1.2",
     "o-tools": "0.5.1",

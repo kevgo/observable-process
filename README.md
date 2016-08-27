@@ -96,6 +96,15 @@ process = new ObservableProcess('my-server', { verbose: true })
 ```
 
 
+## Input
+
+You can enter text into the running subshell via:
+
+```js
+process.enter('text')
+```
+
+
 ## Kill the process
 
 If the process is running, you can kill it via:

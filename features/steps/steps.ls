@@ -12,28 +12,16 @@ require! {
 
 module.exports = ->
 
-  @Given /^I start a long\-running process$/, (done) ->
-    port-reservation.get-port N (@port) ~>
-      @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
-        ..wait "online at port #{@port}", done
-        ..on 'ended', (@exit-code, @killed) ~>
+  @Given /^an observableProcess with accumulated output text$/ (done) ->
+    output = "hello world"
+    @observable-process = new ObservableProcess "features/example-apps/print-output '#{output}'"
+      ..wait output, done
 
 
   @Given /^I run a process that has generated the output "([^"]*)"$/, (output, done) ->
     @observable-process = new ObservableProcess "features/example-apps/print-output #{output}"
       ..wait output, done
 
-
-
-  @Given /^I start a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
-    @observable-process = new ObservableProcess "features/example-apps/delay #{delay}"
-
-
-  @Given /^I start an interactive process$/, (done) ->
-    @on-exit-called = no
-    @observable-process = new ObservableProcess "features/example-apps/interactive"
-      ..on 'ended', (@exit-code) ~> @on-exit-called = yes
-      ..wait "running", done
 
 
   @Given /^I run the global command "([^"]*)"$/, (command) ->
@@ -43,22 +31,6 @@ module.exports = ->
   @Given /^I run the local command "([^"]*)"$/, (command) ->
     command = path.join process.cwd!, 'features', 'example-apps', command
     @observable-process = new ObservableProcess command
-
-
-  @Given /^an observableProcess with accumulated output text$/ (done) ->
-    output = "hello world"
-    @observable-process = new ObservableProcess "features/example-apps/print-output '#{output}'"
-      ..wait output, done
-
-
-  @When /^calling 'process\.fullOutput\(\)'$/, ->
-    @result = @observable-process.full-output!
-
-
-  @When /^I kill it$/, (done) ->
-    @observable-process
-      ..on 'ended', -> done!
-      ..kill!
 
 
   @Given /^I run the "([^"]*)" process$/ (process-name, done) ->
@@ -82,20 +54,41 @@ module.exports = ->
       ..on 'ended', done
 
 
+  @Given /^I start a long\-running process$/, (done) ->
+    port-reservation.get-port N (@port) ~>
+      @observable-process = new ObservableProcess "features/example-apps/long-running #{@port}"
+        ..wait "online at port #{@port}", done
+        ..on 'ended', (@exit-code, @killed) ~>
+
+
+  @Given /^I start a process that outputs "([^"]*)" after (\d+)ms$/, (output, delay) ->
+    @observable-process = new ObservableProcess "features/example-apps/delay #{delay}"
+
+
+  @Given /^I start an interactive process$/, (done) ->
+    @on-exit-called = no
+    @observable-process = new ObservableProcess "features/example-apps/interactive"
+      ..on 'ended', (@exit-code) ~> @on-exit-called = yes
+      ..wait "running", done
+
+
+
+  @When /^calling 'process\.fullOutput\(\)'$/, ->
+    @result = @observable-process.full-output!
+
+
   @When /^calling the "([^"]*)" method$/ (method-name) ->
     @observable-process[method-name]!
 
 
-  @When /^trying to instantiate ObservableProcess with the option "([^"]*)"$/ (option-code) ->
-    eval livescript.compile "options = #{option-code}", bare: yes, header: no
-    try
-      new ObservableProcess 'ls', options
-    catch
-      @error = e
-
-
   @When /^gettings its PID$/ ->
     @pid = @observable-process.pid!
+
+
+  @When /^I kill it$/, (done) ->
+    @observable-process
+      ..on 'ended', -> done!
+      ..kill!
 
 
   @When /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom stream$/ (process-name, verbose, done) ->
@@ -131,21 +124,19 @@ module.exports = ->
     @observable-process.wait "ended", done
 
 
-  @When /^the process ends$/, (done) ->
-    wait-until (~> @exit is yes), done
-
-
   @When /^running the process "([^"]*)"$/ (command, done) ->
     @observable-process = new ObservableProcess path.join(process.cwd!, 'features', 'example-apps', command), stdout: off
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
 
+
   @When /^running the global process "([^"]*)"$/ (command, done) ->
     @observable-process = new ObservableProcess command, stdout: off, stderr: off
       ..on 'ended', ~>
         @result = @observable-process.full-output!
         done!
+
 
   @When /^running the process \[([^"]+)\]$/ (args, done) ->
     args = eval "[#{args}]"
@@ -155,6 +146,19 @@ module.exports = ->
         done!
 
 
+  @When /^the process ends$/, (done) ->
+    wait-until (~> @exit is yes), done
+
+
+  @When /^trying to instantiate ObservableProcess with the option "([^"]*)"$/ (option-code) ->
+    eval livescript.compile "options = #{option-code}", bare: yes, header: no
+    try
+      new ObservableProcess 'ls', options
+    catch
+      @error = e
+
+
+
   @Then /^I receive a number$/ ->
     expect(+@pid).to.be.above 0
 
@@ -162,20 +166,6 @@ module.exports = ->
   @Then /^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/ (expected-exit-code, expected-killed) ->
     expect(eval expected-exit-code).to.equal @exit-code
     expect(eval expected-killed).to.equal @killed
-
-
-  @Then /^it throws the exception:$/ (string) ->
-    expect(@error.message).to.include string
-
-
-  @Then /^the exit code is set in the \.exitCode property$/ ->
-    expect(@observable-process.exit-code).to.equal 1
-
-
-  @Then /^the on\-exit event is emitted with the exit code (\d+)$/, (expected-exit-code, done) ->
-    wait-until (~> @on-exit-called is yes), ~>
-      expect(@exit-code).to.equal parse-int(expected-exit-code)
-      done!
 
 
   @Then /^it is marked as ended/, ->
@@ -200,6 +190,14 @@ module.exports = ->
     expect(@result.trim!).to.equal expected-text
 
 
+  @Then /^it throws the exception:$/ (string) ->
+    expect(@error.message).to.include string
+
+
+  @Then /^its accumulated output is empty$/ ->
+    expect(@observable-process.full-output!).to.be.empty
+
+
   @Then /^my stderr stream does not receive "([^"]*)"$/ (expected-text) ->
     expect(@log-error).to.not.contain expected-text
 
@@ -211,6 +209,16 @@ module.exports = ->
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
     expect(@called).to.equal 1
     expect(@end-time - @start-time).to.be.above expected-delay
+
+
+  @Then /^the exit code is set in the \.exitCode property$/ ->
+    expect(@observable-process.exit-code).to.equal 1
+
+
+  @Then /^the on\-exit event is emitted with the exit code (\d+)$/, (expected-exit-code, done) ->
+    wait-until (~> @on-exit-called is yes), ~>
+      expect(@exit-code).to.equal parse-int(expected-exit-code)
+      done!
 
 
   @Then /^the process ends without errors$/ ->
@@ -236,7 +244,3 @@ module.exports = ->
 
   @Then /^the stdout I provided receives "([^"]*)"$/, (text, done) ->
     wait-until (~> @log-text.includes text), done
-
-
-  @Then /^its accumulated output is empty$/ ->
-    expect(@observable-process.full-output!).to.be.empty

@@ -11,7 +11,7 @@ before_script:
   - node_modules/o-tools-livescript/bin/build
 
 script:
-  - bin/features
+  - bin/spec
 
 
 notifications:

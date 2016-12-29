@@ -8,7 +8,7 @@
     "merge-stream": "1.0.0",
     "request": "2.74.0",
     "string-argv": "0.0.2",
-    "text-stream-search": "1.1.0"
+    "text-stream-search": "1.2.1"
   },
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "devDependencies": {

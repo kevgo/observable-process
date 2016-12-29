@@ -10,7 +10,7 @@ Feature: Auto-detecting the path to the executable
 
   Scenario: relative path given
     Given I run the global command "node -h"
-    Then it prints "Usage: node [options]"
+    Then it prints "Usage: node \[options\]"
 
 
   Scenario: absolute path given

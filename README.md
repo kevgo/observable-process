@@ -2,7 +2,6 @@
 <hr>
 
 [![Build Status](https://travis-ci.org/Originate/observable-process.svg?branch=master)](https://travis-ci.org/Originate/observable-process)
-[![Circle CI](https://circleci.com/gh/Originate/observable-process.svg?style=shield)](https://circleci.com/gh/Originate/observable-process)
 [![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)
 [![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
 

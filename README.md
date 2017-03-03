@@ -13,21 +13,21 @@ High-level support for running, observing, and interacting with child processes
 in Node.js 4 and above.
 
 
-```javascript
+```js
 ObservableProcess = require('observable-process')
 process = new ObservableProcess('my-server --port 3000')
 ```
 
 You can also provide the process to run as an _argv_ array:
 
-```javascript
+```js
 process = new ObservableProcess(['my-server', '--port', '3000'])
 ```
 
 
 ## Set the working directory of the subshell
 
-```javascript
+```js
 process = new ObservableProcess('my-server', { cwd: '~/tmp' })
 ```
 
@@ -35,7 +35,7 @@ process = new ObservableProcess('my-server', { cwd: '~/tmp' })
 ## Set environment variables in the subshell
 
 
-```javascript
+```js
 process = new ObservableProcess('my-server', { env: { foo: 'bar' } })
 ```
 
@@ -43,7 +43,7 @@ process = new ObservableProcess('my-server', { env: { foo: 'bar' } })
 
 You can be notified when the process prints given text on stdout or stderr:
 
-```javascript
+```js
 process.wait('listening on port 3000', function() {
   // this method runs after the process prints "listening on port 3000"
 });
@@ -73,7 +73,7 @@ process = new ObservableProcess('my-server', { stdout: false, stderr: false })
 You can also customize logging by providing custom `stdout` and `stderr` objects
 (which needs to have the method `write`):
 
-```javascript
+```js
 myStdOut = {
   write: (text) => { ... }
 }
@@ -87,14 +87,14 @@ You can use [dim-console](https://github.com/kevgo/dim-console-node)
 to print output from the subshell dimmed,
 so that it is easy to distinguish from output of the main thread.
 
-```javascript
+```js
 dimConsole = require('dim-console')
 process = new ObservableProcess('my-server', { stdout: dimConsole.stdout, stderr: dimConsole.stderr })
 ```
 
 To get more detailed output like lifecycle events of the subshell (printed to the error stream):
 
-```javascript
+```js
 process = new ObservableProcess('my-server', { verbose: true })
 ```
 
@@ -112,7 +112,7 @@ process.enter('text')
 
 If the process is running, you can kill it via:
 
-```javascript
+```js
 process.kill()
 ```
 
@@ -122,7 +122,7 @@ so that manual kills can be distinguished from crashes.
 To let ObservableProcess notify you when a process ended,
 subscribe to the `ended` event:
 
-```javascript
+```js
 process.on 'ended', (exitCode, killed) => {
   // the process has ended here
   // you can also access the exit code via process.exitCode

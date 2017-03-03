@@ -16,6 +16,7 @@ in Node.js 4 and above.
 ```js
 ObservableProcess = require('observable-process')
 process = new ObservableProcess('my-server --port 3000')
+process.on('ended', function(exit-code) { ... })
 ```
 
 You can also provide the process to run as an _argv_ array:

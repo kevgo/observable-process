@@ -127,6 +127,16 @@ module.exports = ->
       done!
 
 
+  @When /^I wait for the output "([^"]*)" with a timeout of (\d+)ms$/, {timeout: 2000}, (search-text, timeout, done) ->
+    @called = 0
+    @start-time = new Date!
+    @process.wait search-text, (@wait-error) ~>
+      @called += 1
+      @end-time = new Date!
+      done!
+    , parseInt(timeout)
+
+
   @When /^it ends/, (done) ->
     @process.stdin.write "\n"
     @process.wait "ended", done
@@ -217,6 +227,12 @@ module.exports = ->
   @Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
     expect(@called).to.equal 1
     expect(@end-time - @start-time).to.be.above expected-delay
+
+
+  @Then /^the callback is called after (\d+)ms with the error$/ (expected-delay, error-message) ->
+    expect(@called).to.equal 1
+    expect(@end-time - @start-time).to.be.above expected-delay
+    expect(@wait-error.message).to.eql error-message
 
 
   @Then /^the exit code is set in the \.exitCode property$/ ->

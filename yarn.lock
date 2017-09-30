@@ -355,6 +355,12 @@ debug@2.6.0, debug@^2.2.0:
   dependencies:
     ms "0.7.2"
 
+debug@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
+  dependencies:
+    ms "2.0.0"
+
 debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
@@ -1071,6 +1077,10 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
+
 mute-stream@0.0.6, mute-stream@~0.0.4:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.6.tgz#48962b19e169fd1dfc240b3f1e7317627bbc47db"
@@ -1785,11 +1795,11 @@ text-stream-search@1.1.0:
     debug "2.2.0"
     text-stream-accumulator "0.3.0"
 
-text-stream-search@1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/text-stream-search/-/text-stream-search-1.2.3.tgz#0f5e5722854e517887aa5423aa84fef8264939ad"
+text-stream-search@1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/text-stream-search/-/text-stream-search-1.2.4.tgz#b3b6fb5bc8f0c3dd5787b4c654e7185a0538f8ee"
   dependencies:
-    debug "2.6.0"
+    debug "3.1.0"
     text-stream-accumulator "0.3.3"
 
 text-table@~0.2.0:

@@ -225,19 +225,14 @@ Then /^the callback is called after (\d+)ms$/, (expected-delay) ->
   expect(@end-time - @start-time).to.be.above expected-delay
 
 
-<<<<<<< HEAD
+Then /^the callback is called after (\d+)ms with the error$/ (expected-delay, error-message) ->
+  expect(@called).to.equal 1
+  expect(@end-time - @start-time).to.be.above expected-delay
+  expect(@wait-error.message).to.eql error-message
+
+
 Then /^the exit code is set in the \.exitCode property$/ ->
   expect(@process.exit-code).to.equal 1
-=======
-  @Then /^the callback is called after (\d+)ms with the error$/ (expected-delay, error-message) ->
-    expect(@called).to.equal 1
-    expect(@end-time - @start-time).to.be.above expected-delay
-    expect(@wait-error.message).to.eql error-message
-
-
-  @Then /^the exit code is set in the \.exitCode property$/ ->
-    expect(@process.exit-code).to.equal 1
->>>>>>> master
 
 
 Then /^the on\-exit event is emitted with the exit code (\d+)$/, (expected-exit-code, done) ->

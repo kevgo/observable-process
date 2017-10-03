@@ -4,7 +4,6 @@ require! {
   'extend'
   'merge-stream'
   'path'
-  'request'
   'string-argv'
   'text-stream-search' : TextStreamSearch
 }

@@ -74,8 +74,8 @@ class ObservableProcess extends EventEmitter
 
 
   # Calls the given handler when the given text shows up in the output
-  wait: (text, handler) ->
-    @text-stream-search.wait text, handler
+  wait: (text, handler, timeout) ->
+    @text-stream-search.wait text, handler, timeout
 
 
   reset-output-streams: ->

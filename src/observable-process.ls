@@ -47,15 +47,15 @@ class ObservableProcess extends EventEmitter
 
   # Enters the given text into the subprocess.
   # Types the ENTER key automatically.
-  enter: (text) ->
+  enter: (text) ~>
     @stdin.write "#{text}\n"
 
 
-  full-output: ->
+  full-output: ~>
     @text-stream-search.full-text!
 
 
-  kill: ->
+  kill: ~>
     @killed = yes
     @process.kill!
 
@@ -68,16 +68,16 @@ class ObservableProcess extends EventEmitter
     @emit 'ended', @exit-code, @killed
 
 
-  pid: ->
+  pid: ~>
     @process?.pid
 
 
   # Calls the given handler when the given text shows up in the output
-  wait: (text, handler, timeout) ->
+  wait: (text, handler, timeout) ~>
     @text-stream-search.wait text, handler, timeout
 
 
-  reset-output-streams: ->
+  reset-output-streams: ~>
     @text-stream-search.reset!
 
 

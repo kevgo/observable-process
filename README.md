@@ -1,7 +1,7 @@
 <img src="documentation/logo.png" width="1026" height="100" alt="logo">
 <hr>
 
-[![CircleCI](https://circleci.com/gh/Originate/observable-process.svg?style=svg)](https://circleci.com/gh/Originate/observable-process)
+[![CircleCI](https://circleci.com/gh/Originate/observable-process.svg?style=shield)](https://circleci.com/gh/Originate/observable-process)
 [![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)
 [![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
 <a href="https://yarnpkg.com">

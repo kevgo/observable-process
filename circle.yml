@@ -13,8 +13,9 @@ dependencies:
 
 
 test:
-  override:
-    - bin/spec
+  before: greenkeeper-lockfile-update
+  override: bin/spec
+  after: greenkeeper-lockfile-upload
 
 
 deployment:

@@ -1,6 +1,6 @@
-#!/usr/bin/env lsc
+#!/usr/bin/env node
 
-# This is an example app used for testing.
-# It outputs text after a delay.
+// This is an example app used for testing.
+// It outputs text after a delay.
 
-set-timeout (-> console.log 'online'), process.argv[2]
+setTimeout(function() { console.log('online') }, process.argv[2])

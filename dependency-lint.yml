@@ -18,6 +18,7 @@ ignoreErrors:
   shouldBeDevDependency: []
   unused:
     - cucumber-snippets-livescript
+    - greenkeeper-lockfile  # circle.yml
 
 requiredModules:
   files:

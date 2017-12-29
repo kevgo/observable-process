@@ -28,6 +28,8 @@ process = new ObservableProcess(['my-server', '--port', '3000'])
 
 ## Set the working directory of the subshell
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Originate/observable-process.svg)](https://greenkeeper.io/)
+
 ```js
 process = new ObservableProcess('my-server', { cwd: '~/tmp' })
 ```

@@ -4,7 +4,7 @@ set -e
 node_modules/o-tools-livescript/bin/build
 if [ "$#" == "0" ]; then
   node_modules/o-tools/bin/lint
-  node_modules/.bin/cucumber-js
+  node_modules/cucumber/bin/cucumber-js
 else
-  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' cucumber-js "$@"
+  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' node_modules/cucumber/bin/cucumber-js "$@"
 fi

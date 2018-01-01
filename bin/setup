@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+# sets up this code base for development
+
+node_modules/o-tools/bin/check-paths
+
+yarn install

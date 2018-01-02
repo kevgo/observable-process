@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-standard --fix
+node_module/.bin/standard --fix

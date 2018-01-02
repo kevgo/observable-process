@@ -32,7 +32,7 @@ When(/^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom 
     stdout: this.stdout,
     stderr: this.stderr,
     verbose: (verbose === 'enabled') })
-  this.process.waitForEnd()
+  await this.process.waitForEnd()
 })
 
 When(/^I run the "([^"]*)" application with the environment variables:$/, function (appName, env) {
@@ -56,7 +56,7 @@ When(/^I wait for the output "([^"]*)" with a timeout of (\d+)ms$/, {timeout: 20
   this.called = 0
   this.startTime = new Date()
   try {
-    await this.process.wait(searchText, parseInt(timeout))
+    await this.process.waitForText(searchText, parseInt(timeout))
   } catch (err) {
     this.waitError = err
   }
@@ -66,7 +66,7 @@ When(/^I wait for the output "([^"]*)" with a timeout of (\d+)ms$/, {timeout: 20
 
 When(/^it ends/, async function () {
   this.process.stdin.write('\n')
-  this.process.wait('ended')
+  await this.process.waitForEnd()
 })
 
 When(/^running the process "([^"]*)"$/, async function (command) {
@@ -82,11 +82,12 @@ When(/^running the global process "([^"]*)"$/, async function (command) {
   this.result = this.process.fullOutput()
 })
 
-When(/^running the process \[([^"]+)\]$/, async function (args) {
-  args = eval(`[${args}]`)
+When(/^running the process {commands: \[([^"]+)\]}$/, async function (args) {
+  var parsedArgs = {}
+  eval(`parsedArgs = {commands: [${args}]}`)
   args.stdout = null
-  this.process = new ObservableProcess(args)
-  this.process.waitForEnd()
+  this.process = new ObservableProcess(parsedArgs)
+  await this.process.waitForEnd()
   this.result = this.process.fullOutput()
 })
 
@@ -97,6 +98,7 @@ When(/^the process ends$/, async function () {
 When(/^trying to instantiate ObservableProcess with the option "([^"]*)"$/, function (optionCode) {
   var options = {}
   eval(`options = ${optionCode}`)
+  console.log(options)
   options.command = 'ls'
   try {
     new ObservableProcess(options)

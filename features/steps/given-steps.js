@@ -10,16 +10,16 @@ const portFinder = require('portfinder')
 Given(/^an observableProcess with accumulated output text$/, async function () {
   const output = 'hello world'
   this.process = new ObservableProcess({commands: ['features/example-apps/print-output', output]})
-  await this.process.wait(output)
+  await this.process.waitForText(output)
 })
 
 Given(/^I run a process that has generated the output "([^"]*)"$/, async function (output) {
   this.process = new ObservableProcess({commands: ['features/example-apps/print-output', output]})
-  await this.process.wait(output)
+  await this.process.waitForText(output)
 })
 
 Given(/^I run the global command "([^"]*)"$/, function (command) {
-  this.process = new ObservableProcess(command)
+  this.process = new ObservableProcess({command})
 })
 
 Given(/^I run the local command "([^"]*)"$/, function (command) {
@@ -69,9 +69,8 @@ Given(/^I run the "([^"]*)" process with a null stream/, async function (process
 Given(/^I start a long\-running process$/, async function () {
   this.port = await portFinder.getPortPromise()
   this.process = new ObservableProcess({commands: ['features/example-apps/long-running', this.port]})
-  this.process.waitForEnd().then((exitCode, killed) => {
-    this.exitCode = exitCode
-    this.killed = killed
+  this.process.waitForEnd().then((exitData) => {
+    this.exitData = exitData
   })
   await this.process.waitForText(`online at port ${this.port}`)
 })
@@ -80,11 +79,11 @@ Given(/^I start a process that outputs "([^"]*)" after (\d+)ms$/, function (outp
   this.process = new ObservableProcess({commands: ['features/example-apps/delay', delay]})
 })
 
-Given(/^I start an interactive process$/, async function (done) {
+Given(/^I start an interactive process$/, async function () {
   this.onExitCalled = false
   this.process = new ObservableProcess({command: 'features/example-apps/interactive'})
-  this.process.waitForEnd().then((exitCode) => {
-    this.exitCode = exitCode
+  this.process.waitForEnd().then((exitData) => {
+    this.exitData = exitData
     this.onExitCalled = true
   })
   await this.process.waitForText('running')

@@ -52,6 +52,7 @@ class ObservableProcess {
     this.stdout = args.stdout || process.stdout
     this.stderr = args.stderr || process.stderr
     this.ended = false
+    this.endedListeners = []
 
     // build up the options
     const options: child_process$spawnOpts = {
@@ -70,7 +71,7 @@ class ObservableProcess {
     }
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
     this.process = spawn(runnable, params, options)
-    this.process.on('close', this._onClose)
+    this.process.on('close', this._onClose.bind(this))
 
     this.textStreamSearch = new TextStreamSearch(mergeStream(this.process.stdout, this.process.stderr))
 
@@ -105,8 +106,8 @@ class ObservableProcess {
 
   // notifies all registered listeners that this process has ended
   notifyEnded() {
-    for (let listener of this.endedListeners) {
-      listener.resolve({exitCode: this.exitCode, killed: this.killed})
+    for (let resolver of this.endedListeners) {
+      resolver({exitCode: this.exitCode, killed: this.killed})
     }
   }
 
@@ -131,7 +132,7 @@ class ObservableProcess {
   }
 
   // Calls the given handler when the given text shows up in the output
-  async wait (text: string, timeout?: number) {
+  async waitForText (text: string, timeout?: number) {
     await this.textStreamSearch.waitForText(text, timeout)
   }
 

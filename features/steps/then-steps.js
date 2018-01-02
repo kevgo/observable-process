@@ -4,15 +4,15 @@ const delay = require('delay')
 const {Given, When, Then} = require('cucumber')
 const {expect} = require('chai')
 const request = require('request-promise-native')
-const waitUntil = require('wait-until-promise')
+const waitUntil = require('wait-until-promise').default
 
 Then(/^I receive a number$/, function () {
   expect(this.pid).to.be.above(0)
 })
 
 Then(/^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/, function (expectedExitCode, expectedKilled) {
-  expect(eval(expectedExitCode)).to.equal(this.exitCode)
-  expect(eval(expectedKilled)).to.equal(this.killed)
+  expect(this.exitData.exitCode).to.equal(eval(expectedExitCode))
+  expect(this.exitData.killed).to.equal(eval(expectedKilled))
 })
 
 Then(/^it is marked as ended/, function () {
@@ -23,17 +23,18 @@ Then(/^it is marked as killed$/, function () {
   expect(this.process.killed).to.be.true
 })
 
-Then(/^it is no longer running$/, function (done) {
+Then(/^it is no longer running$/, async function () {
   try {
-    request(`http://localhost:${this.port}`)
+    await request(`http://localhost:${this.port}`)
     throw new Error('process should not be running anymore')
   } catch (err) {
-    expect(err.code).to.equal('ECONNREFUSED')
+    console.log(err)
+    expect(err.error.code).to.equal('ECONNREFUSED')
   }
 })
 
-Then(/^it prints "([^"]*)"$/, function (output, done) {
-  this.process.wait(output, done)
+Then(/^it prints "([^"]*)"$/, async function (output) {
+  await this.process.waitForText(output)
 })
 
 Then(/^it returns "([^"]*)"$/, function (expectedText) {
@@ -71,14 +72,14 @@ Then(/^the exit code is set in the \.exitCode property$/, function () {
   expect(this.process.exitCode).to.equal(1)
 })
 
-Then(/^the on\-exit event is emitted with the exit code (\d+)$/, async function (expectedExitCode, done) {
+Then(/^the on\-exit event is emitted with the exit code (\d+)$/, async function (expectedExitCode) {
   await waitUntil(() => this.onExitCalled)
-  expect(this.exitCode).to.equal(parseInt(expectedExitCode))
+  expect(this.exitData.exitCode).to.equal(parseInt(expectedExitCode))
 })
 
 Then(/^the process ends without errors$/, function () {})
 
-Then(/^the processes "([^"]*)" property is (true|false)$/, async function (propertyName, value, done) {
+Then(/^the processes "([^"]*)" property is (true|false)$/, async function (propertyName, value) {
   await delay(1)
   expect(this.process[propertyName]).to.equal(eval(value))
 })
@@ -87,14 +88,14 @@ Then(/^the stderr I provided received no data$/, function () {
   expect(this.logError).to.equal('')
 })
 
-Then(/^the stderr I provided receives "([^"]*)"$/, function (text, done) {
-  waitUntil(() => this.logError.includes(text), done)
+Then(/^the stderr I provided receives "([^"]*)"$/, async function (text) {
+  await waitUntil(() => this.logError.includes(text))
 })
 
 Then(/^the stdout I provided received no data$/, function () {
   expect(this.logText).to.equal('')
 })
 
-Then(/^the stdout I provided receives "([^"]*)"$/, function (text, done) {
-  waitUntil(() => this.logText.includes(text), done)
+Then(/^the stdout I provided receives "([^"]*)"$/, async function (text) {
+  await waitUntil(() => this.logText.includes(text))
 })

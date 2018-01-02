@@ -17,7 +17,12 @@ ignoreErrors:
   shouldBeDependency: []
   shouldBeDevDependency: []
   unused:
+    - '@babel/core'
+    - babel-eslint
+    - babel-preset-flow
     - cucumber-snippets-livescript
+    - eslint-plugin-flowtype
+    - flow-type
     - greenkeeper-lockfile  # circle.yml
 
 requiredModules:
@@ -27,8 +32,10 @@ requiredModules:
       - '**/*{.,_,-}{spec,test}.ls'
     ignore:
       - 'node_modules/**/*'
-    root: '**/*.ls'
+    root: '**/*.js'
   stripLoaders: false
   transpilers:
-    - extension: .ls
-      module: livescript
+    - extension: .js
+      fnName: transform
+      module: babel-core
+      resultKey: code

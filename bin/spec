@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-node_modules/o-tools-livescript/bin/build
+bin/build
 if [ "$#" == "0" ]; then
-  node_modules/o-tools/bin/lint
-  node_modules/cucumber/bin/cucumber.js
+  node_modules/.bin/cucumber.js
+  bin/lint
 else
-  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' node_modules/cucumber/bin/cucumber.js "$@"
+  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' node_modules/.bin/cucumber.js "$@"
 fi

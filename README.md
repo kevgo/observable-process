@@ -4,8 +4,6 @@
 [![CircleCI](https://circleci.com/gh/Originate/observable-process.svg?style=shield)](https://circleci.com/gh/Originate/observable-process)
 [![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)
 [![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
-[![Greenkeeper badge](https://badges.greenkeeper.io/Originate/observable-process.svg)](https://greenkeeper.io/)
-
 
 
 High-level support for running, observing, and interacting with child processes

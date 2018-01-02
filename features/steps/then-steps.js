@@ -28,7 +28,6 @@ Then(/^it is no longer running$/, async function () {
     await request(`http://localhost:${this.port}`)
     throw new Error('process should not be running anymore')
   } catch (err) {
-    console.log(err)
     expect(err.error.code).to.equal('ECONNREFUSED')
   }
 })

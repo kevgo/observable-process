@@ -23,7 +23,6 @@ declare module 'extend' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'extend/index' {
   declare module.exports: $Exports<'extend'>;

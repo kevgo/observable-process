@@ -1,8 +1,8 @@
 // @flow
 
-import type {WriteStream} from '../../src/observable-process.js'
+import type {WriteStream} from '../../src/observable-process.js'  // eslint-disable-line no-unused-vars
 
-const {Given, When, Then} = require('cucumber')
+const {Given} = require('cucumber')
 const ObservableProcess = require('../../dist/observable-process.js')
 const path = require('path')
 const portFinder = require('portfinder')
@@ -35,12 +35,6 @@ Given(/^I run the "([^"]*)" process$/, async function (processName) {
 Given(/^I run the "([^"]*)" process with a custom stream$/, async function (processName) {
   this.logText = ''
   this.logError = ''
-  const writable: WriteStream = {
-    write: (text: string | Buffer): boolean => {
-      this.logText += text
-      return false
-    }
-  }
   this.stdout = {
     write: (text: string | Buffer): boolean => {
       this.logText += text
@@ -54,19 +48,19 @@ Given(/^I run the "([^"]*)" process with a custom stream$/, async function (proc
     }
   }
   this.process = new ObservableProcess({ command: path.join('features', 'example-apps', processName),
-                                         stdout: this.stdout,
-                                         stderr: this.stderr })
+    stdout: this.stdout,
+    stderr: this.stderr })
   await this.process.waitForEnd()
 })
 
 Given(/^I run the "([^"]*)" process with a null stream/, async function (processName) {
   this.process = new ObservableProcess({ command: path.join('features', 'example-apps', processName),
-                                         stdout: null,
-                                         stderr: null })
+    stdout: null,
+    stderr: null })
   await this.process.waitForEnd()
 })
 
-Given(/^I start a long\-running process$/, async function () {
+Given(/^I start a long-running process$/, async function () {
   this.port = await portFinder.getPortPromise()
   this.process = new ObservableProcess({commands: ['features/example-apps/long-running', this.port]})
   this.process.waitForEnd().then((exitData) => {

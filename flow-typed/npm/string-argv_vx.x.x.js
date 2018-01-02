@@ -23,7 +23,6 @@ declare module 'string-argv' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'string-argv/index' {
   declare module.exports: $Exports<'string-argv'>;

@@ -33,7 +33,7 @@ class ObservableProcess {
   env: Env
   exitCode: number
   killed: boolean
-  process: child_process$ChildProcess
+  process: child_process$ChildProcess  // eslint-disable-line camelcase
   stdout: WriteStream
   stderr: WriteStream
   stdin: WriteStream
@@ -55,7 +55,7 @@ class ObservableProcess {
     this.endedListeners = []
 
     // build up the options
-    const options: child_process$spawnOpts = {
+    const options: child_process$spawnOpts = {    // eslint-disable-line camelcase
       env: {},
       cwd: this.cwd
     }
@@ -105,7 +105,7 @@ class ObservableProcess {
   }
 
   // notifies all registered listeners that this process has ended
-  notifyEnded() {
+  notifyEnded () {
     for (let resolver of this.endedListeners) {
       resolver({exitCode: this.exitCode, killed: this.killed})
     }
@@ -125,7 +125,7 @@ class ObservableProcess {
     if (this.process) return this.process.pid
   }
 
-  waitForEnd(): Promise<EndedNotification> {
+  waitForEnd (): Promise<EndedNotification> {
     return new Promise((resolve) => {
       this.endedListeners.push(resolve)
     })

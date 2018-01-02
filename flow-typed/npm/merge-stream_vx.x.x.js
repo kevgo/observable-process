@@ -23,7 +23,6 @@ declare module 'merge-stream' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'merge-stream/index' {
   declare module.exports: $Exports<'merge-stream'>;

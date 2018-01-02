@@ -1,7 +1,7 @@
 // @flow
 
 const delay = require('delay')
-const {Given, When, Then} = require('cucumber')
+const {Then} = require('cucumber')
 const {expect} = require('chai')
 const request = require('request-promise-native')
 const waitUntil = require('wait-until-promise').default
@@ -72,7 +72,7 @@ Then(/^the exit code is set in the \.exitCode property$/, function () {
   expect(this.process.exitCode).to.equal(1)
 })
 
-Then(/^the on\-exit event is emitted with the exit code (\d+)$/, async function (expectedExitCode) {
+Then(/^the on-exit event is emitted with the exit code (\d+)$/, async function (expectedExitCode) {
   await waitUntil(() => this.onExitCalled)
   expect(this.exitData.exitCode).to.equal(parseInt(expectedExitCode))
 })

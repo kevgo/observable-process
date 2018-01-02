@@ -23,7 +23,6 @@ declare module 'wait-until-promise' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'wait-until-promise/index' {
   declare module.exports: $Exports<'wait-until-promise'>;

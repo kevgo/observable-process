@@ -1,6 +1,6 @@
 // @flow
 
-const {Given, When, Then} = require('cucumber')
+const {When} = require('cucumber')
 const ObservableProcess = require('../..')
 const path = require('path')
 const waitUntil = require('wait-until-promise')
@@ -25,8 +25,8 @@ When(/^I kill it$/, async function () {
 When(/^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom stream$/, async function (processName, verbose) {
   this.logText = ''
   this.logError = ''
-  this.stdout = { write: (text) => { this.logText += text; return false }}
-  this.stderr = { write: (text) => { this.logError += text; return false }}
+  this.stdout = { write: (text) => { this.logText += text; return false } }
+  this.stderr = { write: (text) => { this.logError += text; return false } }
   this.process = new ObservableProcess({
     command: path.join('features', 'example-apps', processName),
     stdout: this.stdout,
@@ -101,7 +101,7 @@ When(/^trying to instantiate ObservableProcess with the option "([^"]*)"$/, func
   console.log(options)
   options.command = 'ls'
   try {
-    new ObservableProcess(options)
+    new ObservableProcess(options)   // eslint-disable-line no-new
   } catch (e) {
     this.error = e
   }

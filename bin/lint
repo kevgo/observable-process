@@ -21,6 +21,6 @@ if [ $errors -gt 0 ]; then
 fi
 
 # lint the standard in the Markdown file
-standard-markdown
+node_modules/.bin/standard-markdown
 
 node_modules/.bin/dependency-lint

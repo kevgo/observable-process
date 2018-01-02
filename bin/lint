@@ -4,7 +4,7 @@ set -e
 node_modules/.bin/flow
 
 # run the 'standard-js' linter on the source code
-errors=$(standard -v 'src/**/*.js' | grep -v no-undef | wc -l | tr -d ' ')
+errors=$(node_modules/.bin/standard -v 'src/**/*.js' | grep -v no-undef | wc -l | tr -d ' ')
 if [ $errors -gt 0 ]; then
   echo Found standardJS errors in the source code:
   node_modules/.bin/standard -v 'src/**/*.js' | grep -v no-undef
@@ -13,7 +13,7 @@ fi
 
 
 # run the 'standard-js' linter on the test code
-errors=$(standard -v 'features/**/*.js' | grep -v no-unused-expressions | grep -v no-eval | wc -l | tr -d ' ')
+errors=$(node_modules/.bin/standard -v 'features/**/*.js' | grep -v no-unused-expressions | grep -v no-eval | wc -l | tr -d ' ')
 if [ $errors -gt 0 ]; then
   echo Found standardJS errors in the test code:
   node_modules/.bin/standard -v 'features/**/*.js' | grep -v no-unused-expressions | grep -v no-eval

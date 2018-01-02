@@ -1,6 +1,6 @@
 // @flow
 
-const {spawn} = require('child_process')
+const child_process = require('child_process')   // eslint-disable-line camelcase
 const debug = require('debug')('observable-process')
 const extend = require('extend')
 const mergeStream = require('merge-stream')
@@ -70,7 +70,7 @@ class ObservableProcess {
       params = args.commands.splice(1)
     }
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
-    this.process = spawn(runnable, params, options)
+    this.process = child_process.spawn(runnable, params, options)
     this.process.on('close', this._onClose.bind(this))
 
     this.textStreamSearch = new TextStreamSearch(mergeStream(this.process.stdout, this.process.stderr))

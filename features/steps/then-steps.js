@@ -1,8 +1,8 @@
 // @flow
 
 const delay = require('delay')
-const {Then} = require('cucumber')
-const {expect} = require('chai')
+const { Then } = require('cucumber')
+const { expect } = require('chai')
 const request = require('request-promise-native')
 const waitUntil = require('wait-until-promise').default
 
@@ -10,10 +10,13 @@ Then(/^I receive a number$/, function () {
   expect(this.pid).to.be.above(0)
 })
 
-Then(/^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/, function (expectedExitCode, expectedKilled) {
-  expect(this.exitData.exitCode).to.equal(eval(expectedExitCode))
-  expect(this.exitData.killed).to.equal(eval(expectedKilled))
-})
+Then(
+  /^it emits the 'ended' event with exit code "([^"]*)" and killed "([^"]*)"$/,
+  function (expectedExitCode, expectedKilled) {
+    expect(this.exitData.exitCode).to.equal(eval(expectedExitCode))
+    expect(this.exitData.killed).to.equal(eval(expectedKilled))
+  }
+)
 
 Then(/^it is marked as ended/, function () {
   expect(this.process.ended).to.be.true
@@ -61,7 +64,10 @@ Then(/^the callback is called after (\d+)ms$/, function (expectedDelay) {
   expect(this.endTime - this.startTime).to.be.above(expectedDelay)
 })
 
-Then(/^the callback is called after (\d+)ms with the error$/, function (expectedDelay, errorMessage) {
+Then(/^the callback is called after (\d+)ms with the error$/, function (
+  expectedDelay,
+  errorMessage
+) {
   expect(this.called).to.equal(1)
   expect(this.endTime - this.startTime).to.be.above(expectedDelay)
   expect(this.waitError.message).to.eql(errorMessage)
@@ -71,14 +77,19 @@ Then(/^the exit code is set in the \.exitCode property$/, function () {
   expect(this.process.exitCode).to.equal(1)
 })
 
-Then(/^the on-exit event is emitted with the exit code (\d+)$/, async function (expectedExitCode) {
+Then(/^the on-exit event is emitted with the exit code (\d+)$/, async function (
+  expectedExitCode
+) {
   await waitUntil(() => this.onExitCalled)
   expect(this.exitData.exitCode).to.equal(parseInt(expectedExitCode))
 })
 
 Then(/^the process ends without errors$/, function () {})
 
-Then(/^the processes "([^"]*)" property is (true|false)$/, async function (propertyName, value) {
+Then(/^the processes "([^"]*)" property is (true|false)$/, async function (
+  propertyName,
+  value
+) {
   await delay(1)
   expect(this.process[propertyName]).to.equal(eval(value))
 })

@@ -1,4 +1,6 @@
 // @flow
+/* eslint no-unused-expressions: 0 */
+/* eslint no-eval: 0 */
 
 const delay = require('delay')
 const { Then } = require('cucumber')

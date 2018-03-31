@@ -36,6 +36,7 @@ class ObservableProcess {
   env: Env
   exitCode: number
   killed: boolean
+  // eslint-disable-next-line no-undef
   process: child_process$ChildProcess // eslint-disable-line camelcase
   stdout: WriteStream
   stderr: WriteStream
@@ -66,7 +67,7 @@ class ObservableProcess {
     this.endedListeners = []
 
     // build up the options
-    // eslint-disable-next-line camelcase
+    // eslint-disable-next-line camelcase, no-undef
     const options: child_process$spawnOpts = {
       env: {},
       cwd: this.cwd

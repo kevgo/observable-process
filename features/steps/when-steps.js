@@ -1,4 +1,5 @@
 // @flow
+/* eslint no-eval: 0 */
 
 const { When } = require('cucumber')
 const ObservableProcess = require('../..')

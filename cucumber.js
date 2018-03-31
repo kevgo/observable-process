@@ -1,3 +1,4 @@
 module.exports = {
-  default: '--require-module babel-core/register -r features --fail-fast --exit'
+  default:
+    '--require-module flow-remove-types/register -r features --fail-fast --exit'
 }

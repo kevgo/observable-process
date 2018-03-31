@@ -66,8 +66,8 @@ class ObservableProcess {
     this.endedListeners = []
 
     // build up the options
-    const options: child_process$spawnOpts = {
-      // eslint-disable-line camelcase
+    // eslint-disable camelcase
+    const options = {
       env: {},
       cwd: this.cwd
     }

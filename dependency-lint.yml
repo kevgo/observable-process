@@ -24,6 +24,7 @@ ignoreErrors:
     - eslint-plugin-flowtype
     - flow-type
     - greenkeeper-lockfile  # circle.yml
+    - prettier-standard
 
 requiredModules:
   files:

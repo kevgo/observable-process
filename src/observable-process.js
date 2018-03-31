@@ -15,8 +15,6 @@ type EndedNotification = {
   killed: boolean
 }
 
-type EndedListener = (EndedNotification) => void
-
 // a stream that we can write into using write(string),
 // plus some boilerplate to make process.stdout fit in here
 export interface WriteStream {

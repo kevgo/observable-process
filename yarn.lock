@@ -1445,9 +1445,9 @@ eslint-module-utils@^2.0.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-flowtype@2.40.1:
-  version "2.40.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.40.1.tgz#f78a8e6a4cc6da831dd541eb61e803ff0279b796"
+eslint-plugin-flowtype@2.46.1:
+  version "2.46.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.46.1.tgz#c4f81d580cd89c82bc3a85a1ccf4ae3a915143a4"
   dependencies:
     lodash "^4.15.0"
 
@@ -1810,9 +1810,9 @@ flow-bin@0.25.0:
     bin-wrapper "^3.0.2"
     logalot "^2.0.0"
 
-flow-bin@0.62.0:
-  version "0.62.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
+flow-bin@0.69.0:
+  version "0.69.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.69.0.tgz#053159a684a6051fcbf0b71a2eb19a9679082da6"
 
 flow-type@1.0.1:
   version "1.0.1"
@@ -2077,9 +2077,9 @@ graceful-fs@^4.0.0, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6, 
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-greenkeeper-lockfile@1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/greenkeeper-lockfile/-/greenkeeper-lockfile-1.12.0.tgz#e2cbb6529ecb2af3dabcf30f027549dceb5fbd6e"
+greenkeeper-lockfile@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/greenkeeper-lockfile/-/greenkeeper-lockfile-1.14.0.tgz#c6c25d62cd08fcd30ccdb5f11f171f7c80a1a7ce"
   dependencies:
     lodash "^4.17.4"
     require-relative "^0.8.7"
@@ -3135,9 +3135,9 @@ o-tools-livescript@1.2.3:
   dependencies:
     livescript "1.5.0"
 
-o-tools@0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/o-tools/-/o-tools-0.10.1.tgz#10d915c1ad2aa6044bcab4da8dcf57607bd32445"
+o-tools@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/o-tools/-/o-tools-0.10.3.tgz#b33b7f76f3b6058165ec854e1d72e4db347ff540"
   dependencies:
     chalk "1.1.3"
     dependency-lint "4.3.1"

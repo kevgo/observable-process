@@ -25,6 +25,7 @@ ignoreErrors:
     - flow-type
     - greenkeeper-lockfile  # circle.yml
     - prettier-standard
+    - o-tools
 
 requiredModules:
   files:

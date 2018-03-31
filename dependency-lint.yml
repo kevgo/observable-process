@@ -17,7 +17,7 @@ ignoreErrors:
   shouldBeDependency: []
   shouldBeDevDependency: []
   unused:
-    - '@babel/core'
+    - babel-cli
     - babel-eslint
     - babel-preset-flow
     - cucumber-snippets-livescript

@@ -21,7 +21,6 @@
     "flow-type": "1.0.1",
     "greenkeeper-lockfile": "1.14.0",
     "o-tools": "0.10.3",
-    "o-tools-livescript": "1.2.3",
     "portfinder": "1.0.13",
     "prettier-standard": "8.0.0",
     "request-promise-native": "1.0.5",
@@ -44,7 +43,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "scripts": {
-    "prepublish": "node_modules/.bin/build",
+    "prepublish": "bin/build",
     "test": "bin/spec"
   },
   "standard": {

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -e
-
-bin/build
-if [ "$#" == "0" ]; then
-  node_modules/cucumber/bin/cucumber-js
-else
-  DEBUG='*,-express:*,-body-parser:*,-finalhandler,-text-stream-search' node_modules/cucumber/bin/cucumber-js "$@"
-fi

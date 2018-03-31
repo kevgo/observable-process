@@ -5,10 +5,10 @@ actions:
 
   - match:
       filename: '\.feature$'
-    command: 'bin/spec {{filename}}'
+    command: 'make spec {{filename}}'
 
   - match:
       filename: '\.feature$'
       line: '\d+'
-    command: 'bin/spec {{filename}}:{{line}}'
+    command: 'make spec {{filename}}:{{line}}'
 

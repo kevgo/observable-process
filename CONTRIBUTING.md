@@ -2,21 +2,22 @@
 
 ## Install
 
-* `npm i`
-* add `./bin/` and `./node_modules/.bin` to your PATH
+* add `./node_modules/.bin` to your PATH
+* make sure you have [make](https://www.gnu.org/software/make) installed
+* run `make setup`
 
 
 ## Testing
 
-- run all tests: `bin/spec`
-- run linter: `bin/lint`
-- run feature specs: `features`
+- run all tests: `make spec`
+- run linters: `make lint`
+- run feature specs: `make features`
 
 
 ## Update
 
 ```
-$ update
+$ yarn upgrade --latest
 ```
 
 

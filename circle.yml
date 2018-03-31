@@ -14,7 +14,7 @@ test:
   pre:
     - node_modules/.bin/greenkeeper-lockfile-update
   override:
-    - bin/spec
+    - make spec
   post:
     - node_modules/.bin/greenkeeper-lockfile-upload
 

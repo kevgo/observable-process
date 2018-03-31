@@ -20,12 +20,15 @@ ignoreErrors:
     - babel-cli
     - babel-eslint
     - babel-preset-flow
-    - cucumber-snippets-livescript
     - eslint-plugin-flowtype
+    - flow-bin
+    - flow-remove-types
     - flow-type
     - greenkeeper-lockfile  # circle.yml
-    - prettier-standard
     - o-tools
+    - prettier-standard
+    - standard
+    - standard-markdown
 
 requiredModules:
   files:

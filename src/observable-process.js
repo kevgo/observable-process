@@ -100,6 +100,7 @@ class ObservableProcess {
   }
 
   kill () {
+    debug('killing the process')
     this.killed = true
     this.process.kill()
   }
@@ -112,6 +113,7 @@ class ObservableProcess {
   }
 
   _onClose (exitCode: number) {
+    debug(`process has ended with code ${exitCode}`)
     this.exitCode = exitCode
     this.ended = true
     if (this.verbose) {

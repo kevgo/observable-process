@@ -14,7 +14,7 @@
     "babel-eslint": "7.2.1",
     "babel-preset-flow": "6.23.0",
     "chai": "4.1.2",
-    "cucumber": "3.2.0",
+    "cucumber": "4.1.0",
     "delay": "2.0.0",
     "dependency-lint": "5.0.1",
     "eslint-plugin-flowtype": "2.46.1",

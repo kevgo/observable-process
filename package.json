@@ -21,6 +21,7 @@
     "dependency-lint": "5.0.1",
     "eslint-plugin-flowtype": "2.46.1",
     "flow-bin": "0.69.0",
+    "flow-remove-types": "1.2.3",
     "flow-type": "1.0.1",
     "greenkeeper-lockfile": "1.14.0",
     "o-tools": "0.10.3",

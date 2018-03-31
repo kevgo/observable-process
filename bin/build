@@ -3,5 +3,6 @@ set -e
 
 # Builds the code base
 rm -rf dist
-node_modules/.bin/babel src -d dist -q
+mkdir dist
+(cd src ; ../node_modules/.bin/flow-remove-types -d ../dist/ -q observable-process.js)
 node_modules/o-tools/bin/copy-flow-files

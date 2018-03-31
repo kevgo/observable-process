@@ -1,6 +1,6 @@
 // @flow
 
-const child_process = require('child_process')   // eslint-disable-line camelcase
+const child_process = require('child_process') // eslint-disable-line camelcase
 const debug = require('debug')('observable-process')
 const extend = require('extend')
 const mergeStream = require('merge-stream')
@@ -15,13 +15,16 @@ type EndedNotification = {
   killed: boolean
 }
 
-type EndedListener = (EndedNotification) => void
-
 // a stream that we can write into using write(string),
 // plus some boilerplate to make process.stdout fit in here
 export interface WriteStream {
- // flowlint-next-line unclear-type:off
-  write(chunk: Buffer | string, encodingOrCallback?: string | Function, callback?: Function): boolean;
+  write(
+    chunk: Buffer | string,
+    // flowlint-next-line unclear-type:off
+    encodingOrCallback?: string | Function,
+    // flowlint-next-line unclear-type:off
+    callback?: Function
+  ): boolean;
 }
 
 // Runs the given command as a separate, parallel process
@@ -33,7 +36,7 @@ class ObservableProcess {
   env: Env
   exitCode: number
   killed: boolean
-  process: child_process$ChildProcess  // eslint-disable-line camelcase
+  process: child_process$ChildProcess // eslint-disable-line camelcase
   stdout: WriteStream
   stderr: WriteStream
   stdin: WriteStream
@@ -45,17 +48,26 @@ class ObservableProcess {
   // options.verbose: whether to log
   //        .stdout: the stdout stream to write output to
   //        .stderr: the stderr stream to write errors to
-  constructor (args: {command?: string, commands?: string[], env?: Env, verbose?: boolean, cwd?: string, stdout?: ?WriteStream, stderr?: ?WriteStream}) {
+  constructor (args: {
+    command?: string,
+    commands?: string[],
+    env?: Env,
+    verbose?: boolean,
+    cwd?: string,
+    stdout?: ?WriteStream,
+    stderr?: ?WriteStream
+  }) {
     if (args.env != null) this.env = args.env
     this.verbose = args.verbose || false
-    this.cwd = (args.cwd != null) ? args.cwd : process.cwd()
+    this.cwd = args.cwd != null ? args.cwd : process.cwd()
     this.stdout = args.stdout || process.stdout
     this.stderr = args.stderr || process.stderr
     this.ended = false
     this.endedListeners = []
 
     // build up the options
-    const options: child_process$spawnOpts = {    // eslint-disable-line camelcase
+    // eslint-disable-next-line camelcase
+    const options: child_process$spawnOpts = {
       env: {},
       cwd: this.cwd
     }
@@ -63,7 +75,7 @@ class ObservableProcess {
     var runnable = ''
     var params = []
     if (args.command != null) {
-      [runnable, ...params] = this._splitCommand(args.command)
+      ;[runnable, ...params] = this._splitCommand(args.command)
     }
     if (args.commands != null) {
       runnable = args.commands[0]
@@ -73,13 +85,19 @@ class ObservableProcess {
     this.process = child_process.spawn(runnable, params, options)
     this.process.on('close', this._onClose.bind(this))
 
-    this.textStreamSearch = new TextStreamSearch(mergeStream(this.process.stdout, this.process.stderr))
+    this.textStreamSearch = new TextStreamSearch(
+      mergeStream(this.process.stdout, this.process.stderr)
+    )
 
     if (this.stdout) {
-      this.process.stdout.on('data', (data) => { this.stdout.write(data.toString()) })
+      this.process.stdout.on('data', data => {
+        this.stdout.write(data.toString())
+      })
     }
     if (this.stderr) {
-      this.process.stderr.on('data', (data) => { this.stderr.write(data.toString()) })
+      this.process.stderr.on('data', data => {
+        this.stderr.write(data.toString())
+      })
     }
 
     // indicates whether this process has been officially killed
@@ -108,7 +126,7 @@ class ObservableProcess {
   // notifies all registered listeners that this process has ended
   notifyEnded () {
     for (let resolver of this.endedListeners) {
-      resolver({exitCode: this.exitCode, killed: this.killed})
+      resolver({ exitCode: this.exitCode, killed: this.killed })
     }
   }
 
@@ -128,7 +146,7 @@ class ObservableProcess {
   }
 
   waitForEnd (): Promise<EndedNotification> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.endedListeners.push(resolve)
     })
   }

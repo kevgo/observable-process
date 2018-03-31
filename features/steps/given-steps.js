@@ -1,7 +1,5 @@
 // @flow
 
-import type {WriteStream} from '../../src/observable-process.js'  // eslint-disable-line no-unused-vars
-
 const {Given} = require('cucumber')
 const ObservableProcess = require('../../dist/observable-process.js')
 const path = require('path')
@@ -36,13 +34,13 @@ Given(/^I run the "([^"]*)" process with a custom stream$/, async function (proc
   this.logText = ''
   this.logError = ''
   this.stdout = {
-    write: (text: string | Buffer): boolean => {
+    write: text => {
       this.logText += text
       return false
     }
   }
   this.stderr = {
-    write: (text: string | Buffer): boolean => {
+    write: text => {
       this.logError += text
       return false
     }

@@ -24,3 +24,6 @@ setup:   # sets up the installation on this machine
 	yarn install
 
 spec: features lint  # runs all tests
+
+update:  # updates the dependencies
+	yarn upgrade --latest

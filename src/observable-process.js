@@ -20,9 +20,7 @@ type EndedNotification = {
 export interface WriteStream {
   write(
     chunk: Buffer | string,
-    // flowlint-next-line unclear-type:off
     encodingOrCallback?: string | Function,
-    // flowlint-next-line unclear-type:off
     callback?: Function
   ): boolean;
 }
@@ -57,7 +55,7 @@ class ObservableProcess {
     cwd?: string,
     stdout?: ?WriteStream,
     stderr?: ?WriteStream
-    }) {
+  }) {
     if (args.env != null) this.env = args.env
     this.verbose = args.verbose || false
     this.cwd = args.cwd != null ? args.cwd : process.cwd()

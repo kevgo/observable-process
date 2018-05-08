@@ -31,7 +31,10 @@ workflows:
 
   test:
     jobs:
-      - test
+      - test:
+          filters:
+            tags:
+              only: /.*/
 
   deploy:
     jobs:

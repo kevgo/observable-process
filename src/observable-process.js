@@ -57,7 +57,7 @@ class ObservableProcess {
     cwd?: string,
     stdout?: ?WriteStream,
     stderr?: ?WriteStream
-  }) {
+    }) {
     if (args.env != null) this.env = args.env
     this.verbose = args.verbose || false
     this.cwd = args.cwd != null ? args.cwd : process.cwd()

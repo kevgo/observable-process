@@ -20,8 +20,8 @@ Feature: Observing child process output
 
   Scenario: waiting for a process to start up with timeout
     Given I start a process that outputs "online" after 100ms
-    When I wait for the output "other text" with a timeout of 1000ms
-    Then the callback is called after 1000ms with the error
+    When I wait for the output "other text" with a timeout of 1500ms
+    Then the callback is called after 1500ms with the error
       """
       Expected 'online
       ' to include string 'other text'

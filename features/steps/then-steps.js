@@ -71,7 +71,9 @@ Then(/^the callback is called after (\d+)ms with the error$/, function (
   errorMessage
 ) {
   expect(this.called).to.equal(1)
-  expect(this.endTime - this.startTime).to.be.above(expectedDelay)
+  const delay = this.endTime - this.startTime
+  console.log('Delay:', delay)
+  expect(delay).to.be.above(expectedDelay)
   expect(this.waitError.message.trim()).to.eql(errorMessage.trim())
 })
 

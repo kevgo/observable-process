@@ -39,6 +39,8 @@ workflows:
   deploy:
     jobs:
       - deploy:
+          requires:
+            - test
           filters:
             tags:
               only: /^v.*/

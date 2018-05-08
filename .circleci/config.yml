@@ -16,27 +16,26 @@ jobs:
       - run: node_modules/.bin/greenkeeper-lockfile-update
       - run: make spec
       - run: node_modules/.bin/greenkeeper-lockfile-upload
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
 
   deploy:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/repo
+      - checkout
+      - run: yarn
+      - run: make build
       - run: npm set //registry.npmjs.org/:_authToken $AUTH_TOKEN
       - run: npm publish
 
 workflows:
   version: 2
 
-  test-deploy:
+  test:
     jobs:
       - test
+
+  deploy:
+    jobs:
       - deploy:
-          requires:
-            - test
           filters:
             tags:
               only: /^v.*/

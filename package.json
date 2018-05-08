@@ -33,7 +33,7 @@
   },
   "files": [
     "dist",
-    "npm-shrinkwrap.json"
+    "yarn.lock"
   ],
   "homepage": "https://github.com/Originate/observable-process",
   "license": "ISC",

@@ -29,11 +29,11 @@
     "wait-until-promise": "1.0.0"
   },
   "engines": {
-    "npm": ">= 3.0.0"
+    "yarn": ">= 1.5.0"
   },
   "files": [
     "dist",
-    "npm-shrinkwrap.json"
+    "yarn.lock"
   ],
   "homepage": "https://github.com/Originate/observable-process",
   "license": "ISC",

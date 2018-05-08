@@ -31,13 +31,16 @@ workflows:
 
   test:
     jobs:
-      - test
+      - test:
+          filters:
+            tags:
+              only: /.*/
 
   deploy:
     jobs:
       - deploy:
+          requires:
+            - test
           filters:
             tags:
               only: /^v.*/
-            branches:
-              only: master

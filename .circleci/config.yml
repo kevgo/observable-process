@@ -19,9 +19,6 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
-          filters:
-            tags:
-              only: /^v.*/
 
   deploy:
     <<: *defaults
@@ -33,12 +30,10 @@ jobs:
 
 workflows:
   version: 2
+
   test-deploy:
     jobs:
-      - test:
-          filters:
-            tags:
-              only: /^v.*/
+      - test
       - deploy:
           requires:
             - test
@@ -46,4 +41,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
+              only: master

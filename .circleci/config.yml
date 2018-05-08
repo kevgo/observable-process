@@ -13,9 +13,7 @@ jobs:
     steps:
       - checkout
       - run: yarn
-      - run: node_modules/.bin/greenkeeper-lockfile-update
       - run: make spec
-      - run: node_modules/.bin/greenkeeper-lockfile-upload
 
   deploy:
     <<: *defaults

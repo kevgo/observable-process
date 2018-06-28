@@ -1,8 +1,10 @@
-build:  # builds the production version
-	rm -rf dist
+build: clean  # builds the production version
 	mkdir dist
 	(cd src ; ../node_modules/.bin/flow-remove-types -d ../dist/ -q observable-process.js)
 	node_modules/o-tools/bin/copy-flow-files
+
+clean:  # removes all build artifacts
+	rm -rf dist
 
 features: build  # runs the feature specs
 	node_modules/cucumber/bin/cucumber-js

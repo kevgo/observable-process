@@ -26,6 +26,7 @@
     "request-promise-native": "1.0.5",
     "standard": "10.0.3",
     "standard-markdown": "4.0.2",
+    "typescript": "^3.0.3",
     "wait-until-promise": "1.0.0"
   },
   "engines": {

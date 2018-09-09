@@ -29,7 +29,7 @@ export interface WriteStream {
 export class ObservableProcess {
   cwd: string;
   ended: boolean;
-  endedListeners: Array<(EndedNotification) => void>;
+  endedListeners: Array<(notification: EndedNotification) => void>;
   env: Env;
   exitCode: number;
   killed: boolean;
@@ -55,13 +55,14 @@ export class ObservableProcess {
     stdout?: WriteStream | null;
     stderr?: WriteStream | null;
   }) {
-    if (args.env != null) this.env = args.env;
+    this.env = args.env || {};
     this.verbose = args.verbose || false;
     this.cwd = args.cwd != null ? args.cwd : process.cwd();
     this.stdout = args.stdout || process.stdout;
     this.stderr = args.stderr || process.stderr;
     this.ended = false;
     this.endedListeners = [];
+    this.exitCode = -1;
 
     // build up the options
     // eslint-disable-next-line camelcase, no-undef
@@ -70,8 +71,8 @@ export class ObservableProcess {
       cwd: this.cwd
     };
     extend(options.env, process.env, this.env);
-    var runnable = "";
-    var params = [];
+    let runnable = "";
+    let params: Array<string> = [];
     if (args.command != null) {
       [runnable, ...params] = this._splitCommand(args.command);
     }
@@ -80,7 +81,7 @@ export class ObservableProcess {
       params = args.commands.splice(1);
     }
     d(`starting '${runnable}' with arguments [${params.join(",")}]`);
-    this.process = child_process.spawn(runnable, params, options);
+    this.process = child.spawn(runnable, params, options);
     this.process.on("close", this._onClose.bind(this));
 
     this.textStreamSearch = new TextStreamSearch(

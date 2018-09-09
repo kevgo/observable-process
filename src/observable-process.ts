@@ -26,7 +26,7 @@ export interface WriteStream {
 
 // Runs the given command as a separate, parallel process
 // and allows to observe it.
-export class ObservableProcess {
+export default class ObservableProcess {
   cwd: string;
   ended: boolean;
   endedListeners: Array<(notification: EndedNotification) => void>;

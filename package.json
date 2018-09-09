@@ -11,7 +11,10 @@
   },
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "devDependencies": {
+    "@types/chai": "4.1.4",
+    "@types/cucumber": "4.0.4",
     "@types/debug": "0.0.30",
+    "@types/delay": "3.1.0",
     "@types/extend": "3.0.0",
     "@types/merge-stream": "1.1.2",
     "chai": "4.1.2",
@@ -21,6 +24,7 @@
     "o-tools": "0.10.3",
     "portfinder": "1.0.13",
     "request-promise-native": "1.0.5",
+    "ts-node": "7.0.1",
     "tslint": "5.11.0",
     "typescript": "^3.0.3",
     "wait-until-promise": "1.0.0"

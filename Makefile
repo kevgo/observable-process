@@ -9,7 +9,7 @@ endif
 
 
 build: clean  # builds the production version
-	mkdir dist
+	@mkdir dist
 	@node_modules$/.bin$/tsc -p .
 
 clean:  # removes all build artifacts

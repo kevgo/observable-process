@@ -141,7 +141,7 @@ export class ObservableProcess {
   }
 
   pid() {
-    if (this.process) return this.process.pid;
+    return this.process ? this.process.pid : -1;
   }
 
   waitForEnd(): Promise<EndedNotification> {

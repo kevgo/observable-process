@@ -1,10 +1,10 @@
 import * as child from "child_process"
-import debug from "debug"
+import deb from "debug"
 import extend from "extend"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import TextStreamSearch from "text-stream-search"
-const d = debug("observable-process")
+const debug = deb("observable-process")
 
 // a list of environment variables
 type Env = { [key: string]: string }
@@ -80,7 +80,7 @@ export default class ObservableProcess {
       runnable = args.commands[0]
       params = args.commands.splice(1)
     }
-    d(`starting '${runnable}' with arguments [${params.join(",")}]`)
+    debug(`starting '${runnable}' with arguments [${params.join(",")}]`)
     this.process = child.spawn(runnable, params, options)
     this.process.on("close", this._onClose.bind(this))
 
@@ -117,7 +117,7 @@ export default class ObservableProcess {
   }
 
   kill() {
-    d("killing the process")
+    debug("killing the process")
     this.killed = true
     this.process.kill()
   }
@@ -130,7 +130,7 @@ export default class ObservableProcess {
   }
 
   _onClose(exitCode: number) {
-    d(`process has ended with code ${exitCode}`)
+    debug(`process has ended with code ${exitCode}`)
     this.exitCode = exitCode
     this.ended = true
     if (this.verbose) {

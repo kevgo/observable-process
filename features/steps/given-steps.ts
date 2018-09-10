@@ -26,8 +26,8 @@ Given(/^I run the global command "([^"]*)"$/, function(command) {
 })
 
 Given(/^I run the local command "([^"]*)"$/, function(command) {
-  command = path.join(process.cwd(), "features", "example-apps", command)
-  this.process = new ObservableProcess({ command })
+  const appPath = path.join(process.cwd(), "features", "example-apps", command)
+  this.process = new ObservableProcess({ commands: ["node", appPath] })
 })
 
 Given(/^I run the "([^"]*)" process$/, async function(processName) {

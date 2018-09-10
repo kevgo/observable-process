@@ -98,7 +98,10 @@ When(/^running the process "([^"]*)"$/, async function(command) {
     "example-apps",
     command
   )
-  this.process = new ObservableProcess({ command: commandPath, stdout: null })
+  const fullCommand = "node " + commandPath
+  console.log(111111111111)
+  console.log(fullCommand)
+  this.process = new ObservableProcess({ command: fullCommand, stdout: null })
   await this.process.waitForEnd()
   this.result = this.process.fullOutput()
 })

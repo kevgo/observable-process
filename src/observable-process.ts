@@ -7,7 +7,7 @@ import TextStreamSearch from "text-stream-search"
 const d = debug("observable-process")
 
 // a list of environment variables
-type Env = { [key: string]: string | undefined }
+type Env = { [key: string]: string }
 
 type EndedNotification = {
   exitCode: number

@@ -38,7 +38,7 @@ When(
       }
     }
     this.process = new ObservableProcess({
-      command: ["node", path.join("features", "example-apps", processName)],
+      commands: ["node", path.join("features", "example-apps", processName)],
       stdout: this.stdout,
       stderr: this.stderr,
       verbose: verbose === "enabled"
@@ -53,7 +53,7 @@ When(
     env = env.rowsHash()
     delete env.key
     this.process = new ObservableProcess({
-      command: [
+      commands: [
         "node",
         path.join(process.cwd(), "features", "example-apps", appName)
       ],

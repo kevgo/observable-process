@@ -105,7 +105,11 @@ Given(/^I start an interactive process$/, async function() {
 })
 
 Given(/^I start the "([^"]*)" process$/, function(processName) {
-  this.process = new ObservableProcess({
-    command: path.join("features", "example-apps", processName)
-  })
+  const args = {
+    commands: [
+      "node",
+      path.join("features", "example-apps", processName + ".js")
+    ]
+  }
+  this.process = new ObservableProcess(args)
 })

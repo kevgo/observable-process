@@ -91,7 +91,7 @@ When(/^it ends/, async function() {
   await this.process.waitForEnd()
 })
 
-When(/^running the process "([^"]*)"$/, async function(command) {
+When("running the process {string}", async function(command) {
   const commandPath = path.join(
     process.cwd(),
     "features",
@@ -99,23 +99,15 @@ When(/^running the process "([^"]*)"$/, async function(command) {
     command
   )
   const fullCommand = "node " + commandPath
-  console.log(111111111111)
-  console.log(fullCommand)
   this.process = new ObservableProcess({ command: fullCommand, stdout: null })
   await this.process.waitForEnd()
   this.result = this.process.fullOutput()
 })
 
-When(/^running the global process "([^"]*)"$/, async function(command) {
-  this.process = new ObservableProcess({ command, stdout: null, stderr: null })
-  await this.process.waitForEnd()
-  this.result = this.process.fullOutput()
-})
-
 When(/^running the process {commands: \[([^"]+)\]}$/, async function(args) {
-  var parsedArgs = {}
+  var parsedArgs: any = {}
   eval(`parsedArgs = {commands: [${args}]}`)
-  args.stdout = null
+  parsedArgs.stdout = null
   this.process = new ObservableProcess(parsedArgs)
   await this.process.waitForEnd()
   this.result = this.process.fullOutput()

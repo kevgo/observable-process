@@ -14,10 +14,10 @@ Feature: Providing the command to run in various formats
 
 
   Scenario: calling with a string that contains quotes
-    When running the global process "bash -c 'echo hello'"
-    Then it returns "hello"
+    When running the process "print-output \"it's a quote!\""
+    Then it returns "it's a quote!"
 
 
   Scenario: calling with an array
-    When running the process {commands: ['./features/example-apps/print-output', 'hello']}
+    When running the process {commands: ['node', './features/example-apps/print-output.js', 'hello']}
     Then it returns "hello"

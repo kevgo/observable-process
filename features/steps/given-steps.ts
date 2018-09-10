@@ -15,7 +15,7 @@ Given(
   /^I run a process that has generated the output "([^"]*)"$/,
   async function(output) {
     this.process = new ObservableProcess({
-      commands: ["features/example-apps/print-output", output]
+      commands: ["node", "features/example-apps/print-output", output]
     })
     await this.process.waitForText(output)
   }
@@ -32,7 +32,7 @@ Given(/^I run the local command "([^"]*)"$/, function(command) {
 
 Given(/^I run the "([^"]*)" process$/, async function(processName) {
   this.process = new ObservableProcess({
-    command: path.join("features", "example-apps", processName)
+    commands: ["node", path.join("features", "example-apps", processName)]
   })
   await this.process.waitForEnd()
 })
@@ -95,7 +95,7 @@ Given(/^I start a process that outputs "[^"]*" after (\d+)ms$/, function(
 Given(/^I start an interactive process$/, async function() {
   this.onExitCalled = false
   this.process = new ObservableProcess({
-    command: "features/example-apps/interactive"
+    commands: ["node", "features/example-apps/interactive"]
   })
   this.process.waitForEnd().then(exitData => {
     this.exitData = exitData

@@ -13,7 +13,7 @@ clean:  # removes all build artifacts
 	@rm -rf dist
 
 features: build  # runs the feature specs
-	@node_modules/cucumber/bin/cucumber-js --exit
+	@node_modules/cucumber/bin/cucumber-js
 
 fix:  # runs the fixers
 	tslint --project tsconfig.json --fix

@@ -1,17 +1,17 @@
-// @flow
+import * as child from "child_process"
+import deb from "debug"
+import extend from "extend"
+import mergeStream from "merge-stream"
+import stringArgv from "string-argv"
+import TextStreamSearch from "text-stream-search"
 
-const child_process = require('child_process') // eslint-disable-line camelcase
-const debug = require('debug')('observable-process')
-const extend = require('extend')
-const mergeStream = require('merge-stream')
-const stringArgv = require('string-argv')
-const TextStreamSearch = require('text-stream-search')
+const debug = deb("observable-process")
 
 // a list of environment variables
-type Env = { [string]: ?string }
+type Env = { [key: string]: string }
 
 type EndedNotification = {
-  exitCode: number,
+  exitCode: number
   killed: boolean
 }
 
@@ -22,12 +22,12 @@ export interface WriteStream {
     chunk: Buffer | string,
     encodingOrCallback?: string | Function,
     callback?: Function
-  ): boolean;
+  ): boolean
 }
 
 // Runs the given command as a separate, parallel process
 // and allows to observe it.
-class ObservableProcess {
+export default class ObservableProcess {
   cwd: string
   ended: boolean
   endedListeners: Array<(EndedNotification) => void>
@@ -35,7 +35,7 @@ class ObservableProcess {
   exitCode: number
   killed: boolean
   // eslint-disable-next-line no-undef
-  process: child_process$ChildProcess // eslint-disable-line camelcase
+  process: child.ChildProcess // eslint-disable-line camelcase
   stdout: WriteStream
   stderr: WriteStream
   stdin: WriteStream
@@ -47,14 +47,14 @@ class ObservableProcess {
   // options.verbose: whether to log
   //        .stdout: the stdout stream to write output to
   //        .stderr: the stderr stream to write errors to
-  constructor (args: {
-    command?: string,
-    commands?: string[],
-    env?: Env,
-    verbose?: boolean,
-    cwd?: string,
-    stdout?: ?WriteStream,
-    stderr?: ?WriteStream
+  constructor(args: {
+    command?: string
+    commands?: string[]
+    env?: Env
+    verbose?: boolean
+    cwd?: string
+    stdout?: WriteStream | null
+    stderr?: WriteStream | null
   }) {
     if (args.env != null) this.env = args.env
     this.verbose = args.verbose || false
@@ -63,16 +63,18 @@ class ObservableProcess {
     this.stderr = args.stderr || process.stderr
     this.ended = false
     this.endedListeners = []
+    this.env = args.env || {}
+    this.exitCode = -1
 
     // build up the options
     // eslint-disable-next-line camelcase, no-undef
-    const options: child_process$spawnOpts = {
+    const options: child.SpawnOptions = {
       env: {},
       cwd: this.cwd
     }
     extend(options.env, process.env, this.env)
-    var runnable = ''
-    var params = []
+    let runnable = ""
+    let params: Array<string> = []
     if (args.command != null) {
       ;[runnable, ...params] = this._splitCommand(args.command)
     }
@@ -80,21 +82,21 @@ class ObservableProcess {
       runnable = args.commands[0]
       params = args.commands.splice(1)
     }
-    debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
-    this.process = child_process.spawn(runnable, params, options)
-    this.process.on('close', this._onClose.bind(this))
+    debug(`starting '${runnable}' with arguments [${params.join(",")}]`)
+    this.process = child.spawn(runnable, params, options)
+    this.process.on("close", this._onClose.bind(this))
 
     this.textStreamSearch = new TextStreamSearch(
       mergeStream(this.process.stdout, this.process.stderr)
     )
 
     if (this.stdout) {
-      this.process.stdout.on('data', data => {
+      this.process.stdout.on("data", data => {
         this.stdout.write(data.toString())
       })
     }
     if (this.stderr) {
-      this.process.stderr.on('data', data => {
+      this.process.stderr.on("data", data => {
         this.stderr.write(data.toString())
       })
     }
@@ -108,58 +110,58 @@ class ObservableProcess {
 
   // Enters the given text into the subprocess.
   // Types the ENTER key automatically.
-  enter (text: string) {
+  enter(text: string) {
     this.stdin.write(`${text}\n`)
   }
 
-  fullOutput () {
+  fullOutput() {
     return this.textStreamSearch.fullText()
   }
 
-  kill () {
-    debug('killing the process')
+  kill() {
+    debug("killing the process")
     this.killed = true
     this.process.kill()
   }
 
   // notifies all registered listeners that this process has ended
-  notifyEnded () {
+  notifyEnded() {
     for (let resolver of this.endedListeners) {
       resolver({ exitCode: this.exitCode, killed: this.killed })
     }
   }
 
-  _onClose (exitCode: number) {
+  _onClose(exitCode: number) {
     debug(`process has ended with code ${exitCode}`)
     this.exitCode = exitCode
     this.ended = true
     if (this.verbose) {
-      if (this.stderr) this.stderr.write('PROCESS ENDED\n')
+      if (this.stderr) this.stderr.write("PROCESS ENDED\n")
       if (this.stderr) this.stderr.write(`\nEXIT CODE: ${this.exitCode}`)
     }
     this.notifyEnded()
   }
 
-  pid () {
-    if (this.process) return this.process.pid
+  pid() {
+    return this.process ? this.process.pid : -1
   }
 
-  waitForEnd (): Promise<EndedNotification> {
+  waitForEnd(): Promise<EndedNotification> {
     return new Promise(resolve => {
       this.endedListeners.push(resolve)
     })
   }
 
   // Calls the given handler when the given text shows up in the output
-  async waitForText (text: string, timeout?: number) {
+  async waitForText(text: string, timeout?: number) {
     await this.textStreamSearch.waitForText(text, timeout)
   }
 
-  resetOutputStreams () {
+  resetOutputStreams() {
     this.textStreamSearch.reset()
   }
 
-  _splitCommand (command: string | string[]): string[] {
+  _splitCommand(command: string | Array<string>): Array<string> {
     if (Array.isArray(command)) {
       return command
     } else {
@@ -167,5 +169,3 @@ class ObservableProcess {
     }
   }
 }
-
-module.exports = ObservableProcess

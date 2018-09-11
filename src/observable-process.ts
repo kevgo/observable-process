@@ -4,6 +4,7 @@ import extend from "extend"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import TextStreamSearch from "text-stream-search"
+import process from "process"
 const debug = deb("observable-process")
 
 // a list of environment variables
@@ -67,7 +68,7 @@ export default class ObservableProcess {
     // build up the options
     // eslint-disable-next-line camelcase, no-undef
     const options: child.SpawnOptions = {
-      env: {},
+      env: this.env,
       cwd: this.cwd
     }
     extend(options.env, process.env, this.env)

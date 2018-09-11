@@ -385,24 +385,6 @@ dependency-lint@4.3.1:
     semver "^5.1.0"
     sorted-object "^2.0.0"
 
-dependency-lint@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/dependency-lint/-/dependency-lint-5.0.1.tgz#2ef759a87bd5608b6bdd2af772c9d6a15b1e89ab"
-  dependencies:
-    bluebird "^3.4.3"
-    builtin-modules "^1.1.1"
-    camel-case "^3.0.0"
-    colors "^1.0.3"
-    detective "^4.0.0"
-    docopt "^0.6.0"
-    fs-extra "^1.0.0"
-    glob "^7.0.0"
-    js-yaml "^3.3.1"
-    lodash "^4.2.1"
-    minimatch "^3.0.2"
-    semver "^5.1.0"
-    sorted-object "^2.0.0"
-
 detective@^4.0.0:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/detective/-/detective-4.7.1.tgz#0eca7314338442febb6d65da54c10bb1c82b246e"
@@ -947,9 +929,9 @@ portfinder@1.0.13:
     debug "^2.2.0"
     mkdirp "0.5.x"
 
-prettier@1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.0.tgz#847c235522035fd988100f1f43cf20a7d24f9372"
+prettier@1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.2.tgz#0ac1c6e1a90baa22a62925f41963c841983282f9"
 
 process-nextick-args@~2.0.0:
   version "2.0.0"

@@ -18,7 +18,6 @@
     "chai": "4.1.2",
     "cucumber": "4.2.1",
     "delay": "2.0.0",
-    "dependency-lint": "5.0.1",
     "o-tools": "0.10.3",
     "portfinder": "1.0.13",
     "prettier": "1.14.2",

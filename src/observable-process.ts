@@ -52,8 +52,8 @@ export default class ObservableProcess {
     env?: Env
     verbose?: boolean
     cwd?: string
-    stdout?: WriteStream | null
-    stderr?: WriteStream | null
+    stdout?: WriteStream | undefined
+    stderr?: WriteStream | undefined
   }) {
     this.env = args.env || {}
     this.verbose = args.verbose || false

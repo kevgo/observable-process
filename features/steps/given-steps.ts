@@ -3,6 +3,8 @@ import ObservableProcess from "../.."
 import path from "path"
 import portFinder from "portfinder"
 
+console.log(ObservableProcess)
+
 Given(/^an observableProcess with accumulated output text$/, async function() {
   const output = "hello world"
   this.process = new ObservableProcess({
@@ -111,5 +113,6 @@ Given(/^I start the "([^"]*)" process$/, function(processName) {
       path.join("features", "example-apps", processName + ".js")
     ]
   }
+  console.log(args)
   this.process = new ObservableProcess(args)
 })

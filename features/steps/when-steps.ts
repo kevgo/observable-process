@@ -4,7 +4,10 @@ import path from "path"
 import waitUntil from "wait-until-promise"
 
 When("calling {string}", function(code) {
-  eval(`this.result = this.${code}`)
+  const cmd = `this.result = this.${code}`
+  console.log(cmd)
+  eval(cmd)
+  console.log(this.result)
 })
 
 When(/^calling the "([^"]*)" method$/, function(methodName) {

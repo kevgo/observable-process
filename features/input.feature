@@ -11,5 +11,3 @@ Feature: entering text
     Given I start the "input" process
     When calling "process.enter('hello')"
     Then it prints "You entered hello"
-
-

@@ -11,21 +11,20 @@
   },
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "devDependencies": {
-    "babel-eslint": "7.2.1",
+    "@types/debug": "0.0.30",
+    "@types/extend": "3.0.0",
+    "@types/merge-stream": "1.1.2",
+    "@types/node": "^10.9.4",
     "chai": "4.1.2",
     "cucumber": "4.2.1",
     "delay": "2.0.0",
     "dependency-lint": "5.0.1",
-    "eslint-plugin-flowtype": "2.46.3",
-    "flow-bin": "0.71.0",
-    "flow-remove-types": "1.2.3",
-    "flow-type": "1.0.1",
     "o-tools": "0.10.3",
     "portfinder": "1.0.13",
-    "prettier-standard": "8.0.1",
+    "prettier": "1.14.2",
     "request-promise-native": "1.0.5",
-    "standard": "10.0.3",
-    "standard-markdown": "4.0.2",
+    "ts-node": "7.0.1",
+    "typescript": "3.0.3",
     "wait-until-promise": "1.0.0"
   },
   "engines": {
@@ -43,7 +42,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "scripts": {
-    "prepublish": "make build",
+    "prepublishOnly": "make build",
     "test": "make spec"
   },
   "standard": {

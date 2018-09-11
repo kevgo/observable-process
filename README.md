@@ -5,15 +5,13 @@
 [![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)
 [![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
 
-
 High-level support for running, observing, and interacting with child processes
 in Node.js 4 and above.
 
-
 ```js
-const ObservableProcess = require('observableProcess')
-var myProcess = new ObservableProcess('echo hello')
-myProcess.on('ended', function ({exitCode}) {
+const ObservableProcess = require("observableProcess")
+var myProcess = new ObservableProcess("echo hello")
+myProcess.on("ended", function({ exitCode }) {
   // ...
 })
 ```
@@ -21,22 +19,19 @@ myProcess.on('ended', function ({exitCode}) {
 You can also provide the process to run as an _argv_ array:
 
 ```js
-myProcess = new ObservableProcess(['echo', 'hello'])
+myProcess = new ObservableProcess(["echo", "hello"])
 ```
-
 
 ## Set the working directory of the subshell
 
 ```js
-myProcess = new ObservableProcess('echo hello', { cwd: '~/tmp' })
+myProcess = new ObservableProcess("echo hello", { cwd: "~/tmp" })
 ```
-
 
 ## Set environment variables in the subshell
 
-
 ```js
-myProcess = new ObservableProcess('echo hello', { env: { foo: 'bar' } })
+myProcess = new ObservableProcess("echo hello", { env: { foo: "bar" } })
 ```
 
 ## Working with output
@@ -49,16 +44,19 @@ You can also customize logging by providing custom `stdout` and `stderr` objects
 
 ```js
 const myStdOut = {
-  write: (text) => {
+  write: text => {
     // ...
   }
 }
 const myStdErr = {
-  write: (text) => {
+  write: text => {
     // ...
   }
 }
-myProcess = new ObservableProcess('echo hello', { stdout: myStdOut, stderr: myStdErr })
+myProcess = new ObservableProcess("echo hello", {
+  stdout: myStdOut,
+  stderr: myStdErr
+})
 ```
 
 You can use [dimConsole](https://github.com/kevgo/dim-console-node)
@@ -66,29 +64,32 @@ to print output from the subshell dimmed,
 so that it is easy to distinguish from output of the main thread.
 
 ```js
-const dimConsole = require('dim-console')
-myProcess = new ObservableProcess('echo hello', { stdout: dimConsole.stdout, stderr: dimConsole.stderr })
+const dimConsole = require("dim-console")
+myProcess = new ObservableProcess("echo hello", {
+  stdout: dimConsole.stdout,
+  stderr: dimConsole.stderr
+})
 ```
 
 To get more detailed output like lifecycle events of the subshell
 in the error stream:
 
 ```js
-myProcess = new ObservableProcess('echo hello', { verbose: true })
+myProcess = new ObservableProcess("echo hello", { verbose: true })
 ```
 
 You can retrieve the output that has accumulated so far to `stdout` and `stderr`
 merged into a single string:
 
 ```js
-myProcess.fullOutput()  // returns all the output produced by the subprocess so far
+myProcess.fullOutput() // returns all the output produced by the subprocess so far
 ```
 
 You can be notified when the process prints given text on `stdout` or `stderr`.
 This is useful for waiting until slow-starting services are fully booted up.
 
 ```js
-myProcess.waitForText('listening on port 3000').then(function () {
+myProcess.waitForText("listening on port 3000").then(function() {
   // this method runs after the process prints "listening on port 3000"
 })
 ```
@@ -96,19 +97,16 @@ myProcess.waitForText('listening on port 3000').then(function () {
 To disable output altogether:
 
 ```js
-myProcess = new ObservableProcess('my-server', { stdout: null, stderr: null })
+myProcess = new ObservableProcess("my-server", { stdout: null, stderr: null })
 ```
-
-
 
 ## Input
 
 You can enter text into the running process via:
 
 ```js
-myProcess.enter('text')
+myProcess.enter("text")
 ```
-
 
 ## Kill the process
 
@@ -124,10 +122,11 @@ so that manual kills can be distinguished from crashes.
 To let ObservableProcess notify you when a process ended:
 
 ```js
-myProcess.waitForEnd(({exitCode, killed}) => {
+myProcess.waitForEnd(({ exitCode, killed }) => {
   // the process has ended here
 })
 ```
+
 You can also access the exit code from the process object:
 
 ```js
@@ -140,10 +139,9 @@ myProcess.exitCode
 myProcess.pid()
 ```
 
-
 ## related libraries
 
-* [nexpect](https://github.com/nodejitsu/nexpect):
+- [nexpect](https://github.com/nodejitsu/nexpect):
   Allows to define expectations on command output,
   and send it input,
   but doesn't allow to add more listeners to existing long-running processes,

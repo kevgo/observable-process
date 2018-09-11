@@ -13,7 +13,7 @@ clean:  # removes all build artifacts
 	@rm -rf dist
 
 features: build  # runs the feature specs
-	node_modules/cucumber/bin/cucumber-js
+	node_modules/cucumber/bin/cucumber-js --exit
 
 fix:  # runs the fixers
 	node_modules/.bin/standard --fix

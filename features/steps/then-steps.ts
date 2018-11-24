@@ -59,7 +59,7 @@ Then(/^my stderr stream receives "([^"]*)"$/, function(expectedText) {
 
 Then(/^the callback is called after (\d+)ms$/, function(expectedDelay) {
   expect(this.called).to.equal(1)
-  expect(this.endTime - this.startTime).to.be.above(expectedDelay)
+  expect(this.endTime - this.startTime).to.be.above(expectedDelay * 0.9)
 })
 
 Then(/^the callback is called after (\d+)ms with the error$/, function(

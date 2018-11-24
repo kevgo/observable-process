@@ -72,8 +72,8 @@ Then(/^the callback is called after (\d+)ms with the error$/, function(
     expect(this.waitError.message.trim()).to.eql(expectedMessage.trim())
   } catch (e) {
     console.log(e)
-    console.log(`EXPECTED: '${expectedMessage}'`)
-    console.log(`ACTUAL: '${this.waitError.message}'`)
+    console.log(`EXPECTED: "${expectedMessage}"`)
+    console.log(`ACTUAL: "${this.waitError.message}"`)
     throw e
   }
 })

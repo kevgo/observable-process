@@ -15,6 +15,7 @@
     "@types/extend": "3.0.0",
     "@types/merge-stream": "1.1.2",
     "@types/node": "^10.9.4",
+    "@types/string-argv": "0.1.0",
     "chai": "4.1.2",
     "cucumber": "5.0.0",
     "delay": "4.0.1",

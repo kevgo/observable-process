@@ -146,3 +146,5 @@ myProcess.pid()
   and send it input,
   but doesn't allow to add more listeners to existing long-running processes,
   which makes declarative testing hard.
+
+test

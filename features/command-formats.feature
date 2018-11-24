@@ -19,5 +19,5 @@ Feature: Providing the command to run in various formats
 
 
   Scenario: calling with an array
-    When running the process {commands: ['./features/example-apps/print-output', 'hello']}
+    When running the process {commands: ['node', './features/example-apps/print-output.js', 'hello']}
     Then it returns "hello"

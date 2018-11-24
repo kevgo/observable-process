@@ -6,6 +6,7 @@
     "debug": "4.0.0",
     "extend": "3.0.2",
     "merge-stream": "1.0.1",
+    "request": "2.88.0",
     "string-argv": "0.1.1",
     "text-stream-search": "2.1.3"
   },

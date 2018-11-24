@@ -19,7 +19,6 @@
     "chai": "4.1.2",
     "cucumber": "5.0.0",
     "delay": "4.0.1",
-    "o-tools": "0.10.3",
     "portfinder": "1.0.17",
     "prettier": "1.14.2",
     "request-promise-native": "1.0.5",

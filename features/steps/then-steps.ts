@@ -68,14 +68,7 @@ Then(/^the callback is called after (\d+)ms with the error$/, function(
 ) {
   expect(this.called).to.equal(1)
   expect(this.endTime - this.startTime).to.be.above(expectedDelay - 1)
-  try {
-    expect(this.waitError.message.trim()).to.eql(expectedMessage.trim())
-  } catch (e) {
-    console.log(e)
-    console.log(`EXPECTED: "${expectedMessage}"`)
-    console.log(`ACTUAL: "${this.waitError.message}"`)
-    throw e
-  }
+  expect(this.waitError.message.trim()).to.eql(expectedMessage.trim())
 })
 
 Then(/^the exit code is set in the \.exitCode property$/, function() {

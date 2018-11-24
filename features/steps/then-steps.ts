@@ -57,7 +57,7 @@ Then(/^my stderr stream receives "([^"]*)"$/, function(expectedText) {
   expect(this.logError).to.contain(expectedText)
 })
 
-Then(/^the callback is called after (\d+)ms$/, function(expectedDelay) {
+Then(/^the callback is called within (\d+)ms$/, function(expectedDelay) {
   expect(this.called).to.equal(1)
   expect(this.endTime - this.startTime).to.be.below(expectedDelay)
 })

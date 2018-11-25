@@ -2,5 +2,5 @@
 // It outputs text after a delay.
 
 setTimeout(function() {
-  console.log("online")
+  console.log('online')
 }, process.argv[2])

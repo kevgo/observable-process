@@ -4,49 +4,28 @@ import extend from 'extend'
 import mergeStream from 'merge-stream'
 import stringArgv from 'string-argv'
 import TextStreamSearch from 'text-stream-search'
+import { Env } from './env'
+import { EndedNotification } from './ended-notification'
+import { WriteStream } from './write-stream'
 
 const debug = deb('observable-process')
 
-// a list of environment variables
-type Env = { [key: string]: string }
-
-type EndedNotification = {
-  exitCode: number
-  killed: boolean
-}
-
-// a stream that we can write into using write(string),
-// plus some boilerplate to make process.stdout fit in here
-export interface WriteStream {
-  write(
-    chunk: Buffer | string,
-    encodingOrCallback?: string | Function,
-    callback?: Function
-  ): boolean
-}
-
 // Runs the given command as a separate, parallel process
-// and allows to observe it.
-export default class ObservableProcess {
+// and allows to observe it and interact with it.
+class ObservableProcess {
   cwd: string
   ended: boolean
   endedListeners: Array<(EndedNotification) => void>
   env: Env
   exitCode: number
   killed: boolean
-  // eslint-disable-next-line no-undef
-  process: child.ChildProcess // eslint-disable-line camelcase
+  process: child.ChildProcess
   stdout: WriteStream
   stderr: WriteStream
   stdin: WriteStream
   textStreamSearch: TextStreamSearch
   verbose: boolean
 
-  // command: "ls -la *.js"
-  // commands: ["ls", "-la", "*.js"]
-  // options.verbose: whether to log
-  //        .stdout: the stdout stream to write output to
-  //        .stderr: the stderr stream to write errors to
   constructor(args: {
     command?: string
     commands?: string[]
@@ -56,7 +35,6 @@ export default class ObservableProcess {
     stdout?: WriteStream | null
     stderr?: WriteStream | null
   }) {
-    if (args.env != null) this.env = args.env
     this.verbose = args.verbose || false
     this.cwd = args.cwd != null ? args.cwd : process.cwd()
     this.stdout = args.stdout || process.stdout
@@ -65,31 +43,26 @@ export default class ObservableProcess {
     this.endedListeners = []
     this.env = args.env || {}
     this.exitCode = -1
+    this.killed = false
 
-    // build up the options
-    // eslint-disable-next-line camelcase, no-undef
-    const options: child.SpawnOptions = {
-      env: {},
-      cwd: this.cwd
-    }
-    extend(options.env, process.env, this.env)
-    let runnable = ''
-    let params: Array<string> = []
-    if (args.command != null) {
-      ;[runnable, ...params] = this._splitCommand(args.command)
-    }
-    if (args.commands != null) {
-      runnable = args.commands[0]
-      params = args.commands.splice(1)
-    }
+    const [runnable, params] = this.determineRunnable(args)
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
-    this.process = child.spawn(runnable, params, options)
+    this.process = child.spawn(runnable, params, this.spawnOptions())
     this.process.on('close', this._onClose.bind(this))
+    this.stdin = this.process.stdin
+    this.textStreamSearch = this.createStdOutErrStreamSearch()
+    this.forwardStreams()
+  }
 
-    this.textStreamSearch = new TextStreamSearch(
+  // Returns a TextStream instance that listens on both stdout and stderr
+  private createStdOutErrStreamSearch(): TextStreamSearch {
+    return new TextStreamSearch(
       mergeStream(this.process.stdout, this.process.stderr)
     )
+  }
 
+  // Forwards output streams
+  private forwardStreams() {
     if (this.stdout) {
       this.process.stdout.on('data', data => {
         this.stdout.write(data.toString())
@@ -100,12 +73,27 @@ export default class ObservableProcess {
         this.stderr.write(data.toString())
       })
     }
+  }
 
-    // indicates whether this process has been officially killed
-    // (to avoid unnecessary panic if it is killed)
-    this.killed = false
-
-    this.stdin = this.process.stdin
+  private determineRunnable(args): [string, string[]] {
+    let runnable = ''
+    let params: Array<string> = []
+    if (args.command != null) {
+      ;[runnable, ...params] = this._splitCommand(args.command)
+    }
+    if (args.commands != null) {
+      runnable = args.commands[0]
+      params = args.commands.splice(1)
+    }
+    return [runnable, params]
+  }
+  private spawnOptions(): child.SpawnOptions {
+    const result = {
+      env: {},
+      cwd: this.cwd
+    }
+    extend(result.env, process.env, this.env)
+    return result
   }
 
   // Enters the given text into the subprocess.
@@ -169,3 +157,5 @@ export default class ObservableProcess {
     }
   }
 }
+
+export { Env, EndedNotification, WriteStream, ObservableProcess }

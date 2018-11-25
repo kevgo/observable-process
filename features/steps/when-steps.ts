@@ -38,7 +38,7 @@ When(
       }
     }
     this.process = new ObservableProcess({
-      command: path.join("features", "example-apps", processName),
+      commands: ["node", path.join("features", "example-apps", processName)],
       stdout: this.stdout,
       stderr: this.stderr,
       verbose: verbose === "enabled"
@@ -53,7 +53,10 @@ When(
     env = env.rowsHash()
     delete env.key
     this.process = new ObservableProcess({
-      command: path.join(process.cwd(), "features", "example-apps", appName),
+      commands: [
+        "node",
+        path.join(process.cwd(), "features", "example-apps", appName)
+      ],
       env: env
     })
   }
@@ -89,13 +92,15 @@ When(/^it ends/, async function() {
 })
 
 When(/^running the process "([^"]*)"$/, async function(command) {
-  const commandPath = path.join(
+  const commands = command.split(" ")
+  commands[0] = path.join(
     process.cwd(),
     "features",
     "example-apps",
-    command
+    commands[0]
   )
-  this.process = new ObservableProcess({ command: commandPath, stdout: null })
+  commands.splice(0, 0, "node")
+  this.process = new ObservableProcess({ commands, stdout: null })
   await this.process.waitForEnd()
   this.result = this.process.fullOutput()
 })

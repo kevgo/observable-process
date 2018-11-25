@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-echo using port $port
-echo using exocomm-port $exocommPort

@@ -1,11 +1,11 @@
-import * as child from "child_process"
-import deb from "debug"
-import extend from "extend"
-import mergeStream from "merge-stream"
-import stringArgv from "string-argv"
-import TextStreamSearch from "text-stream-search"
+import * as child from 'child_process'
+import deb from 'debug'
+import extend from 'extend'
+import mergeStream from 'merge-stream'
+import stringArgv from 'string-argv'
+import TextStreamSearch from 'text-stream-search'
 
-const debug = deb("observable-process")
+const debug = deb('observable-process')
 
 // a list of environment variables
 type Env = { [key: string]: string }
@@ -73,7 +73,7 @@ export default class ObservableProcess {
       cwd: this.cwd
     }
     extend(options.env, process.env, this.env)
-    let runnable = ""
+    let runnable = ''
     let params: Array<string> = []
     if (args.command != null) {
       ;[runnable, ...params] = this._splitCommand(args.command)
@@ -82,21 +82,21 @@ export default class ObservableProcess {
       runnable = args.commands[0]
       params = args.commands.splice(1)
     }
-    debug(`starting '${runnable}' with arguments [${params.join(",")}]`)
+    debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
     this.process = child.spawn(runnable, params, options)
-    this.process.on("close", this._onClose.bind(this))
+    this.process.on('close', this._onClose.bind(this))
 
     this.textStreamSearch = new TextStreamSearch(
       mergeStream(this.process.stdout, this.process.stderr)
     )
 
     if (this.stdout) {
-      this.process.stdout.on("data", data => {
+      this.process.stdout.on('data', data => {
         this.stdout.write(data.toString())
       })
     }
     if (this.stderr) {
-      this.process.stderr.on("data", data => {
+      this.process.stderr.on('data', data => {
         this.stderr.write(data.toString())
       })
     }
@@ -119,7 +119,7 @@ export default class ObservableProcess {
   }
 
   kill() {
-    debug("killing the process")
+    debug('killing the process')
     this.killed = true
     this.process.kill()
   }
@@ -136,7 +136,7 @@ export default class ObservableProcess {
     this.exitCode = exitCode
     this.ended = true
     if (this.verbose) {
-      if (this.stderr) this.stderr.write("PROCESS ENDED\n")
+      if (this.stderr) this.stderr.write('PROCESS ENDED\n')
       if (this.stderr) this.stderr.write(`\nEXIT CODE: ${this.exitCode}`)
     }
     this.notifyEnded()

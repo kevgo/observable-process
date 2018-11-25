@@ -1,9 +1,9 @@
-import { When } from "cucumber"
-import ObservableProcess from "../.."
-import path from "path"
-import waitUntil from "wait-until-promise"
+import { When } from 'cucumber'
+import ObservableProcess from '../..'
+import path from 'path'
+import waitUntil from 'wait-until-promise'
 
-When("calling {string}", function(code) {
+When('calling {string}', function(code) {
   eval(`this.result = this.${code}`)
 })
 
@@ -23,8 +23,8 @@ When(/^I kill it$/, async function() {
 When(
   /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom stream$/,
   async function(processName, verbose) {
-    this.logText = ""
-    this.logError = ""
+    this.logText = ''
+    this.logError = ''
     this.stdout = {
       write: text => {
         this.logText += text
@@ -38,10 +38,10 @@ When(
       }
     }
     this.process = new ObservableProcess({
-      command: path.join("features", "example-apps", processName),
+      command: path.join('features', 'example-apps', processName),
       stdout: this.stdout,
       stderr: this.stderr,
-      verbose: verbose === "enabled"
+      verbose: verbose === 'enabled'
     })
     await this.process.waitForEnd()
   }
@@ -53,7 +53,7 @@ When(
     env = env.rowsHash()
     delete env.key
     this.process = new ObservableProcess({
-      command: path.join(process.cwd(), "features", "example-apps", appName),
+      command: path.join(process.cwd(), 'features', 'example-apps', appName),
       env: env
     })
   }
@@ -84,15 +84,15 @@ When(
 )
 
 When(/^it ends/, async function() {
-  this.process.stdin.write("\n")
+  this.process.stdin.write('\n')
   await this.process.waitForEnd()
 })
 
 When(/^running the process "([^"]*)"$/, async function(command) {
   const commandPath = path.join(
     process.cwd(),
-    "features",
-    "example-apps",
+    'features',
+    'example-apps',
     command
   )
   this.process = new ObservableProcess({ command: commandPath, stdout: null })
@@ -124,7 +124,7 @@ When(
     var options: any = {}
     eval(`options = ${optionCode}`)
     console.log(options)
-    options.command = "ls"
+    options.command = 'ls'
     try {
       new ObservableProcess(options) // eslint-disable-line no-new
     } catch (e) {

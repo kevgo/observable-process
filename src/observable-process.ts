@@ -1,4 +1,4 @@
-import * as child from 'child_process'
+import * as childProcess from 'child_process'
 import deb from 'debug'
 import extend from 'extend'
 import mergeStream from 'merge-stream'
@@ -19,7 +19,7 @@ class ObservableProcess {
   env: Env
   exitCode: number
   killed: boolean
-  process: child.ChildProcess
+  process: childProcess.ChildProcess
   stdout: WriteStream
   stderr: WriteStream
   stdin: WriteStream
@@ -50,7 +50,7 @@ class ObservableProcess {
       args.commands
     )
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
-    this.process = child.spawn(runnable, params, this.spawnOptions())
+    this.process = childProcess.spawn(runnable, params, this.spawnOptions())
     this.process.on('close', this._onClose.bind(this))
     this.stdin = this.process.stdin
     this.textStreamSearch = this.createStdOutErrStreamSearch()
@@ -96,7 +96,7 @@ class ObservableProcess {
   }
 
   // Returns the options with which the subprocess is going to be spawned
-  private spawnOptions(): child.SpawnOptions {
+  private spawnOptions(): childProcess.SpawnOptions {
     const result = {
       env: {},
       cwd: this.cwd

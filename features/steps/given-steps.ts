@@ -1,5 +1,5 @@
 import { Given } from 'cucumber'
-import ObservableProcess from '../..'
+import { ObservableProcess } from '../..'
 import path from 'path'
 import portFinder from 'portfinder'
 

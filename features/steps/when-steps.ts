@@ -1,5 +1,5 @@
 import { When } from 'cucumber'
-import ObservableProcess from '../..'
+import { ObservableProcess } from '../..'
 import path from 'path'
 import waitUntil from 'wait-until-promise'
 

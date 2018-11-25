@@ -17,16 +17,18 @@ features: build  # runs the feature specs
 
 fix:  # runs the fixers
 	tslint --project tsconfig.json --fix
-	prettier --write **/*.ts
-	prettier --write features/**/*.js
-	prettier --write **/*.md
+	prettier --write "src/**/*.ts"
+	prettier --write "features/**/*.ts"
+	prettier --write "features/**/*.js"
+	prettier --write "**/*.md"
 
 help:   # prints all make targets
 	@cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
 lint: build  # runs the linters
 	node_modules$/.bin$/tsc --noEmit
-	node_modules/.bin/prettier -l "**/*.ts"
+	node_modules/.bin/prettier -l "src/**/*.ts"
+	node_modules/.bin/prettier -l "features/**/*.ts"
 	node_modules/.bin/prettier -l "features/**/*.js"
 	node_modules/.bin/prettier -l "**/*.md"
 

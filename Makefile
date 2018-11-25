@@ -21,6 +21,7 @@ fix:  # runs the fixers
 	prettier --write "features/**/*.ts"
 	prettier --write "features/**/*.js"
 	prettier --write "**/*.md"
+	prettier --write "*.yml"
 
 help:   # prints all make targets
 	@cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -31,6 +32,7 @@ lint: build  # runs the linters
 	node_modules/.bin/prettier -l "features/**/*.ts"
 	node_modules/.bin/prettier -l "features/**/*.js"
 	node_modules/.bin/prettier -l "**/*.md"
+	node_modules/.bin/prettier -l "*.yml"
 
 setup:   # sets up the installation on this machine
 	node_modules/o-tools/bin/check-paths

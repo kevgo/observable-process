@@ -1,5 +1,4 @@
 actions:
-
   - match:
     command: 'spec'
 
@@ -11,4 +10,3 @@ actions:
       filename: '\.feature$'
       line: '\d+'
     command: 'make spec {{filename}}:{{line}}'
-

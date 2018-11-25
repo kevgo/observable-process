@@ -45,7 +45,10 @@ class ObservableProcess {
     this.exitCode = -1
     this.killed = false
 
-    const [runnable, params] = this.determineRunnable(args)
+    const [runnable, params] = this.determineRunnable(
+      args.command,
+      args.commands
+    )
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
     this.process = child.spawn(runnable, params, this.spawnOptions())
     this.process.on('close', this._onClose.bind(this))
@@ -75,18 +78,24 @@ class ObservableProcess {
     }
   }
 
-  private determineRunnable(args): [string, string[]] {
+  // Determines the process name and parameters to run
+  private determineRunnable(
+    command: string | undefined,
+    commands: string[] | undefined
+  ): [string, string[]] {
     let runnable = ''
     let params: Array<string> = []
-    if (args.command != null) {
-      ;[runnable, ...params] = this._splitCommand(args.command)
+    if (command != null) {
+      ;[runnable, ...params] = this._splitCommand(command)
     }
-    if (args.commands != null) {
-      runnable = args.commands[0]
-      params = args.commands.splice(1)
+    if (commands != null) {
+      runnable = commands[0]
+      params = commands.splice(1)
     }
     return [runnable, params]
   }
+
+  // Returns the options with which the subprocess is going to be spawned
   private spawnOptions(): child.SpawnOptions {
     const result = {
       env: {},

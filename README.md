@@ -9,7 +9,7 @@ High-level support for running, observing, and interacting with child processes
 in Node.js 4 and above.
 
 ```js
-const ObservableProcess = require('observableProcess')
+const { ObservableProcess } = require('observableProcess')
 var myProcess = new ObservableProcess('echo hello')
 myProcess.on('ended', function({ exitCode }) {
   // ...

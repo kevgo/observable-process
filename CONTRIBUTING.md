@@ -21,7 +21,7 @@ $ yarn upgrade --latest
 ## Deploy a new version
 
 ```
-$ yarn version
+$ yarn version --(patch|minor|major)
 $ git push
 $ git push --tags // CI will publish to NPM
 ```

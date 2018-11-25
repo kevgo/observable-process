@@ -6,7 +6,7 @@ import portFinder from 'portfinder'
 Given(/^an observableProcess with accumulated output text$/, async function() {
   const output = 'hello world'
   this.process = new ObservableProcess({
-    commands: ['features/example-apps/print-output', output]
+    commands: ['node', 'features/example-apps/print-output.js', output]
   })
   await this.process.waitForText(output)
 })
@@ -15,7 +15,7 @@ Given(
   /^I run a process that has generated the output "([^"]*)"$/,
   async function(output) {
     this.process = new ObservableProcess({
-      commands: ['features/example-apps/print-output', output]
+      commands: ['node', 'features/example-apps/print-output', output]
     })
     await this.process.waitForText(output)
   }
@@ -27,12 +27,12 @@ Given(/^I run the global command "([^"]*)"$/, function(command) {
 
 Given(/^I run the local command "([^"]*)"$/, function(command) {
   command = path.join(process.cwd(), 'features', 'example-apps', command)
-  this.process = new ObservableProcess({ command })
+  this.process = new ObservableProcess({ commands: ['node', command] })
 })
 
 Given(/^I run the "([^"]*)" process$/, async function(processName) {
   this.process = new ObservableProcess({
-    command: path.join('features', 'example-apps', processName)
+    commands: ['node', path.join('features', 'example-apps', processName)]
   })
   await this.process.waitForEnd()
 })
@@ -55,7 +55,7 @@ Given(/^I run the "([^"]*)" process with a custom stream$/, async function(
     }
   }
   this.process = new ObservableProcess({
-    command: path.join('features', 'example-apps', processName),
+    commands: ['node', path.join('features', 'example-apps', processName)],
     stdout: this.stdout,
     stderr: this.stderr
   })
@@ -66,7 +66,7 @@ Given(/^I run the "([^"]*)" process with a null stream/, async function(
   processName
 ) {
   this.process = new ObservableProcess({
-    command: path.join('features', 'example-apps', processName),
+    commands: ['node', path.join('features', 'example-apps', processName)],
     stdout: null,
     stderr: null
   })
@@ -76,7 +76,7 @@ Given(/^I run the "([^"]*)" process with a null stream/, async function(
 Given(/^I start a long-running process$/, async function() {
   this.port = await portFinder.getPortPromise()
   this.process = new ObservableProcess({
-    commands: ['features/example-apps/long-running', this.port]
+    commands: ['node', 'features/example-apps/long-running', this.port]
   })
   this.process.waitForEnd().then(exitData => {
     this.exitData = exitData
@@ -88,14 +88,14 @@ Given(/^I start a process that outputs "[^"]*" after (\d+)ms$/, function(
   delay
 ) {
   this.process = new ObservableProcess({
-    commands: ['features/example-apps/delay', delay]
+    commands: ['node', 'features/example-apps/delay.js', delay]
   })
 })
 
 Given(/^I start an interactive process$/, async function() {
   this.onExitCalled = false
   this.process = new ObservableProcess({
-    command: 'features/example-apps/interactive'
+    commands: ['node', 'features/example-apps/interactive.js']
   })
   this.process.waitForEnd().then(exitData => {
     this.exitData = exitData
@@ -106,6 +106,6 @@ Given(/^I start an interactive process$/, async function() {
 
 Given(/^I start the "([^"]*)" process$/, function(processName) {
   this.process = new ObservableProcess({
-    command: path.join('features', 'example-apps', processName)
+    commands: ['node', path.join('features', 'example-apps', processName)]
   })
 })

@@ -8,14 +8,14 @@ Feature: Observing child process output
   - a process is started and observed by an ObservableProcess instance
   - provide the command-line of the process to start in the constructor
   - call "wait" with the console output to wait for
-    and the callback to call when that output occurs
+  and the callback to call when that output occurs
   - the registered callback is called only once
 
 
   Scenario: waiting for a process to start up
     Given I start a process that outputs "online" after 100ms
     When I wait for the output "online"
-    Then the callback is called within 200ms
+    Then the callback is called within 300ms
 
 
   Scenario: waiting for a process to start up with timeout

@@ -52,7 +52,7 @@ class ObservableProcess {
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
     this.process = childProcess.spawn(runnable, params, this.spawnOptions())
     this.process.on('close', this._onClose.bind(this))
-    this.stdin = this.process.stdin
+    this.stdin = this.process.stdin as WriteStream
     this.textStreamSearch = this.createStdOutErrStreamSearch()
     this.forwardStreams()
   }
@@ -60,18 +60,21 @@ class ObservableProcess {
   // Returns a TextStream instance that listens on both stdout and stderr
   private createStdOutErrStreamSearch(): TextStreamSearch {
     return new TextStreamSearch(
-      mergeStream(this.process.stdout, this.process.stderr)
+      mergeStream(
+        this.process.stdout as NodeJS.ReadableStream,
+        this.process.stderr as NodeJS.ReadableStream
+      )
     )
   }
 
   // Forwards output streams
   private forwardStreams() {
-    if (this.stdout) {
+    if (this.stdout && this.process.stdout) {
       this.process.stdout.on('data', data => {
         this.stdout.write(data.toString())
       })
     }
-    if (this.stderr) {
+    if (this.stderr && this.process.stderr) {
       this.process.stderr.on('data', data => {
         this.stderr.write(data.toString())
       })

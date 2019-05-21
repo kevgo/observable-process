@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/Originate/observable-process.svg?style=shield)](https://circleci.com/gh/Originate/observable-process)
-[![Dependency Status](https://david-dm.org/originate/observable-process.svg)](https://david-dm.org/originate/observable-process)
-[![devDependency Status](https://david-dm.org/originate/observable-process/dev-status.svg)](https://david-dm.org/originate/observable-process#info=devDependencies)
+[![CircleCI](https://circleci.com/gh/kevgo/observable-process.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process)
+[![Dependency Status](https://david-dm.org/kevgo/observable-process.svg)](https://david-dm.org/kevgo/observable-process)
+[![devDependency Status](https://david-dm.org/kevgo/observable-process/dev-status.svg)](https://david-dm.org/kevgo/observable-process#info=devDependencies)
 
 High-level support for running, observing, and interacting with child processes
 in Node.js 4 and above.

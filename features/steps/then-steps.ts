@@ -1,8 +1,8 @@
-import delay from 'delay'
-import { Then } from 'cucumber'
-import { expect } from 'chai'
-import request from 'request-promise-native'
-import waitUntil from 'wait-until-promise'
+import delay from "delay"
+import { Then } from "cucumber"
+import { expect } from "chai"
+import request from "request-promise-native"
+import waitUntil from "wait-until-promise"
 
 Then(/^I receive a number$/, function() {
   expect(this.pid).to.be.above(0)
@@ -27,9 +27,9 @@ Then(/^it is marked as killed$/, function() {
 Then(/^it is no longer running$/, async function() {
   try {
     await request(`http://localhost:${this.port}`)
-    throw new Error('process should not be running anymore')
+    throw new Error("process should not be running anymore")
   } catch (err) {
-    expect(err.error.code).to.equal('ECONNREFUSED')
+    expect(err.error.code).to.equal("ECONNREFUSED")
   }
 })
 
@@ -93,7 +93,7 @@ Then(/^the processes "([^"]*)" property is (true|false)$/, async function(
 })
 
 Then(/^the stderr I provided received no data$/, function() {
-  expect(this.logError).to.equal('')
+  expect(this.logError).to.equal("")
 })
 
 Then(/^the stderr I provided receives "([^"]*)"$/, async function(text) {
@@ -101,7 +101,7 @@ Then(/^the stderr I provided receives "([^"]*)"$/, async function(text) {
 })
 
 Then(/^the stdout I provided received no data$/, function() {
-  expect(this.logText).to.equal('')
+  expect(this.logText).to.equal("")
 })
 
 Then(/^the stdout I provided receives "([^"]*)"$/, async function(text) {

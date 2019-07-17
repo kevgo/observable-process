@@ -1,14 +1,14 @@
-import * as childProcess from 'child_process'
-import deb from 'debug'
-import extend from 'extend'
-import mergeStream from 'merge-stream'
-import stringArgv from 'string-argv'
-import TextStreamSearch from 'text-stream-search'
-import { Env } from './env'
-import { EndedNotification } from './ended-notification'
-import { WriteStream } from './write-stream'
+import * as childProcess from "child_process"
+import deb from "debug"
+import extend from "extend"
+import mergeStream from "merge-stream"
+import stringArgv from "string-argv"
+import TextStreamSearch from "text-stream-search"
+import { Env } from "./env"
+import { EndedNotification } from "./ended-notification"
+import { WriteStream } from "./write-stream"
 
-const debug = deb('observable-process')
+const debug = deb("observable-process")
 
 // Runs the given command as a separate, parallel process
 // and allows to observe it and interact with it.
@@ -49,9 +49,9 @@ class ObservableProcess {
       args.command,
       args.commands
     )
-    debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
+    debug(`starting '${runnable}' with arguments [${params.join(",")}]`)
     this.process = childProcess.spawn(runnable, params, this.spawnOptions())
-    this.process.on('close', this._onClose.bind(this))
+    this.process.on("close", this._onClose.bind(this))
     this.stdin = this.process.stdin as WriteStream
     this.textStreamSearch = this.createStdOutErrStreamSearch()
     this.forwardStreams()
@@ -70,12 +70,12 @@ class ObservableProcess {
   // Forwards output streams
   private forwardStreams() {
     if (this.stdout && this.process.stdout) {
-      this.process.stdout.on('data', data => {
+      this.process.stdout.on("data", data => {
         this.stdout.write(data.toString())
       })
     }
     if (this.stderr && this.process.stderr) {
-      this.process.stderr.on('data', data => {
+      this.process.stderr.on("data", data => {
         this.stderr.write(data.toString())
       })
     }
@@ -86,7 +86,7 @@ class ObservableProcess {
     command: string | undefined,
     commands: string[] | undefined
   ): [string, string[]] {
-    let runnable = ''
+    let runnable = ""
     let params: Array<string> = []
     if (command != null) {
       ;[runnable, ...params] = this._splitCommand(command)
@@ -119,7 +119,7 @@ class ObservableProcess {
   }
 
   kill() {
-    debug('killing the process')
+    debug("killing the process")
     this.killed = true
     this.process.kill()
   }
@@ -136,7 +136,7 @@ class ObservableProcess {
     this.exitCode = exitCode
     this.ended = true
     if (this.verbose) {
-      if (this.stderr) this.stderr.write('PROCESS ENDED\n')
+      if (this.stderr) this.stderr.write("PROCESS ENDED\n")
       if (this.stderr) this.stderr.write(`\nEXIT CODE: ${this.exitCode}`)
     }
     this.notifyEnded()

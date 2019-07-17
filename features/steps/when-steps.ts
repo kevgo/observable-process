@@ -1,9 +1,9 @@
-import { When } from 'cucumber'
-import { ObservableProcess } from '../..'
-import path from 'path'
-import waitUntil from 'wait-until-promise'
+import { When } from "cucumber"
+import { ObservableProcess } from "../.."
+import path from "path"
+import waitUntil from "wait-until-promise"
 
-When('calling {string}', function(code) {
+When("calling {string}", function(code) {
   eval(`this.result = this.${code}`)
 })
 
@@ -23,8 +23,8 @@ When(/^I kill it$/, async function() {
 When(
   /^I run the "([^"]*)" process with verbose (enabled|disabled) and a custom stream$/,
   async function(processName, verbose) {
-    this.logText = ''
-    this.logError = ''
+    this.logText = ""
+    this.logError = ""
     this.stdout = {
       write: text => {
         this.logText += text
@@ -38,10 +38,10 @@ When(
       }
     }
     this.process = new ObservableProcess({
-      commands: ['node', path.join('features', 'example-apps', processName)],
+      commands: ["node", path.join("features", "example-apps", processName)],
       stdout: this.stdout,
       stderr: this.stderr,
-      verbose: verbose === 'enabled'
+      verbose: verbose === "enabled"
     })
     await this.process.waitForEnd()
   }
@@ -54,8 +54,8 @@ When(
     delete env.key
     this.process = new ObservableProcess({
       commands: [
-        'node',
-        path.join(process.cwd(), 'features', 'example-apps', appName)
+        "node",
+        path.join(process.cwd(), "features", "example-apps", appName)
       ],
       env: env
     })
@@ -87,19 +87,19 @@ When(
 )
 
 When(/^it ends/, async function() {
-  this.process.stdin.write('\n')
+  this.process.stdin.write("\n")
   await this.process.waitForEnd()
 })
 
 When(/^running the process "([^"]*)"$/, async function(command) {
-  const commands = command.split(' ')
+  const commands = command.split(" ")
   commands[0] = path.join(
     process.cwd(),
-    'features',
-    'example-apps',
+    "features",
+    "example-apps",
     commands[0]
   )
-  commands.splice(0, 0, 'node')
+  commands.splice(0, 0, "node")
   this.process = new ObservableProcess({ commands, stdout: null })
   await this.process.waitForEnd()
   this.result = this.process.fullOutput()
@@ -129,7 +129,7 @@ When(
     var options: any = {}
     eval(`options = ${optionCode}`)
     console.log(options)
-    options.command = 'ls'
+    options.command = "ls"
     try {
       new ObservableProcess(options) // eslint-disable-line no-new
     } catch (e) {

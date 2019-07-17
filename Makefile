@@ -38,7 +38,7 @@ setup:   # sets up the installation on this machine
 	node_modules/o-tools/bin/check-paths
 	yarn install
 
-spec: lint features   # runs all tests
+test: lint features   # runs all tests
 
 update:  # updates the dependencies
 	yarn upgrade --latest

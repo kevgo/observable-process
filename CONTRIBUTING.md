@@ -8,7 +8,7 @@
 
 ## Testing
 
-- run all tests: `make spec`
+- run all tests: `make test`
 - run linters: `make lint`
 - run feature specs: `make features`
 

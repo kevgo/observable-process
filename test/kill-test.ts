@@ -1,6 +1,5 @@
 import { startProcess } from './helpers/start-process'
 import { strict as assert } from 'assert'
-import delay from 'delay'
 import portFinder from 'portfinder'
 import got from 'got'
 
@@ -18,8 +17,7 @@ console.log('online')`)
     await assertIsRunning(port)
 
     // kill the process
-    longRunningProcess.kill()
-    await delay(0)
+    await longRunningProcess.kill()
 
     // verify it is no longer running
     await assertIsNotRunning(port)

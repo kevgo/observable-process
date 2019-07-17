@@ -1,5 +1,6 @@
 import * as childProcess from 'child_process'
 import deb from 'debug'
+import delay from 'delay'
 import extend from 'extend'
 import mergeStream from 'merge-stream'
 import stringArgv from 'string-argv'
@@ -118,10 +119,11 @@ class ObservableProcess {
     return this.textStreamSearch.fullText()
   }
 
-  kill() {
+  async kill() {
     debug('killing the process')
     this.killed = true
     this.process.kill()
+    await delay(0)
   }
 
   // notifies all registered listeners that this process has ended

@@ -7,8 +7,8 @@ Feature: Enabling more detailed output
   Rules:
   - more detailed output is enabled via the option "verbose: true"
   - when enabled, ObservableProcess outputs more detailed runtime information:
-    - when the process ends
-    - the exit code
+  - when the process ends
+  - the exit code
   - the extra output goes to the current stdout object
 
 

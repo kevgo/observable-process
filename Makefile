@@ -40,5 +40,8 @@ setup:   # sets up the installation on this machine
 
 spec: lint features   # runs all tests
 
+unit:  # runs the unit tests
+	@node_modules/.bin/mocha test/*-test.ts
+
 update:  # updates the dependencies
 	yarn upgrade --latest

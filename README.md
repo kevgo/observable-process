@@ -4,10 +4,12 @@ ObserableProcess decorates the low-level [Node.JS process library](https://nodej
 with additional convenience methods to make working with long-running processes more convenient.
 In particular:
 
-- see the accumulated output (STDOUT and STDERR combined) as a string
-- await textual output in the output (text or regular expression)
+- make a output string combining STDOUT and STDERR available
+- provide access to the accumulated output of STDOUT, STDERR, and their combination
+- allow to await text or regular expressions in the output
 - await the process end
-- determine whether the process ended naturally or was manually terminated
+- easier access to the process exit code
+- easy determination whether the process ended naturally or was manually terminated
 
 ## Setup
 

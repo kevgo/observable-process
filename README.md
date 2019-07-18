@@ -137,10 +137,23 @@ The exit code is available at the process object:
 myProcess.exitCode
 ```
 
-## related libraries
+## Related libraries
 
 - [nexpect](https://github.com/nodejitsu/nexpect):
   Allows to define expectations on command output,
   and send it input,
   but doesn't allow to add more listeners to existing long-running processes,
   which makes declarative testing hard.
+
+## Development
+
+- run all tests: `make test`
+- run unit tests: `make unit`
+- run linters: `make lint`
+- run automated code repair: `make fix`
+- see all make commands: `make help`
+
+To deploy a new version:
+
+- update the version in `package.json` and commit to `master`
+- run `npm publish`

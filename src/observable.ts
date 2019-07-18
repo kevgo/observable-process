@@ -42,9 +42,6 @@ export class Process {
   /** indicates whether the process has stopped running */
   ended: boolean
 
-  /** functions to call when this process ends  */
-  endedListeners: Array<() => void>
-
   /** the code with which the process has ended */
   exitCode: number | null
 
@@ -75,11 +72,14 @@ export class Process {
   /** stream search for STDERR */
   stderrSearch: TextStreamSearch
 
+  /** functions to call when this process ends  */
+  private endedListeners: Array<() => void>
+
   constructor(args: {
     runnable: string
     params: string[]
     cwd: string
-    env: Env
+    env: NodeJS.ProcessEnv
   }) {
     this.ended = false
     this.killed = false
@@ -89,7 +89,7 @@ export class Process {
       cwd: args.cwd,
       env: args.env
     })
-    this.process.on("close", this._onClose.bind(this))
+    this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
       throw new Error("process.stdin should not be null")
     }
@@ -143,7 +143,7 @@ export class Process {
   }
 
   /** called when the underlying ChildProcess terminates */
-  _onClose(exitCode: number) {
+  private onClose(exitCode: number) {
     this.ended = true
     this.exitCode = exitCode
     for (const resolver of this.endedListeners) {

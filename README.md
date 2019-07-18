@@ -82,7 +82,9 @@ but are decorated with extra functionality to access and search their content.
 
 ```js
 // normal access to STDOUT
-observable.stdout.on("data", function() {})
+observable.stdout.on("data", function() {
+  console.log(data.toString())
+})
 
 // get all content from STDOUT as a string
 const text = observable.stdout.fullText()

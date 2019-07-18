@@ -45,13 +45,13 @@ describe(".stdout", function() {
       'process.stderr.write("hello")\n\
        process.stdout.write("world")'
     )
-    const text = await observable.output.waitForText("world")
+    const text = await observable.stdout.waitForText("world")
     assert.equal(text, "world")
   })
 
   it("aborts the wait after the optional timeout has been reached", async function() {
     const observable = startNodeProcess("setTimeout(function() {}, 3)")
-    const promise = observable.output.waitForText("hello", 1)
+    const promise = observable.stdout.waitForText("hello", 1)
     await assert.rejects(
       promise,
       new Error("Expected '' to include string 'hello'")

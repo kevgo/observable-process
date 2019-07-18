@@ -1,4 +1,4 @@
-import { ObservableProcess } from '../dist/observable-process'
+import { ObservableProcess } from '../src/observable-process'
 import { strict as assert } from 'assert'
 import { startProcess } from './helpers/start-process'
 

@@ -1,4 +1,4 @@
-import { ObservableProcess } from '../dist/observable-process'
+import { ObservableProcess } from '../src/observable-process'
 
 describe('constructor', function() {
   it('allows to start a process via an array of arguments', async function() {

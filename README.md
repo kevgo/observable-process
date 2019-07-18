@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/kevgo/observable-process.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process)
 
-ObserableProcess decorates the low-level [Node.JS process library](https://nodejs.org/api/process.html)
+ObservableProcess decorates the low-level [Node.JS process library](https://nodejs.org/api/process.html)
 with convenience methods to make working with long-running processes more convenient.
 In particular:
 
@@ -57,7 +57,7 @@ By default, the process runs in the current directory. To set the different work
 const myProcess = observable.spawn("node server.js", { cwd: "~/tmp" })
 ```
 
-You can provide custom environment variables for the subshell:
+You can provide custom environment variables for the process:
 
 ```js
 const myProcess = observable.spawn("node server.js", {
@@ -118,8 +118,7 @@ await myProcess.kill()
 ```
 
 This sets the `killed` property on the ObservableProcess instance,
-so that manually terminated processes can be distinguished from naturally ended ones.
-
+which allows to distinguish manually terminated processes from naturally ended ones.
 To let ObservableProcess notify you when a process ended:
 
 ```js

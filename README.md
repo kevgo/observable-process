@@ -37,7 +37,7 @@ const { createObservableProcess } = require("observable-process")
 
 &ndash; or &ndash;
 
-```js
+```ts
 import { createObservableProcess } from "observable-process"
 ```
 

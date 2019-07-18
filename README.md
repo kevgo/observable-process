@@ -1,15 +1,18 @@
 [![CircleCI](https://circleci.com/gh/kevgo/observable-process.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process)
 
-ObservableProcess decorates the low-level [Node.JS process library](https://nodejs.org/api/process.html)
-with convenience methods to make working with long-running processes more convenient.
-In particular:
+ObservableProcess decorates the low-level
+[Node.JS process library](https://nodejs.org/api/process.html) with convenience
+methods to make working with long-running processes more convenient. In
+particular:
 
 - make a output string combining STDOUT and STDERR available
-- provide access to the accumulated output of STDOUT, STDERR, and their combination
+- provide access to the accumulated output of STDOUT, STDERR, and their
+  combination
 - allow to await text or regular expressions in the output
 - await the process end
 - easier access to the process exit code
-- easy determination whether the process ended naturally or was manually terminated
+- easy determination whether the process ended naturally or was manually
+  terminated
 
 ## Setup
 
@@ -39,7 +42,8 @@ import * as observable from "observable-process"
 
 ## Starting processes
 
-The best (most idiot-proof) way to start a subprocess is by providing the argv array:
+The best (most idiot-proof) way to start a subprocess is by providing the argv
+array:
 
 ```js
 const myProcess = observable.spawn(["node", "server.js"])
@@ -51,7 +55,8 @@ You can also provide the command line expression to run as a string:
 const myProcess = observable.spawn("node server.js")
 ```
 
-By default, the process runs in the current directory. To set the different working directory for the subprocess:
+By default, the process runs in the current directory. To set the different
+working directory for the subprocess:
 
 ```js
 const myProcess = observable.spawn("node server.js", { cwd: "~/tmp" })
@@ -67,7 +72,8 @@ const myProcess = observable.spawn("node server.js", {
 
 ## Reading output from the process
 
-The observable process collects the output emitted by the ChildProcess through the STDOUT and STDERR streams:
+The observable process collects the output emitted by the ChildProcess through
+the STDOUT and STDERR streams:
 
 ```js
 // access the combined content of STDOUT and STDERR
@@ -96,7 +102,9 @@ myProcess.stderr.on('data', function(data) {...})  // the STDERR stream
 
 ## Sending input to the process
 
-You can interact with the STDIN instance of the underlying [ChildProcess](https://nodejs.org/api/child_process.html) which the ObservableProcess exposes.
+You can interact with the STDIN instance of the underlying
+[ChildProcess](https://nodejs.org/api/child_process.html) which the
+ObservableProcess exposes.
 
 ```js
 myProcess.stdin.write("my input\n")
@@ -117,9 +125,9 @@ You can manually stop a running process via:
 await myProcess.kill()
 ```
 
-This sets the `killed` property on the ObservableProcess instance,
-which allows to distinguish manually terminated processes from naturally ended ones.
-To let ObservableProcess notify you when a process ended:
+This sets the `killed` property on the ObservableProcess instance, which allows
+to distinguish manually terminated processes from naturally ended ones. To let
+ObservableProcess notify you when a process ended:
 
 ```js
 const exitCode = await myProcess.waitForEnd()
@@ -139,11 +147,9 @@ myProcess.exitCode
 
 ## Related libraries
 
-- [nexpect](https://github.com/nodejitsu/nexpect):
-  Allows to define expectations on command output,
-  and send it input,
-  but doesn't allow to add more listeners to existing long-running processes,
-  which makes declarative testing hard.
+- [nexpect](https://github.com/nodejitsu/nexpect): Allows to define expectations
+  on command output, and send it input, but doesn't allow to add more listeners
+  to existing long-running processes, which makes declarative testing hard.
 
 ## Development
 

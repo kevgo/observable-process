@@ -76,32 +76,33 @@ process.
 
 ## Reading output from the process
 
-The observable process collects the output emitted by the ChildProcess through
-the STDOUT and STDERR streams:
+The `stdout` and `stderr` variables of an ObservableProcess behave like normal
+[readable streams](https://nodejs.org/api/stream.html#stream_readable_streams)
+but are decorated with extra functionality to access and search their content.
 
 ```js
-// access the combined content of STDOUT and STDERR
-const text = observable.outputText() // what the process has sent to STDOUT and STDERR so far
-await observable.waitForOutputText("server is online") // wait for text is the combined output
-const port = await observable.waitForOutputRegex(/running at port \d+./) // wait for a regex in the combined output
+// normal access to STDOUT
+observable.stdout.on("data", function() {})
 
-// access STDOUT content
-const text = observable.stdoutText() // what the process has sent to STDOUT so far
-await observable.waitForStdoutText("server is online") // wait for text in the STDOUT stream
-const port = await observable.waitForStdoutRegex(/running at port \d+./) // wait for a regex in the STDOUT stream
+// get all content from STDOUT as a string
+const text = observable.stdout.fullText()
 
-// access STDERR content
-const text = observable.stderrText() // what the process has sent to STDERR so far
-await observable.waitForStderrText("server is online") // wait for text is the STDERR stream
-const port = await observable.waitForStderrRegex(/running at port \d+./) // wait for a regex in the STDERR stream
+// wait for content on STDOUT
+await observable.stdout.waitForText("server is online")
+
+// wait for a regex on STDOUT
+const port = await observable.stdout.waitForRegex(/running at port \d+./)
+// => "running at port 3000."
 ```
 
-You can also access the low-level Node.JS streams directly:
+Comparable functionality is available for STDERR. ObservableProcess creates a
+new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
-observable.output.on('data', function(data) {...})  // combined STDOUT and STDERR stream
-observable.stdout.on('data', function(data) {...})  // the STDOUT stream
-observable.stderr.on('data', function(data) {...})  // the STDERR stream
+observable.output.on("data", function(data) {})
+const text = observable.output.fullText()
+await observable.output.waitForText("server is online")
+const port = await observable.output.waitForRegex(/running at port \d+./)
 ```
 
 ## Sending input to the process

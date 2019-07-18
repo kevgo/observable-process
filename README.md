@@ -4,40 +4,38 @@
 [![Coverage Status](https://coveralls.io/repos/github/kevgo/observable-process/badge.svg?branch=master)](https://coveralls.io/github/kevgo/observable-process?branch=master)
 
 ObservableProcess decorates the low-level
-[Node.JS process library](https://nodejs.org/api/process.html) with convenience
-methods to make working with long-running processes more convenient. In
-particular:
+[Node.JS ChildProcess](https://nodejs.org/api/child_process.html) model with
+functionality to observe the behavior of long-running processes more
+conveniently. In particular:
 
-- make a output string combining STDOUT and STDERR available
-- provide access to the accumulated output of STDOUT, STDERR, and their
-  combination
-- allow to await text or regular expressions in the output
+- easier access to the complete textual content of the
+  [stdout](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout)
+  and
+  [stderr](https://nodejs.org/api/child_process.html#child_process_subprocess_stderr)
+  streams
+- augments `stdout` and `stderr` with methods to search for textual content
+- create a new `output` stream that combines `stdout` and `stderr`
 - await the process end
 - easier access to the process exit code
-- easy determination whether the process ended naturally or was manually
-  terminated
+- signals whether the process ended naturally or was manually terminated
+
+This is helpful in many situations, for example in testing.
 
 ## Setup
 
-To add this library to your code base:
+Add this library to your code base:
 
 ```shell
-$ npm install --save observable-process
+$ npm install observable-process
 ```
 
-or
-
-```
-$ yarn add observable process
-```
-
-To load this library into your JavaScript code:
+Load this library into your JavaScript code:
 
 ```js
 const { createObservableProcess } = require("observable-process")
 ```
 
-or
+- or -
 
 ```js
 import { createObservableProcess } from "observable-process"

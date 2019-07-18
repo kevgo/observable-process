@@ -47,26 +47,26 @@ The best (most idiot-proof) way to start a subprocess is by providing the argv
 array:
 
 ```js
-const myProcess = observable.spawn(["node", "server.js"])
+const observable = createObservableProcess(["node", "server.js"])
 ```
 
 You can also provide the command line expression to run as a string:
 
 ```js
-const myProcess = observable.spawn("node server.js")
+const observable = createObservableProcess("node server.js")
 ```
 
 By default, the process runs in the current directory. To set the different
 working directory for the subprocess:
 
 ```js
-const myProcess = observable.spawn("node server.js", { cwd: "~/tmp" })
+const observable = createObservableProcess("node server.js", { cwd: "~/tmp" })
 ```
 
 You can provide custom environment variables for the process:
 
 ```js
-const myProcess = observable.spawn("node server.js", {
+const observable = createObservableProcess("node server.js", {
   env: { foo: "bar" }
 })
 ```
@@ -78,27 +78,27 @@ the STDOUT and STDERR streams:
 
 ```js
 // access the combined content of STDOUT and STDERR
-const text = myProcess.outputText() // what the process has sent to STDOUT and STDERR so far
-await myProcess.waitForOutputText("server is online") // wait for text is the combined output
-const port = await myProcess.waitForOutputRegex(/running at port \d+./) // wait for a regex in the combined output
+const text = observable.outputText() // what the process has sent to STDOUT and STDERR so far
+await observable.waitForOutputText("server is online") // wait for text is the combined output
+const port = await observable.waitForOutputRegex(/running at port \d+./) // wait for a regex in the combined output
 
 // access STDOUT content
-const text = myProcess.stdoutText() // what the process has sent to STDOUT so far
-await myProcess.waitForStdoutText("server is online") // wait for text in the STDOUT stream
-const port = await myProcess.waitForStdoutRegex(/running at port \d+./) // wait for a regex in the STDOUT stream
+const text = observable.stdoutText() // what the process has sent to STDOUT so far
+await observable.waitForStdoutText("server is online") // wait for text in the STDOUT stream
+const port = await observable.waitForStdoutRegex(/running at port \d+./) // wait for a regex in the STDOUT stream
 
 // access STDERR content
-const text = myProcess.stderrText() // what the process has sent to STDERR so far
-await myProcess.waitForStderrText("server is online") // wait for text is the STDERR stream
-const port = await myProcess.waitForStderrRegex(/running at port \d+./) // wait for a regex in the STDERR stream
+const text = observable.stderrText() // what the process has sent to STDERR so far
+await observable.waitForStderrText("server is online") // wait for text is the STDERR stream
+const port = await observable.waitForStderrRegex(/running at port \d+./) // wait for a regex in the STDERR stream
 ```
 
 You can also access the low-level Node.JS streams directly:
 
 ```js
-myProcess.output.on('data', function(data) {...})  // combined STDOUT and STDERR stream
-myProcess.stdout.on('data', function(data) {...})  // the STDOUT stream
-myProcess.stderr.on('data', function(data) {...})  // the STDERR stream
+observable.output.on('data', function(data) {...})  // combined STDOUT and STDERR stream
+observable.stdout.on('data', function(data) {...})  // the STDOUT stream
+observable.stderr.on('data', function(data) {...})  // the STDERR stream
 ```
 
 ## Sending input to the process
@@ -108,14 +108,14 @@ You can interact with the STDIN instance of the underlying
 ObservableProcess exposes.
 
 ```js
-myProcess.stdin.write("my input\n")
-myProcess.stdin.end()
+observable.stdin.write("my input\n")
+observable.stdin.end()
 ```
 
 ## Get the process id
 
 ```
-myProcess.pid()
+observable.pid()
 ```
 
 ## Stop the process
@@ -123,7 +123,7 @@ myProcess.pid()
 You can manually stop a running process via:
 
 ```js
-await myProcess.kill()
+await observable.kill()
 ```
 
 This sets the `killed` property on the ObservableProcess instance, which allows
@@ -131,19 +131,19 @@ to distinguish manually terminated processes from naturally ended ones. To let
 ObservableProcess notify you when a process ended:
 
 ```js
-const exitCode = await myProcess.waitForEnd()
+const exitCode = await observable.waitForEnd()
 ```
 
 or in the background:
 
 ```js
-myProcess.waitForEnd().then(...)
+observable.waitForEnd().then(...)
 ```
 
 The exit code is available at the process object:
 
 ```js
-myProcess.exitCode
+observable.exitCode
 ```
 
 ## Related libraries

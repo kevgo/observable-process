@@ -27,6 +27,15 @@ console.log('online')`)
   })
 })
 
+describe('waitForEnd', function() {
+  it('returns a promise that resolves when the process ends', async function() {
+    const process = startProcess('setTimeout(function() {}, 1)')
+    await process.waitForEnd()
+    assert.equal(process.ended, true)
+    assert.equal(process.killed, false)
+  })
+})
+
 async function assertIsRunning(port: number) {
   await got(`http://localhost:${port}`)
 }

@@ -89,7 +89,7 @@ observable.stdout.on("data", function() {
 // get all content from STDOUT as a string
 const text = observable.stdout.fullText()
 
-// wait for content on STDOUT
+// wait for text to appear in STDOUT
 await observable.stdout.waitForText("server is online")
 
 // wait for a regex on STDOUT

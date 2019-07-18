@@ -1,4 +1,0 @@
-// This is an example app used for testing.
-// It outputs text.
-
-console.log(process.argv[2])

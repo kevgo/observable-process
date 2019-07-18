@@ -1,5 +1,6 @@
 import * as childProcess from "child_process"
 import deb from "debug"
+import delay from "delay"
 import extend from "extend"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
@@ -22,7 +23,7 @@ class ObservableProcess {
   process: childProcess.ChildProcess
   stdout: WriteStream
   stderr: WriteStream
-  stdin: WriteStream
+  stdin: NodeJS.WritableStream
   textStreamSearch: TextStreamSearch
   verbose: boolean
 
@@ -52,7 +53,10 @@ class ObservableProcess {
     debug(`starting '${runnable}' with arguments [${params.join(",")}]`)
     this.process = childProcess.spawn(runnable, params, this.spawnOptions())
     this.process.on("close", this._onClose.bind(this))
-    this.stdin = this.process.stdin as WriteStream
+    if (this.process.stdin == null) {
+      throw new Error("process.stdin should not be null")
+    }
+    this.stdin = this.process.stdin
     this.textStreamSearch = this.createStdOutErrStreamSearch()
     this.forwardStreams()
   }
@@ -108,20 +112,15 @@ class ObservableProcess {
     return result
   }
 
-  // Enters the given text into the subprocess.
-  // Types the ENTER key automatically.
-  enter(text: string) {
-    this.stdin.write(`${text}\n`)
-  }
-
   fullOutput() {
     return this.textStreamSearch.fullText()
   }
 
-  kill() {
+  async kill() {
     debug("killing the process")
     this.killed = true
     this.process.kill()
+    await delay(0)
   }
 
   // notifies all registered listeners that this process has ended

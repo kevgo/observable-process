@@ -29,11 +29,11 @@ describe(".spawn()", function() {
 
 describe("environment variables", function() {
   it("allows to provide custom environment variables for running processes", async function() {
-    const process = observable.spawn({
+    const oProcess = observable.spawn({
       commands: ["node", "-e", "console.log('foo:', process.env.foo)"],
-      env: { foo: "bar" }
+      env: { foo: "bar", PATH: process.env.PATH }
     })
-    await process.waitForEnd()
-    assert.equal(process.outputText(), "foo: bar\n")
+    await oProcess.waitForEnd()
+    assert.equal(oProcess.outputText(), "foo: bar\n")
   })
 })

@@ -9,10 +9,11 @@ describe(".kill()", function() {
 
     // start a long-running process
     const port = await portFinder.getPortPromise()
-    const longRunningProcess = startProcess(`
-http = require('http')
-http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost')
-console.log('online')`)
+    const longRunningProcess = startProcess(
+      "http = require('http')\
+      http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost')\
+      console.log('online')"
+    )
     longRunningProcess.waitForText("online")
     await assertIsRunning(port)
 

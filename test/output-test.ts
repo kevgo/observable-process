@@ -22,7 +22,8 @@ describe("output", function() {
       commands: [
         "node",
         "-e",
-        "console.log('normal output'); console.error('error output')"
+        "console.log('normal output');\
+         console.error('error output')"
       ],
       stdout: {
         write: (text: string) => {
@@ -52,7 +53,8 @@ describe("verbose mode", function() {
       commands: [
         "node",
         "-e",
-        "console.log('normal output'); console.error('error output')"
+        "console.log('normal output');\
+         console.error('error output')"
       ],
       verbose: true,
       stderr: {
@@ -73,7 +75,8 @@ describe("verbose mode", function() {
       commands: [
         "node",
         "-e",
-        "console.log('normal output'); console.error('error output')"
+        "console.log('normal output');\
+         console.error('error output')"
       ],
       verbose: false,
       stderr: {

@@ -2,6 +2,8 @@ import { ObservableProcess } from '../dist/observable-process'
 import { strict as assert } from 'assert'
 
 describe('output', function() {
+  it('provides the accumulated output')
+  it('allows to clear all output accumulated so far')
   it('pipes the output to the provided custom streams', async function() {
     // run a process that prints to both STDOUT and STDERR
     let stdOutText = ''

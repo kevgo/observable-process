@@ -50,7 +50,7 @@ array:
 const observable = createObservableProcess(["node", "server.js"])
 ```
 
-You can also provide the command line expression to run as a string:
+You can also provide the full command line to run as a string:
 
 ```js
 const observable = createObservableProcess("node server.js")

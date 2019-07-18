@@ -24,7 +24,9 @@ export function spawn(args: SpawnOptions) {
   } else if (args.commands != null) {
     argv = args.commands
   } else {
-    throw new Error("you must provide either command or commands")
+    throw new Error(
+      "observable.spawn: you must provide either command or commands"
+    )
   }
   const [runnable, ...params] = argv
 

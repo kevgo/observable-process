@@ -13,7 +13,7 @@ clean:  # removes all build artifacts
 	@rm -rf dist
 
 fix:  # runs the fixers
-	tslint --project tsconfig.json --fix
+	tslint --project . --fix
 	prettier --write "src/**/*.ts"
 	prettier --write "test/**/*.ts"
 	prettier --write "*.md"
@@ -24,6 +24,7 @@ help:   # prints all make targets
 
 lint: # runs the linters
 	node_modules$/.bin$/tsc --noEmit
+	node_modules/.bin/tslint --project .
 	node_modules/.bin/prettier -l "src/**/*.ts"
 	node_modules/.bin/prettier -l "test/**/*.ts"
 	node_modules/.bin/prettier -l "*.md"

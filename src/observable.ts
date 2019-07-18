@@ -18,7 +18,7 @@ export interface SpawnOptions {
 /** Spawn starts a new observable process. */
 export function spawn(args: SpawnOptions) {
   // determine args
-  let argv: Array<string> = []
+  let argv: string[] = []
   if (args.command != null) {
     argv = stringArgv(args.command)
   } else if (args.commands != null) {

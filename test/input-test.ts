@@ -1,10 +1,10 @@
 import { strict as assert } from "assert"
-import { startProcess } from "./helpers/start-process"
+import { startNodeProcess } from "./helpers/start-process"
 
 describe("STDIN", function() {
   it("allows entering text into the running process", async function() {
     // start a process that reads from STDIN
-    const process = startProcess(
+    const process = startNodeProcess(
       "process.stdin\
       .on('data', data => { console.log(data.toString()) })\
       .on('end', () => { console.log('END') })"

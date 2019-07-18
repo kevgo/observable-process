@@ -1,13 +1,12 @@
 import { ObservableProcess } from "../src/observable-process"
 import { strict as assert } from "assert"
-import { startProcess } from "./helpers/start-process"
+import { startNodeProcess } from "./helpers/start-process"
 
 describe(".fullOutput()", function() {
   it("returns the full output received from the process", async function() {
-    const process = startProcess('console.log("hello")')
+    const process = startNodeProcess('console.log("hello")')
     await process.waitForText("hello")
-    const output = process.fullOutput()
-    assert.equal(output, "hello\n")
+    assert.equal(process.fullOutput(), "hello\n")
   })
 })
 
@@ -94,14 +93,14 @@ describe("verbose mode", function() {
 
 describe(".waitForText()", function() {
   it("returns a promise that resolves when the given text occurs in the command output", async function() {
-    const process = startProcess(
+    const process = startNodeProcess(
       'setTimeout(function() { console.log("hello") }, 1)'
     )
     await process.waitForText("hello")
   })
 
   it("aborts the wait after an optional timeout", async function() {
-    const process = startProcess("setTimeout(function() {}, 10)")
+    const process = startNodeProcess("setTimeout(function() {}, 10)")
     const promise = process.waitForText("hello", 1)
     await assert.rejects(
       promise,

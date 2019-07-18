@@ -1,4 +1,4 @@
-import { startProcess } from "./helpers/start-process"
+import { startNodeProcess } from "./helpers/start-process"
 import { strict as assert } from "assert"
 import portFinder from "portfinder"
 import got from "got"
@@ -9,10 +9,10 @@ describe(".kill()", function() {
 
     // start a long-running process
     const port = await portFinder.getPortPromise()
-    const longRunningProcess = startProcess(
-      "http = require('http')\
-      http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost')\
-      console.log('online')"
+    const longRunningProcess = startNodeProcess(
+      `http = require('http');\
+      http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost');\
+      console.log('online')`
     )
     longRunningProcess.waitForText("online")
     await assertIsRunning(port)
@@ -30,7 +30,7 @@ describe(".kill()", function() {
 
 describe("waitForEnd", function() {
   it("returns a promise that resolves when the process ends", async function() {
-    const process = startProcess("setTimeout(function() {}, 1)")
+    const process = startNodeProcess("setTimeout(function() {}, 1)")
     await process.waitForEnd()
     assert.equal(process.ended, true)
     assert.equal(process.killed, false)

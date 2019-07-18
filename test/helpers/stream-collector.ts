@@ -1,2 +1,0 @@
-/** Collects */
-export class StreamCollector {}

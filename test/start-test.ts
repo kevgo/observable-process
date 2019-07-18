@@ -1,39 +1,39 @@
-import { ObservableProcess } from "../src/observable-process"
+import * as observable from "../src/observable"
 import { strict as assert } from "assert"
 
-describe("constructor", function() {
-  it("allows to start a process via an array of arguments", async function() {
-    const process = new ObservableProcess({
+describe(".spawn()", function() {
+  it("starts a process via an argv array", async function() {
+    const oProcess = observable.spawn({
       commands: ["node", "-e", "console.log('hello')"]
     })
-    await process.waitForText("hello")
+    await oProcess.waitForEnd()
+    assert.equal(oProcess.exitCode, 0)
   })
 
-  it("allows to start a process via a string", async function() {
-    const process = new ObservableProcess({
+  it("starts a process via a string", async function() {
+    const process = observable.spawn({
       command: "node -e console.log('hello')"
-    })
-    await process.waitForText("hello")
-  })
-
-  it("starts global processes that are in the path", async function() {
-    const process = new ObservableProcess({
-      command: "node -h"
     })
     await process.waitForEnd()
     assert.equal(process.exitCode, 0)
   })
 
-  it("starts local processes in the current directory")
+  it("starts processes in the path", async function() {
+    const process = observable.spawn({
+      command: "node -h"
+    })
+    await process.waitForEnd()
+    assert.equal(process.exitCode, 0)
+  })
 })
 
 describe("environment variables", function() {
   it("allows to provide custom environment variables for running processes", async function() {
-    const process = new ObservableProcess({
+    const oProcess = observable.spawn({
       commands: ["node", "-e", "console.log('foo:', process.env.foo)"],
-      env: { foo: "bar" }
+      env: { foo: "bar", PATH: process.env.PATH }
     })
-    await process.waitForEnd()
-    assert.equal(process.fullOutput(), "foo: bar\n")
+    await oProcess.waitForEnd()
+    assert.equal(oProcess.outputText(), "foo: bar\n")
   })
 })

@@ -97,11 +97,13 @@ const port = await observable.stdout.waitForRegex(/running at port \d+./)
 // => "running at port 3000."
 ```
 
-Comparable functionality is available for STDERR. ObservableProcess creates a
-new `output` stream with the combined content of STDOUT and STDERR:
+Comparable functionality is available for STDERR. In addition, ObservableProcess
+creates a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
-observable.output.on("data", function(data) {})
+observable.output.on("data", function(data) {
+  console.log(data.toString())
+})
 const text = observable.output.fullText()
 await observable.output.waitForText("server is online")
 const port = await observable.output.waitForRegex(/running at port \d+./)

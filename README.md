@@ -63,14 +63,16 @@ working directory for the subprocess:
 const observable = createObservableProcess("node server.js", { cwd: "~/tmp" })
 ```
 
-You can provide custom environment variables for the process. Without the `env`
-parameter it uses the environment variables from the parent process.
+You can provide custom environment variables for the process.
 
 ```js
 const observable = createObservableProcess("node server.js", {
   env: { foo: "bar", PATH: process.env.PATH }
 })
 ```
+
+Without the `env` parameter it uses the environment variables from the parent
+process.
 
 ## Reading output from the process
 

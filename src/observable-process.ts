@@ -23,7 +23,7 @@ class ObservableProcess {
   process: childProcess.ChildProcess
   stdout: WriteStream
   stderr: WriteStream
-  stdin: WriteStream
+  stdin: NodeJS.WritableStream
   textStreamSearch: TextStreamSearch
   verbose: boolean
 
@@ -53,7 +53,10 @@ class ObservableProcess {
     debug(`starting '${runnable}' with arguments [${params.join(',')}]`)
     this.process = childProcess.spawn(runnable, params, this.spawnOptions())
     this.process.on('close', this._onClose.bind(this))
-    this.stdin = this.process.stdin as WriteStream
+    if (this.process.stdin == null) {
+      throw new Error('process.stdin should not be null')
+    }
+    this.stdin = this.process.stdin
     this.textStreamSearch = this.createStdOutErrStreamSearch()
     this.forwardStreams()
   }
@@ -107,12 +110,6 @@ class ObservableProcess {
     }
     extend(result.env, process.env, this.env)
     return result
-  }
-
-  // Enters the given text into the subprocess.
-  // Types the ENTER key automatically.
-  enter(text: string) {
-    this.stdin.write(`${text}\n`)
   }
 
   fullOutput() {

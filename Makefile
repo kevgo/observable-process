@@ -7,7 +7,7 @@ endif
 
 build: clean  # builds the production version
 	@mkdir dist
-	@node_modules$/.bin$/tsc -p tsconfig-build.json
+	@node_modules$/.bin$/tsc -p .
 
 clean:  # removes all build artifacts
 	@rm -rf dist

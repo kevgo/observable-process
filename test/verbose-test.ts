@@ -3,8 +3,6 @@ import { ObservableProcess } from '../src/observable-process'
 
 describe('verbose mode', function() {
   it('adds information about the process health to the error stream', async function() {
-    const a = null
-    a.foo()
     let stdErrContent = '' // this variable contains the STDERR output
     const process = new ObservableProcess({
       commands: [

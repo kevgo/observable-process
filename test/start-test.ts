@@ -1,5 +1,5 @@
-import * as observable from "../src/observable"
 import { strict as assert } from "assert"
+import * as observable from "../src/observable"
 
 describe(".spawn()", function() {
   it("starts a process via an argv array", async function() {
@@ -24,6 +24,14 @@ describe(".spawn()", function() {
     })
     await process.waitForEnd()
     assert.equal(process.exitCode, 0)
+  })
+
+  it("throws if it receives neither a string nor argv array", function() {
+    assert.throws(function() {
+      observable.spawn({})
+    }, new Error(
+      "observable.spawn: you must provide either command or commands"
+    ))
   })
 })
 

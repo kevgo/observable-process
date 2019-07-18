@@ -1,10 +1,10 @@
-import { startProcess } from './helpers/start-process'
-import { strict as assert } from 'assert'
-import portFinder from 'portfinder'
-import got from 'got'
+import { startProcess } from "./helpers/start-process"
+import { strict as assert } from "assert"
+import portFinder from "portfinder"
+import got from "got"
 
-describe('.kill()', function() {
-  it('stops the running process', async function() {
+describe(".kill()", function() {
+  it("stops the running process", async function() {
     this.timeout(8000)
 
     // start a long-running process
@@ -13,7 +13,7 @@ describe('.kill()', function() {
 http = require('http')
 http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost')
 console.log('online')`)
-    longRunningProcess.waitForText('online')
+    longRunningProcess.waitForText("online")
     await assertIsRunning(port)
 
     // kill the process
@@ -21,15 +21,15 @@ console.log('online')`)
 
     // verify it is no longer running
     await assertIsNotRunning(port)
-    assert.equal(longRunningProcess.ended, true, 'process should be ended')
-    assert.equal(longRunningProcess.killed, true, 'process should be killed')
+    assert.equal(longRunningProcess.ended, true, "process should be ended")
+    assert.equal(longRunningProcess.killed, true, "process should be killed")
     assert.equal(longRunningProcess.exitCode, null)
   })
 })
 
-describe('waitForEnd', function() {
-  it('returns a promise that resolves when the process ends', async function() {
-    const process = startProcess('setTimeout(function() {}, 1)')
+describe("waitForEnd", function() {
+  it("returns a promise that resolves when the process ends", async function() {
+    const process = startProcess("setTimeout(function() {}, 1)")
     await process.waitForEnd()
     assert.equal(process.ended, true)
     assert.equal(process.killed, false)
@@ -44,6 +44,6 @@ async function assertIsNotRunning(port: number) {
   try {
     await got(`http://localhost:${port}`)
   } catch (e) {
-    assert.equal(e.code, 'ECONNREFUSED')
+    assert.equal(e.code, "ECONNREFUSED")
   }
 }

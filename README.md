@@ -111,9 +111,10 @@ const port = await observable.output.waitForRegex(/running at port \d+./)
 
 ## Sending input to the process
 
-You can interact with the STDIN instance of the underlying
-[ChildProcess](https://nodejs.org/api/child_process.html) which the
-ObservableProcess exposes.
+ObservableProcess exposes the
+[stdin](https://nodejs.org/api/child_process.html#child_process_subprocess_stdin)
+stream of its underlying
+[ChildProcess](https://nodejs.org/api/child_process.html):
 
 ```js
 observable.stdin.write("my input\n")

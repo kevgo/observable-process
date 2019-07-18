@@ -4,28 +4,19 @@ import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import TextStreamSearch from "text-stream-search"
 
-/** Env is a list of environment variables. */
-export type Env = { [key: string]: string }
-
 /** The options that can be provided to Spawn */
 export interface SpawnOptions {
   command?: string
   commands?: string[]
   cwd?: string
-  env?: Env
+  env?: NodeJS.ProcessEnv
   stdin?: NodeJS.WritableStream
   stdout?: NodeJS.ReadableStream
   stderr?: NodeJS.ReadableStream
 }
-export function spawn(args: SpawnOptions) {
-  // determine env
-  const env = args.env || {}
-  for (const [key, value] of Object.entries(process.env)) {
-    if (value != null) {
-      env[key] = value
-    }
-  }
 
+/** Spawn starts a new observable process. */
+export function spawn(args: SpawnOptions) {
   // determine args
   let argv: Array<string> = []
   if (args.command != null) {
@@ -40,14 +31,13 @@ export function spawn(args: SpawnOptions) {
   // start the process
   return new Process({
     cwd: args.cwd || process.cwd(),
-    env,
+    env: args.env || process.env,
     params,
     runnable
   })
 }
 
-// Runs the given command as a separate, parallel process
-// and allows to observe it and interact with it.
+/** Process is an observable process. */
 export class Process {
   /** indicates whether the process has stopped running */
   ended: boolean

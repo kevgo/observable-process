@@ -1,6 +1,5 @@
 import * as childProcess from "child_process"
 import delay from "delay"
-// import extend from "extend"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import TextStreamSearch from "text-stream-search"

@@ -63,7 +63,7 @@ working directory for the subprocess:
 const observable = createObservableProcess("node server.js", { cwd: "~/tmp" })
 ```
 
-You can provide custom environment variables for the process.
+You can provide custom environment variables for the process:
 
 ```js
 const observable = createObservableProcess("node server.js", {

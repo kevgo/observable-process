@@ -1,7 +1,16 @@
-import { startNodeProcess } from "./helpers/start-process"
+import { startNodeProcess } from "./helpers/start-node-process"
 import { strict as assert } from "assert"
 import portFinder from "portfinder"
 import got from "got"
+
+describe(".waitForEnd()", function() {
+  it("returns a promise that resolves when the process ends naturally", async function() {
+    const process = startNodeProcess("setTimeout(function() {}, 1)")
+    await process.waitForEnd()
+    assert.equal(process.ended, true)
+    assert.equal(process.killed, false)
+  })
+})
 
 describe(".kill()", function() {
   it("stops the running process", async function() {
@@ -14,26 +23,17 @@ describe(".kill()", function() {
       http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost');\
       console.log('online')`
     )
-    longRunningProcess.waitForText("online")
+    longRunningProcess.stdoutSearch.waitForText("online")
     await assertIsRunning(port)
 
     // kill the process
     await longRunningProcess.kill()
 
-    // verify it is no longer running
+    // verify the process is no longer running
     await assertIsNotRunning(port)
     assert.equal(longRunningProcess.ended, true, "process should be ended")
     assert.equal(longRunningProcess.killed, true, "process should be killed")
     assert.equal(longRunningProcess.exitCode, null)
-  })
-})
-
-describe("waitForEnd", function() {
-  it("returns a promise that resolves when the process ends", async function() {
-    const process = startNodeProcess("setTimeout(function() {}, 1)")
-    await process.waitForEnd()
-    assert.equal(process.ended, true)
-    assert.equal(process.killed, false)
   })
 })
 

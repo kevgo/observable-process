@@ -12,6 +12,10 @@ build: clean  # builds the production version
 clean:  # removes all build artifacts
 	@rm -rf dist
 
+coverage: build  # measures test coverage
+	node_modules/.bin/nyc node_modules/.bin/mocha --require source-map-support/register test/*-test.ts
+	node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls
+
 fix:  # runs the fixers
 	tslint --project . --fix
 	prettier --write "src/**/*.ts"

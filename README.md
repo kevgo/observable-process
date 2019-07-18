@@ -35,7 +35,7 @@ Load this library into your JavaScript code:
 const { createObservableProcess } = require("observable-process")
 ```
 
-- or -
+\&ndash; or &ndash;
 
 ```js
 import { createObservableProcess } from "observable-process"

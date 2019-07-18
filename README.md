@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/kevgo/observable-process.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process)
 
 ObserableProcess decorates the low-level [Node.JS process library](https://nodejs.org/api/process.html)
-with additional convenience methods to make working with long-running processes more convenient.
+with convenience methods to make working with long-running processes more convenient.
 In particular:
 
 - make a output string combining STDOUT and STDERR available

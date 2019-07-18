@@ -2,8 +2,13 @@
 [![Dependency Status](https://david-dm.org/kevgo/observable-process.svg)](https://david-dm.org/kevgo/observable-process)
 [![devDependency Status](https://david-dm.org/kevgo/observable-process/dev-status.svg)](https://david-dm.org/kevgo/observable-process#info=devDependencies)
 
-High-level support for running, observing, and interacting with child processes
-in Node.js 4 and above.
+ObserableProcess decorates the low-level [Node.JS process library](https://nodejs.org/api/process.html)
+with additional convenience methods to make working with long-running processes more convenient.
+In particular:
+
+- see the accumulated output (STDOUT and STDERR)
+- await textual output in the output
+- await the process end
 
 ```js
 const { ObservableProcess } = require("observableProcess")

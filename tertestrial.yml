@@ -1,12 +1,12 @@
 actions:
   - match:
-    command: 'spec'
+    command: "spec"
 
   - match:
       filename: '\.feature$'
-    command: 'make spec {{filename}}'
+    command: "make spec {{filename}}"
 
   - match:
       filename: '\.feature$'
       line: '\d+'
-    command: 'make spec {{filename}}:{{line}}'
+    command: "make spec {{filename}}:{{line}}"

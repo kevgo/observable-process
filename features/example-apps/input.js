@@ -1,9 +1,9 @@
-const readln = require('readline')
+const readln = require("readline")
 const cl = readln.createInterface(process.stdin, process.stdout)
 
 const question = function() {
   return new Promise(resolve => {
-    cl.question('', answer => {
+    cl.question("", answer => {
       resolve(answer)
     })
   })

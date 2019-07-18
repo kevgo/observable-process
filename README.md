@@ -6,9 +6,9 @@ High-level support for running, observing, and interacting with child processes
 in Node.js 4 and above.
 
 ```js
-const { ObservableProcess } = require('observableProcess')
-var myProcess = new ObservableProcess('echo hello')
-myProcess.on('ended', function({ exitCode }) {
+const { ObservableProcess } = require("observableProcess")
+var myProcess = new ObservableProcess("echo hello")
+myProcess.on("ended", function({ exitCode }) {
   // ...
 })
 ```
@@ -16,19 +16,19 @@ myProcess.on('ended', function({ exitCode }) {
 You can also provide the process to run as an _argv_ array:
 
 ```js
-myProcess = new ObservableProcess(['echo', 'hello'])
+myProcess = new ObservableProcess(["echo", "hello"])
 ```
 
 ## Set the working directory of the subshell
 
 ```js
-myProcess = new ObservableProcess('echo hello', { cwd: '~/tmp' })
+myProcess = new ObservableProcess("echo hello", { cwd: "~/tmp" })
 ```
 
 ## Set environment variables in the subshell
 
 ```js
-myProcess = new ObservableProcess('echo hello', { env: { foo: 'bar' } })
+myProcess = new ObservableProcess("echo hello", { env: { foo: "bar" } })
 ```
 
 ## Working with output
@@ -50,7 +50,7 @@ const myStdErr = {
     // ...
   }
 }
-myProcess = new ObservableProcess('echo hello', {
+myProcess = new ObservableProcess("echo hello", {
   stdout: myStdOut,
   stderr: myStdErr
 })
@@ -61,8 +61,8 @@ to print output from the subshell dimmed,
 so that it is easy to distinguish from output of the main thread.
 
 ```js
-const dimConsole = require('dim-console')
-myProcess = new ObservableProcess('echo hello', {
+const dimConsole = require("dim-console")
+myProcess = new ObservableProcess("echo hello", {
   stdout: dimConsole.stdout,
   stderr: dimConsole.stderr
 })
@@ -72,7 +72,7 @@ To get more detailed output like lifecycle events of the subshell
 in the error stream:
 
 ```js
-myProcess = new ObservableProcess('echo hello', { verbose: true })
+myProcess = new ObservableProcess("echo hello", { verbose: true })
 ```
 
 You can retrieve the output that has accumulated so far to `stdout` and `stderr`
@@ -86,7 +86,7 @@ You can be notified when the process prints given text on `stdout` or `stderr`.
 This is useful for waiting until slow-starting services are fully booted up.
 
 ```js
-myProcess.waitForText('listening on port 3000').then(function() {
+myProcess.waitForText("listening on port 3000").then(function() {
   // this method runs after the process prints "listening on port 3000"
 })
 ```
@@ -94,7 +94,7 @@ myProcess.waitForText('listening on port 3000').then(function() {
 To disable output altogether:
 
 ```js
-myProcess = new ObservableProcess('my-server', { stdout: null, stderr: null })
+myProcess = new ObservableProcess("my-server", { stdout: null, stderr: null })
 ```
 
 ## Input
@@ -102,7 +102,7 @@ myProcess = new ObservableProcess('my-server', { stdout: null, stderr: null })
 You can enter text into the running process via:
 
 ```js
-myProcess.enter('text')
+myProcess.enter("text")
 ```
 
 ## Kill the process

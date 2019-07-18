@@ -83,7 +83,7 @@ but are decorated with extra functionality to access and search their content.
 ```js
 // normal access to STDOUT
 observable.stdout.on("data", function() {
-  console.log(data.toString())
+  // do something here
 })
 
 // get all content from STDOUT as a string
@@ -102,7 +102,7 @@ creates a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
 observable.output.on("data", function(data) {
-  console.log(data.toString())
+  // do something here
 })
 const text = observable.output.fullText()
 await observable.output.waitForText("server is online")

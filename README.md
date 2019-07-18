@@ -71,8 +71,8 @@ const observable = createObservableProcess("node server.js", {
 })
 ```
 
-Without the `env` parameter it uses the environment variables from the parent
-process.
+Without a custom `env` parameter, ObservableProcess uses the environment
+variables from the parent process.
 
 ## Reading output from the process
 

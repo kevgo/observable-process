@@ -32,13 +32,13 @@ $ yarn add observable process
 To load this library into your JavaScript code:
 
 ```js
-const observable = require("observable-process")
+const { createObservableProcess } = require("observable-process")
 ```
 
 or
 
 ```js
-import * as observable from "observable-process"
+import { createObservableProcess } from "observable-process"
 ```
 
 ## Starting processes

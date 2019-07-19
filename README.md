@@ -140,8 +140,9 @@ await observable.kill()
 ```
 
 This sets the `killed` property on the ObservableProcess instance, which allows
-to distinguish manually terminated processes from naturally ended ones. To let
-ObservableProcess notify you when a process ended:
+to distinguish manually terminated processes from naturally ended ones.
+
+To let ObservableProcess notify you when a process ended:
 
 ```js
 const exitCode = await observable.waitForEnd()

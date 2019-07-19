@@ -151,7 +151,7 @@ observable.waitForEnd().then(function() {
 })
 ```
 
-The exit code is available at the process object:
+The exit code is available on the process object:
 
 ```js
 observable.exitCode
@@ -164,6 +164,8 @@ observable.exitCode
   to existing long-running processes, which makes declarative testing hard.
 
 ## Development
+
+If you want to hack on ObservableProcess:
 
 - run all tests: `make test`
 - run unit tests: `make unit`

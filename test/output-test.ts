@@ -46,7 +46,7 @@ describe(".output", function() {
     await assert.rejects(
       promise,
       new Error(
-        "Regex //h.+d// not found within 1 ms. The captured text so far is:\n"
+        "Regex /h.+d/ not found within 1 ms. The captured text so far is:\n"
       )
     )
   })
@@ -97,7 +97,7 @@ describe(".stdout", function() {
     await assert.rejects(
       promise,
       new Error(
-        "Regex //w.+d// not found within 1 ms. The captured text so far is:\n"
+        "Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"
       )
     )
   })
@@ -148,7 +148,7 @@ describe(".stderr", function() {
     await assert.rejects(
       promise,
       new Error(
-        "Regex //w.+d// not found within 1 ms. The captured text so far is:\n"
+        "Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"
       )
     )
   })

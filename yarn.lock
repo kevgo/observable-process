@@ -1864,10 +1864,10 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-text-stream-search@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/text-stream-search/-/text-stream-search-4.0.1.tgz#a2cd73f9da87f0cc39599a7975e6ed3670b530d5"
-  integrity sha512-Sg5oMz9w1Gw5QWszs6AyslWrpnYB/ytzsnMOnhdxdmQzjkYC0l7GYvyNrOzQ93qlD+Xu5yKK4Oc2WG6IPGUzTg==
+text-stream-search@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/text-stream-search/-/text-stream-search-4.0.2.tgz#5347b6d6ca2f434d154c35987dc68a40e2b158b4"
+  integrity sha512-qAgjrraXFOHGO1rHsDyEV4d5IP1iMGp/irZuEv8BAiwUWSvTQ7rdfK/8Owykh4MrK3/spbuBOFUGuxpkiq/vzw==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

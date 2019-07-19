@@ -148,7 +148,7 @@ To let ObservableProcess notify you when a process ended:
 const exitCode = await observable.waitForEnd()
 ```
 
-or in the background:
+You can also listen to this in the background:
 
 ```js
 observable.waitForEnd().then(function() {
@@ -156,7 +156,7 @@ observable.waitForEnd().then(function() {
 })
 ```
 
-The exit code is available on the process object:
+The exit code is available via an attribute:
 
 ```js
 observable.exitCode

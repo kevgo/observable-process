@@ -20,12 +20,34 @@ describe(".output", function() {
     assert.equal(text, "helloworld")
   })
 
-  it("aborts the wait after the optional timeout has been reached", async function() {
+  it("aborts the text search after the optional timeout has been reached", async function() {
     const observable = startNodeProcess("setTimeout(function() {}, 3)")
     const promise = observable.output.waitForText("hello", 1)
     await assert.rejects(
       promise,
-      new Error("Expected '' to include string 'hello'")
+      new Error(
+        'Text "hello" not found within 1 ms. The captured text so far is:\n'
+      )
+    )
+  })
+
+  it("allows awaiting a regex in the combined command output", async function() {
+    const observable = startNodeProcess(
+      'process.stdout.write("hello")\n\
+       process.stderr.write("world")'
+    )
+    const text = await observable.output.waitForRegex(/h.+d/)
+    assert.equal(text, "helloworld")
+  })
+
+  it("aborts the regex search after the optional timeout has been reached", async function() {
+    const observable = startNodeProcess("setTimeout(function() {}, 3)")
+    const promise = observable.output.waitForRegex(/h.+d/, 1)
+    await assert.rejects(
+      promise,
+      new Error(
+        "Regex /h.+d/ not found within 1 ms. The captured text so far is:\n"
+      )
     )
   })
 })
@@ -49,12 +71,34 @@ describe(".stdout", function() {
     assert.equal(text, "world")
   })
 
-  it("aborts the wait after the optional timeout has been reached", async function() {
+  it("aborts the text search after the optional timeout has been reached", async function() {
     const observable = startNodeProcess("setTimeout(function() {}, 3)")
     const promise = observable.stdout.waitForText("hello", 1)
     await assert.rejects(
       promise,
-      new Error("Expected '' to include string 'hello'")
+      new Error(
+        'Text "hello" not found within 1 ms. The captured text so far is:\n'
+      )
+    )
+  })
+
+  it("allows awaiting a given regex in the STDOUT stream", async function() {
+    const observable = startNodeProcess(
+      'process.stderr.write("hello")\n\
+       process.stdout.write("world")'
+    )
+    const text = await observable.stdout.waitForRegex(/w.+d/)
+    assert.equal(text, "world")
+  })
+
+  it("aborts the regex search after the optional timeout has been reached", async function() {
+    const observable = startNodeProcess("setTimeout(function() {}, 3)")
+    const promise = observable.stdout.waitForRegex(/w.+d/, 1)
+    await assert.rejects(
+      promise,
+      new Error(
+        "Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"
+      )
     )
   })
 })
@@ -83,7 +127,9 @@ describe(".stderr", function() {
     const promise = observable.stderr.waitForText("hello", 1)
     await assert.rejects(
       promise,
-      new Error("Expected '' to include string 'hello'")
+      new Error(
+        'Text "hello" not found within 1 ms. The captured text so far is:\n'
+      )
     )
   })
 
@@ -101,7 +147,9 @@ describe(".stderr", function() {
     const promise = observable.stderr.waitForRegex(/w.+d/, 1)
     await assert.rejects(
       promise,
-      new Error("Expected '' to include regex '/w.+d/'")
+      new Error(
+        "Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"
+      )
     )
   })
 })

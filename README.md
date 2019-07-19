@@ -20,8 +20,8 @@ conveniently. In particular:
 - signals whether the process ended naturally or was manually terminated
 
 This is helpful for example when testing the terminal output of applications.
-Running really long-running processes with ObservableProcess will cause a lot of
-memory consumption because all the terminal output is kept in memory.
+Executing really long-running processes with ObservableProcess will cause high
+memory consumption because all the terminal output is stored in RAM.
 
 ## Setup
 

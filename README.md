@@ -173,8 +173,6 @@ observable.exitCode
 If you want to hack on ObservableProcess:
 
 - run all tests: `make test`
-- run unit tests: `make unit`
-- run linters: `make lint`
 - run automated code repair: `make fix`
 - see all make commands: `make help`
 

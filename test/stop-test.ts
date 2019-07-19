@@ -1,7 +1,7 @@
-import { startNodeProcess } from "./helpers/start-node-process"
 import { strict as assert } from "assert"
-import portFinder from "portfinder"
 import got from "got"
+import portFinder from "portfinder"
+import { startNodeProcess } from "./helpers/start-node-process"
 
 describe(".waitForEnd()", function() {
   it("returns a promise that resolves when the process ends naturally", async function() {
@@ -23,7 +23,7 @@ describe(".kill()", function() {
       http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost');\
       console.log('online')`
     )
-    longRunningProcess.stdoutSearch.waitForText("online")
+    longRunningProcess.stdout.waitForText("online")
     await assertIsRunning(port)
 
     // kill the process

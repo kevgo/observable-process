@@ -1,122 +1,135 @@
+# ObservableProcess
+
 [![CircleCI](https://circleci.com/gh/kevgo/observable-process/tree/master.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/kevgo/observable-process/badge.svg?branch=master)](https://coveralls.io/github/kevgo/observable-process?branch=master)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kevgo/observable-process.svg)](https://lgtm.com/projects/g/kevgo/observable-process/context:javascript)
 
 ObservableProcess decorates the low-level
-[Node.JS process library](https://nodejs.org/api/process.html) with convenience
-methods to make working with long-running processes more convenient. In
+[Node.JS ChildProcess](https://nodejs.org/api/child_process.html) model with
+functionality to observe the behavior of processes more conveniently. In
 particular:
 
-- make a output string combining STDOUT and STDERR available
-- provide access to the accumulated output of STDOUT, STDERR, and their
-  combination
-- allow to await text or regular expressions in the output
+- easier access to the complete textual content of the
+  [stdout](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout)
+  and
+  [stderr](https://nodejs.org/api/child_process.html#child_process_subprocess_stderr)
+  streams
+- augments `stdout` and `stderr` with methods to search for textual content
+- create a new `output` stream that combines `stdout` and `stderr`
 - await the process end
 - easier access to the process exit code
-- easy determination whether the process ended naturally or was manually
-  terminated
+- signals whether the process ended naturally or was manually terminated
+
+This is useful for example when testing the terminal output of applications.
+Executing long-running processes through ObservableProcess will cause high
+memory consumption because it stores all the terminal output in RAM.
 
 ## Setup
 
-To add this library to your code base:
+Add this library to your code base:
 
 ```shell
-$ npm install --save observable-process
+$ npm install observable-process
 ```
 
-or
-
-```
-$ yarn add observable process
-```
-
-To load this library into your JavaScript code:
+Load this library into your JavaScript code:
 
 ```js
-const observable = require("observable-process")
+const { createObservableProcess } = require("observable-process")
 ```
 
-or
+&ndash; or &ndash;
 
-```js
-import * as observable from "observable-process"
+```ts
+import { createObservableProcess } from "observable-process"
 ```
 
 ## Starting processes
 
-The best (most idiot-proof) way to start a subprocess is by providing the argv
-array:
+The best way to provide the command to run is in the form of an argv array:
 
 ```js
-const myProcess = observable.spawn(["node", "server.js"])
+const observable = createObservableProcess(["node", "server.js"])
 ```
 
-You can also provide the command line expression to run as a string:
+You can also provide the full command line to run as a string:
 
 ```js
-const myProcess = observable.spawn("node server.js")
+const observable = createObservableProcess("node server.js")
 ```
 
 By default, the process runs in the current directory. To set the different
 working directory for the subprocess:
 
 ```js
-const myProcess = observable.spawn("node server.js", { cwd: "~/tmp" })
+const observable = createObservableProcess("node server.js", { cwd: "~/tmp" })
 ```
 
 You can provide custom environment variables for the process:
 
 ```js
-const myProcess = observable.spawn("node server.js", {
-  env: { foo: "bar" }
+const observable = createObservableProcess("node server.js", {
+  env: {
+    foo: "bar",
+    PATH: process.env.PATH
+  }
 })
 ```
 
+Without a custom `env` parameter, ObservableProcess uses the environment
+variables from the parent process.
+
 ## Reading output from the process
 
-The observable process collects the output emitted by the ChildProcess through
-the STDOUT and STDERR streams:
+The `stdout` and `stderr` variables of an ObservableProcess behave like normal
+[readable streams](https://nodejs.org/api/stream.html#stream_readable_streams)
+and provide extra functionality to access and search their content.
 
 ```js
-// access the combined content of STDOUT and STDERR
-const text = myProcess.outputText() // what the process has sent to STDOUT and STDERR so far
-await myProcess.waitForOutputText("server is online") // wait for text is the combined output
-const port = await myProcess.waitForOutputRegex(/running at port \d+./) // wait for a regex in the combined output
+// normal access to STDOUT
+observable.stdout.on("data", function() {
+  // do something here
+})
 
-// access STDOUT content
-const text = myProcess.stdoutText() // what the process has sent to STDOUT so far
-await myProcess.waitForStdoutText("server is online") // wait for text in the STDOUT stream
-const port = await myProcess.waitForStdoutRegex(/running at port \d+./) // wait for a regex in the STDOUT stream
+// get all content from STDOUT as a string
+const text = observable.stdout.fullText()
 
-// access STDERR content
-const text = myProcess.stderrText() // what the process has sent to STDERR so far
-await myProcess.waitForStderrText("server is online") // wait for text is the STDERR stream
-const port = await myProcess.waitForStderrRegex(/running at port \d+./) // wait for a regex in the STDERR stream
+// wait for text to appear in STDOUT
+await observable.stdout.waitForText("server is online")
+
+// wait for a regex on STDOUT
+const port = await observable.stdout.waitForRegex(/running at port \d+./)
+// => "running at port 3000."
 ```
 
-You can also access the low-level Node.JS streams directly:
+Comparable functionality is available for STDERR. ObservableProcess also creates
+a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
-myProcess.output.on('data', function(data) {...})  // combined STDOUT and STDERR stream
-myProcess.stdout.on('data', function(data) {...})  // the STDOUT stream
-myProcess.stderr.on('data', function(data) {...})  // the STDERR stream
+observable.output.on("data", function(data) {
+  // do something here
+})
+const text = observable.output.fullText()
+await observable.output.waitForText("server is online")
+const port = await observable.output.waitForRegex(/running at port \d+./)
 ```
 
 ## Sending input to the process
 
-You can interact with the STDIN instance of the underlying
-[ChildProcess](https://nodejs.org/api/child_process.html) which the
-ObservableProcess exposes.
+ObservableProcess exposes the
+[stdin](https://nodejs.org/api/child_process.html#child_process_subprocess_stdin)
+stream of its underlying
+[ChildProcess](https://nodejs.org/api/child_process.html):
 
 ```js
-myProcess.stdin.write("my input\n")
-myProcess.stdin.end()
+observable.stdin.write("my input\n")
+observable.stdin.end()
 ```
 
 ## Get the process id
 
 ```
-myProcess.pid()
+observable.pid()
 ```
 
 ## Stop the process
@@ -124,27 +137,30 @@ myProcess.pid()
 You can manually stop a running process via:
 
 ```js
-await myProcess.kill()
+await observable.kill()
 ```
 
 This sets the `killed` property on the ObservableProcess instance, which allows
-to distinguish manually terminated processes from naturally ended ones. To let
-ObservableProcess notify you when a process ended:
+to distinguish manually terminated processes from naturally ended ones.
+
+To let ObservableProcess notify you when a process ended:
 
 ```js
-const exitCode = await myProcess.waitForEnd()
+const exitCode = await observable.waitForEnd()
 ```
 
-or in the background:
+You can also listen to this in the background:
 
 ```js
-myProcess.waitForEnd().then(...)
+observable.waitForEnd().then(function() {
+  // do somehing here
+})
 ```
 
-The exit code is available at the process object:
+The exit code is available via an attribute:
 
 ```js
-myProcess.exitCode
+observable.exitCode
 ```
 
 ## Related libraries
@@ -155,9 +171,9 @@ myProcess.exitCode
 
 ## Development
 
+If you want to hack on ObservableProcess:
+
 - run all tests: `make test`
-- run unit tests: `make unit`
-- run linters: `make lint`
 - run automated code repair: `make fix`
 - see all make commands: `make help`
 

@@ -78,12 +78,30 @@ describe(".stderr", function() {
     assert.equal(text, "world")
   })
 
-  it("aborts the wait after the optional timeout has been reached", async function() {
+  it("aborts the text search after the optional timeout has been reached", async function() {
     const observable = startNodeProcess("setTimeout(function() {}, 10)")
     const promise = observable.stderr.waitForText("hello", 1)
     await assert.rejects(
       promise,
       new Error("Expected '' to include string 'hello'")
+    )
+  })
+
+  it("allows awaiting a given regex in the STDERR stream", async function() {
+    const observable = startNodeProcess(
+      'process.stdout.write("hello")\n\
+       process.stderr.write("world")'
+    )
+    const text = await observable.stderr.waitForRegex(/w.+d/)
+    assert.equal(text, "world")
+  })
+
+  it("aborts the regex search after the optional timeout has been reached", async function() {
+    const observable = startNodeProcess("setTimeout(function() {}, 10)")
+    const promise = observable.stderr.waitForRegex(/w.+d/, 1)
+    await assert.rejects(
+      promise,
+      new Error("Expected '' to include regex '/w.+d/'")
     )
   })
 })

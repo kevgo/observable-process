@@ -24,10 +24,17 @@ describe(".spawn()", function() {
     assert.equal(observable.exitCode, 0)
   })
 
+  it("throws if it receives no command to run", function() {
+    assert.throws(function() {
+      // @ts-ignore
+      createObservableProcess()
+    }, new Error("createObservableProcess: no command to execute given"))
+  })
+
   it("throws if it receives neither a string nor argv array", function() {
     assert.throws(function() {
       // @ts-ignore
-      createObservableProcess(true)
+      createObservableProcess(1)
     }, new Error(
       "observable.spawn: you must provide the command to run as a string or string[]"
     ))

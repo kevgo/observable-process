@@ -19,7 +19,9 @@ conveniently. In particular:
 - easier access to the process exit code
 - signals whether the process ended naturally or was manually terminated
 
-This is helpful in many situations, for example in testing.
+This is helpful for example when testing the terminal output of applications.
+Running really long-running processes with ObservableProcess will cause a lot of
+memory consumption because all the terminal output is kept in memory.
 
 ## Setup
 

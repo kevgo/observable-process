@@ -1,5 +1,8 @@
-import * as observable from "../../src/observable"
+import {
+  createObservableProcess,
+  ObservableProcess
+} from "../../src/observable-process"
 
-export function startNodeProcess(code: string): observable.Process {
-  return observable.spawn({ commands: ["node", "-e", code] })
+export function startNodeProcess(code: string): ObservableProcess {
+  return createObservableProcess(["node", "-e", code])
 }

@@ -2,36 +2,37 @@ import * as childProcess from "child_process"
 import delay from "delay"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
-import TextStreamSearch from "text-stream-search"
+import { createSearchableStream, SearchableStream } from "./searchable-stream"
 
 /** The options that can be provided to Spawn */
 export interface SpawnOptions {
-  command?: string
-  commands?: string[]
   cwd?: string
   env?: NodeJS.ProcessEnv
-  stdin?: NodeJS.WritableStream
-  stdout?: NodeJS.ReadableStream
-  stderr?: NodeJS.ReadableStream
 }
 
-/** Spawn starts a new observable process. */
-export function spawn(args: SpawnOptions) {
+/** starts a new ObservableProcess with the given options */
+export function createObservableProcess(
+  command: string | string[],
+  args: SpawnOptions = {}
+) {
   // determine args
   let argv: string[] = []
-  if (args.command != null) {
-    argv = stringArgv(args.command)
-  } else if (args.commands != null) {
-    argv = args.commands
+  if (!command) {
+    throw new Error("createObservableProcess: no command to execute given")
+  }
+  if (typeof command === "string") {
+    argv = stringArgv(command)
+  } else if (Array.isArray(command)) {
+    argv = command
   } else {
     throw new Error(
-      "observable.spawn: you must provide either command or commands"
+      "observable.spawn: you must provide the command to run as a string or string[]"
     )
   }
   const [runnable, ...params] = argv
 
   // start the process
-  return new Process({
+  return new ObservableProcess({
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
@@ -39,8 +40,8 @@ export function spawn(args: SpawnOptions) {
   })
 }
 
-/** Process is an observable process. */
-export class Process {
+/** a long-running process whose behavior can be observed at runtime */
+export class ObservableProcess {
   /** indicates whether the process has stopped running */
   ended: boolean
 
@@ -56,23 +57,14 @@ export class Process {
   /** the STDIN stream of the underlying ChildProcess */
   stdin: NodeJS.WritableStream
 
-  /** the STDOUT stream of the underlying ChildProcess */
-  stdout: NodeJS.ReadableStream
+  /** searchable STDOUT stream of the underlying ChildProcess */
+  stdout: SearchableStream
 
-  /** the STDERR stream of the underlying ChildProcess */
-  stderr: NodeJS.ReadableStream
+  /** searchable STDERR stream of the underlying ChildProcess */
+  stderr: SearchableStream
 
-  /** the combined STDOUT and STDERR streams */
-  output: NodeJS.ReadableStream
-
-  /** stream search for the combined output */
-  outputSearch: TextStreamSearch
-
-  /** stream search for STDOUT */
-  stdoutSearch: TextStreamSearch
-
-  /** stream search for STDERR */
-  stderrSearch: TextStreamSearch
+  /** searchable combined STDOUT and STDERR stream */
+  output: SearchableStream
 
   /** functions to call when this process ends  */
   private endedListeners: Array<() => void>
@@ -99,30 +91,13 @@ export class Process {
     if (this.process.stdout == null) {
       throw new Error("process.stdout should not be null")
     }
-    this.stdout = this.process.stdout
-    this.stdoutSearch = new TextStreamSearch(this.stdout)
+    this.stdout = createSearchableStream(this.process.stdout)
     if (this.process.stderr == null) {
       throw new Error("process.stderr should not be null")
     }
-    this.stderr = this.process.stderr
-    this.stderrSearch = new TextStreamSearch(this.stderr)
-    this.output = mergeStream(this.stdout, this.stderr)
-    this.outputSearch = new TextStreamSearch(this.output)
-  }
-
-  /** returns the accumulated output of the STDOUT and STDERR streams combined */
-  outputText() {
-    return this.outputSearch.fullText()
-  }
-
-  /** returns the accumulated output of the STDOUT stream */
-  stdoutText() {
-    return this.stdoutSearch.fullText()
-  }
-
-  /** returns the accumulated output of the STDERR stream */
-  stderrText() {
-    return this.stderrSearch.fullText()
+    this.stderr = createSearchableStream(this.process.stderr)
+    const outputStream = mergeStream(this.process.stdout, this.process.stderr)
+    this.output = createSearchableStream(outputStream)
   }
 
   /** stops the currently running process */

@@ -3,44 +3,43 @@ import { createObservableProcess } from "../src/observable-process"
 
 describe(".spawn()", function() {
   it("starts a process via an argv array", async function() {
-    const observable = createObservableProcess({
-      commands: ["node", "-e", "console.log('hello')"]
-    })
+    const observable = createObservableProcess([
+      "node",
+      "-e",
+      "console.log('hello')"
+    ])
     await observable.waitForEnd()
     assert.equal(observable.exitCode, 0)
   })
 
   it("starts a process via a string", async function() {
-    const observable = createObservableProcess({
-      command: "node -e console.log('hello')"
-    })
+    const observable = createObservableProcess("node -e console.log('hello')")
     await observable.waitForEnd()
     assert.equal(observable.exitCode, 0)
   })
 
   it("starts processes in the path", async function() {
-    const observable = createObservableProcess({
-      command: "node -h"
-    })
+    const observable = createObservableProcess("node -h")
     await observable.waitForEnd()
     assert.equal(observable.exitCode, 0)
   })
 
   it("throws if it receives neither a string nor argv array", function() {
     assert.throws(function() {
-      createObservableProcess({})
+      // @ts-ignore
+      createObservableProcess(true)
     }, new Error(
-      "observable.spawn: you must provide either command or commands"
+      "observable.spawn: you must provide the command to run as a string or string[]"
     ))
   })
 })
 
 describe("environment variables", function() {
   it("allows to provide custom environment variables for running processes", async function() {
-    const observable = createObservableProcess({
-      commands: ["node", "-e", "console.log('foo:', process.env.foo)"],
-      env: { foo: "bar", PATH: process.env.PATH }
-    })
+    const observable = createObservableProcess(
+      ["node", "-e", "console.log('foo:', process.env.foo)"],
+      { env: { foo: "bar", PATH: process.env.PATH } }
+    )
     await observable.waitForEnd()
     assert.equal(observable.output.fullText(), "foo: bar\n")
   })

@@ -6,26 +6,27 @@ import { createSearchableStream, SearchableStream } from "./searchable-stream"
 
 /** The options that can be provided to Spawn */
 export interface SpawnOptions {
-  command?: string
-  commands?: string[]
   cwd?: string
   env?: NodeJS.ProcessEnv
-  stdin?: NodeJS.WritableStream
-  stdout?: NodeJS.ReadableStream
-  stderr?: NodeJS.ReadableStream
 }
 
 /** starts a new ObservableProcess with the given options */
-export function createObservableProcess(args: SpawnOptions) {
+export function createObservableProcess(
+  command: string | string[],
+  args: SpawnOptions = {}
+) {
   // determine args
   let argv: string[] = []
-  if (args.command != null) {
-    argv = stringArgv(args.command)
-  } else if (args.commands != null) {
-    argv = args.commands
+  if (!command) {
+    throw new Error("createObservableProcess: no command to execute given")
+  }
+  if (typeof command === "string") {
+    argv = stringArgv(command)
+  } else if (Array.isArray(command)) {
+    argv = command
   } else {
     throw new Error(
-      "observable.spawn: you must provide either command or commands"
+      "observable.spawn: you must provide the command to run as a string or string[]"
     )
   }
   const [runnable, ...params] = argv

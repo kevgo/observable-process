@@ -45,8 +45,7 @@ import { createObservableProcess } from "observable-process"
 
 ## Starting processes
 
-The best (most idiot-proof) way to start a subprocess is by providing the argv
-array:
+The best way to provide the command to run is in the form of an argv array:
 
 ```js
 const observable = createObservableProcess(["node", "server.js"])
@@ -69,7 +68,10 @@ You can provide custom environment variables for the process:
 
 ```js
 const observable = createObservableProcess("node server.js", {
-  env: { foo: "bar", PATH: process.env.PATH }
+  env: {
+    foo: "bar",
+    PATH: process.env.PATH
+  }
 })
 ```
 

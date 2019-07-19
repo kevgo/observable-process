@@ -146,7 +146,9 @@ const exitCode = await observable.waitForEnd()
 or in the background:
 
 ```js
-observable.waitForEnd().then(...)
+observable.waitForEnd().then(function() {
+  // do somehing here
+})
 ```
 
 The exit code is available at the process object:

@@ -1,6 +1,6 @@
 {
   "name": "observable-process",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "author": "Kevin Goslar",
   "dependencies": {
     "merge-stream": "2.0.0",

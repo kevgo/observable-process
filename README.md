@@ -5,8 +5,8 @@
 
 ObservableProcess decorates the low-level
 [Node.JS ChildProcess](https://nodejs.org/api/child_process.html) model with
-functionality to observe the behavior of long-running processes more
-conveniently. In particular:
+functionality to observe the behavior of processes more conveniently. In
+particular:
 
 - easier access to the complete textual content of the
   [stdout](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout)
@@ -20,8 +20,8 @@ conveniently. In particular:
 - signals whether the process ended naturally or was manually terminated
 
 This is useful for example when testing the terminal output of applications.
-Executing really long-running processes through ObservableProcess will cause
-high memory consumption because it stores all the terminal output in RAM.
+Executing long-running processes through ObservableProcess will cause high
+memory consumption because it stores all the terminal output in RAM.
 
 ## Setup
 
@@ -82,7 +82,7 @@ variables from the parent process.
 
 The `stdout` and `stderr` variables of an ObservableProcess behave like normal
 [readable streams](https://nodejs.org/api/stream.html#stream_readable_streams)
-but are decorated with extra functionality to access and search their content.
+and provide extra functionality to access and search their content.
 
 ```js
 // normal access to STDOUT
@@ -101,8 +101,8 @@ const port = await observable.stdout.waitForRegex(/running at port \d+./)
 // => "running at port 3000."
 ```
 
-Comparable functionality is available for STDERR. In addition, ObservableProcess
-creates a new `output` stream with the combined content of STDOUT and STDERR:
+Comparable functionality is available for STDERR. ObservableProcess also creates
+a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
 observable.output.on("data", function(data) {

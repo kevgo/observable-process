@@ -1,4 +1,4 @@
-import TextStreamSearch from "text-stream-search"
+import { TextStreamSearch } from "text-stream-search"
 
 /**
  * the API we use to search streams for text or regular expressions

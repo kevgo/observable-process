@@ -1,3 +1,4 @@
 --require ts-node/register
 --bail
 --slow 0
+--ui qunit

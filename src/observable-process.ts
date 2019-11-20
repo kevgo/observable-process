@@ -11,10 +11,7 @@ export interface SpawnOptions {
 }
 
 /** starts a new ObservableProcess with the given options */
-export function createObservableProcess(
-  command: string | string[],
-  args: SpawnOptions = {}
-) {
+export function createObservableProcess(command: string | string[], args: SpawnOptions = {}) {
   // determine args
   let argv: string[] = []
   if (!command) {
@@ -25,9 +22,7 @@ export function createObservableProcess(
   } else if (Array.isArray(command)) {
     argv = command
   } else {
-    throw new Error(
-      "observable.spawn: you must provide the command to run as a string or string[]"
-    )
+    throw new Error("observable.spawn: you must provide the command to run as a string or string[]")
   }
   const [runnable, ...params] = argv
 
@@ -69,12 +64,7 @@ export class ObservableProcess {
   /** functions to call when this process ends  */
   private endedListeners: Array<() => void>
 
-  constructor(args: {
-    runnable: string
-    params: string[]
-    cwd: string
-    env: NodeJS.ProcessEnv
-  }) {
+  constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
     this.ended = false
     this.killed = false
     this.endedListeners = []

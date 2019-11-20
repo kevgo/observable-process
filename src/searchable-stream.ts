@@ -15,9 +15,7 @@ export interface TextStreamSearcher {
  */
 export type SearchableStream = NodeJS.ReadableStream & TextStreamSearcher
 
-export function createSearchableStream(
-  stream: NodeJS.ReadableStream
-): SearchableStream {
+export function createSearchableStream(stream: NodeJS.ReadableStream): SearchableStream {
   const result = stream as SearchableStream
   const search = new TextStreamSearch(stream)
   result.waitForText = async function(text: string, timeout?: number) {

@@ -4,11 +4,7 @@ import { createObservableProcess } from "../src/observable-process"
 suite("ObservableProcess.spawn()")
 
 test("starting a process via an argv array", async function() {
-  const observable = createObservableProcess([
-    "node",
-    "-e",
-    "console.log('hello')"
-  ])
+  const observable = createObservableProcess(["node", "-e", "console.log('hello')"])
   await observable.waitForEnd()
   assert.equal(observable.exitCode, 0)
 })
@@ -36,16 +32,13 @@ test("wrong argument type", function() {
   assert.throws(function() {
     // @ts-ignore
     createObservableProcess(1)
-  }, new Error(
-    "observable.spawn: you must provide the command to run as a string or string[]"
-  ))
+  }, new Error("observable.spawn: you must provide the command to run as a string or string[]"))
 })
 
 test("providing environment variables", async function() {
-  const observable = createObservableProcess(
-    ["node", "-e", "console.log('foo:', process.env.foo)"],
-    { env: { foo: "bar", PATH: process.env.PATH } }
-  )
+  const observable = createObservableProcess(["node", "-e", "console.log('foo:', process.env.foo)"], {
+    env: { foo: "bar", PATH: process.env.PATH }
+  })
   await observable.waitForEnd()
   assert.equal(observable.output.fullText(), "foo: bar\n")
 })

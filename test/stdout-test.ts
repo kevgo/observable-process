@@ -1,29 +1,29 @@
 import { strict as assert } from "assert"
 import { startNodeProcess } from "./helpers/start-node-process"
 
-suite("ObservableProcess.output")
+suite("ObservableProcess.stdout")
 
 test("reading", async function() {
   const observable = startNodeProcess(
     'process.stdout.write("hello");\
-      process.stderr.write("world")'
+    process.stderr.write("world")'
   )
   await observable.waitForEnd()
-  assert.equal(observable.output.fullText(), "helloworld")
+  assert.equal(observable.stdout.fullText(), "hello")
 })
 
 test("waiting for text", async function() {
   const observable = startNodeProcess(
-    'process.stdout.write("hello");\
-      process.stderr.write("world")'
+    'process.stderr.write("hello")\n\
+    process.stdout.write("world")'
   )
-  const text = await observable.output.waitForText("helloworld")
-  assert.equal(text, "helloworld")
+  const text = await observable.stdout.waitForText("world")
+  assert.equal(text, "world")
 })
 
 test("waiting for text times out", async function() {
   const observable = startNodeProcess("setTimeout(function() {}, 3)")
-  const promise = observable.output.waitForText("hello", 1)
+  const promise = observable.stdout.waitForText("hello", 1)
   await assert.rejects(
     promise,
     new Error(
@@ -34,20 +34,20 @@ test("waiting for text times out", async function() {
 
 test("waiting for regex", async function() {
   const observable = startNodeProcess(
-    'process.stdout.write("hello")\n\
-      process.stderr.write("world")'
+    'process.stderr.write("hello")\n\
+    process.stdout.write("world")'
   )
-  const text = await observable.output.waitForRegex(/h.+d/)
-  assert.equal(text, "helloworld")
+  const text = await observable.stdout.waitForRegex(/w.+d/)
+  assert.equal(text, "world")
 })
 
 test("waiting for regex times out", async function() {
   const observable = startNodeProcess("setTimeout(function() {}, 3)")
-  const promise = observable.output.waitForRegex(/h.+d/, 1)
+  const promise = observable.stdout.waitForRegex(/w.+d/, 1)
   await assert.rejects(
     promise,
     new Error(
-      "Regex /h.+d/ not found within 1 ms. The captured text so far is:\n"
+      "Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"
     )
   )
 })

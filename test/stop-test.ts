@@ -3,38 +3,34 @@ import got from "got"
 import portFinder from "portfinder"
 import { startNodeProcess } from "./helpers/start-node-process"
 
-describe(".waitForEnd()", function() {
-  it("returns a promise that resolves when the process ends naturally", async function() {
-    const process = startNodeProcess("setTimeout(function() {}, 1)")
-    await process.waitForEnd()
-    assert.equal(process.ended, true)
-    assert.equal(process.killed, false)
-  })
+test("ObservableProcess.waitForEnd()", async function() {
+  const process = startNodeProcess("setTimeout(function() {}, 1)")
+  await process.waitForEnd()
+  assert.equal(process.ended, true)
+  assert.equal(process.killed, false)
 })
 
-describe(".kill()", function() {
-  it("stops the running process", async function() {
-    this.timeout(8000)
+test("ObservableProcess.kill()", async function() {
+  this.timeout(8000)
 
-    // start a long-running process
-    const port = await portFinder.getPortPromise()
-    const longRunningProcess = startNodeProcess(
-      `http = require('http');\
+  // start a long-running process
+  const port = await portFinder.getPortPromise()
+  const longRunningProcess = startNodeProcess(
+    `http = require('http');\
       http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost');\
       console.log('online')`
-    )
-    longRunningProcess.stdout.waitForText("online")
-    await assertIsRunning(port)
+  )
+  longRunningProcess.stdout.waitForText("online")
+  await assertIsRunning(port)
 
-    // kill the process
-    await longRunningProcess.kill()
+  // kill the process
+  await longRunningProcess.kill()
 
-    // verify the process is no longer running
-    await assertIsNotRunning(port)
-    assert.equal(longRunningProcess.ended, true, "process should be ended")
-    assert.equal(longRunningProcess.killed, true, "process should be killed")
-    assert.equal(longRunningProcess.exitCode, null)
-  })
+  // verify the process is no longer running
+  await assertIsNotRunning(port)
+  assert.equal(longRunningProcess.ended, true, "process should be ended")
+  assert.equal(longRunningProcess.killed, true, "process should be killed")
+  assert.equal(longRunningProcess.exitCode, null)
 })
 
 async function assertIsRunning(port: number) {

@@ -1,6 +1,6 @@
 {
   "name": "observable-process",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "author": "Kevin Goslar",
   "dependencies": {
     "delay": "4.3.0",

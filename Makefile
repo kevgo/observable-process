@@ -22,6 +22,7 @@ fix:  # runs the fixers
 	prettier --write "test/**/*.ts"
 	prettier --write "*.md"
 	prettier --write "*.yml"
+	prettier --write "*.json"
 
 help:   # prints all make targets
 	@cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -33,6 +34,7 @@ lint: # runs the linters
 	node_modules/.bin/prettier -l "test/**/*.ts"
 	node_modules/.bin/prettier -l "*.md"
 	node_modules/.bin/prettier -l "*.yml"
+	node_modules/.bin/prettier -l "*.json"
 
 setup:   # sets up the installation on this machine
 	node_modules/o-tools/bin/check-paths

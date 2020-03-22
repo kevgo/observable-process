@@ -31,7 +31,7 @@ export function createObservableProcess(command: string | string[], args: SpawnO
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
-    runnable
+    runnable,
   })
 }
 
@@ -71,7 +71,7 @@ export class ObservableProcess {
     this.exitCode = null
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
-      env: args.env
+      env: args.env,
     })
     this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
@@ -104,7 +104,7 @@ export class ObservableProcess {
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
   waitForEnd(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.endedListeners.push(resolve)
     })
   }

@@ -72,8 +72,8 @@ You can provide custom environment variables for the process:
 const observable = createObservableProcess("node server.js", {
   env: {
     foo: "bar",
-    PATH: process.env.PATH
-  }
+    PATH: process.env.PATH,
+  },
 })
 ```
 
@@ -88,7 +88,7 @@ and provide extra functionality to access and search their content.
 
 ```js
 // normal access to STDOUT
-observable.stdout.on("data", function() {
+observable.stdout.on("data", function () {
   // do something here
 })
 
@@ -107,7 +107,7 @@ Comparable functionality is available for STDERR. ObservableProcess also creates
 a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
-observable.output.on("data", function(data) {
+observable.output.on("data", function (data) {
   // do something here
 })
 const text = observable.output.fullText()
@@ -153,7 +153,7 @@ const exitCode = await observable.waitForEnd()
 You can also listen to this in the background:
 
 ```js
-observable.waitForEnd().then(function() {
+observable.waitForEnd().then(function () {
   // do somehing here
 })
 ```

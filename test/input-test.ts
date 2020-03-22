@@ -1,7 +1,7 @@
 import { strict as assert } from "assert"
 import { startNodeProcess } from "./helpers/start-node-process"
 
-test("ObservableProcess.stdin", async function () {
+test("ObservableProcess.stdin", async function() {
   // start a process that reads from STDIN
   const observable = startNodeProcess(
     "process.stdin.on('data', data => { process.stdout.write(data.toString()) });\

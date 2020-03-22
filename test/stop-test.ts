@@ -3,14 +3,14 @@ import got from "got"
 import portFinder from "portfinder"
 import { startNodeProcess } from "./helpers/start-node-process"
 
-test("ObservableProcess.waitForEnd()", async function () {
+test("ObservableProcess.waitForEnd()", async function() {
   const process = startNodeProcess("setTimeout(function() {}, 1)")
   await process.waitForEnd()
   assert.equal(process.ended, true)
   assert.equal(process.killed, false)
 })
 
-test("ObservableProcess.kill()", async function () {
+test("ObservableProcess.kill()", async function() {
   this.timeout(8000)
 
   // start a long-running process

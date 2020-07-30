@@ -1,13 +1,12 @@
 version: 2
 
 defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:10
 
 jobs:
-  test:
-    <<: *defaults
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10
     steps:
       - checkout
       - restore_cache:
@@ -25,28 +24,3 @@ jobs:
           key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
-  deploy:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: yarn
-      - run: make build
-      - run: npm set //registry.npmjs.org/:_authToken $AUTH_TOKEN
-      - run: npm publish
-
-workflows:
-  version: 2
-  pr:
-    jobs:
-      - test:
-          filters:
-            tags:
-              only: /.*/
-  deploy:
-    jobs:
-      - deploy:
-          requires:
-            - test
-          filters:
-            tags:
-              only: /^v.*/

@@ -76,14 +76,17 @@ export class ObservableProcess {
     })
     this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
+      // NOTE: this exists only to make the typechecker shut up
       throw new Error("process.stdin should not be null")
     }
     this.stdin = this.process.stdin
     if (this.process.stdout == null) {
+      // NOTE: this exists only to make the typechecker shut up
       throw new Error("process.stdout should not be null")
     }
     this.stdout = createSearchableStream(this.process.stdout)
     if (this.process.stderr == null) {
+      // NOTE: this exists only to make the typechecker shut up
       throw new Error("process.stderr should not be null")
     }
     this.stderr = createSearchableStream(this.process.stderr)

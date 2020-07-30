@@ -10,3 +10,9 @@ test("process ends before calling it", async function () {
   await observable.waitForEnd()
   assert.equal(observable.exitCode, 0)
 })
+
+test("process still running", async function () {
+  const observable = createObservableProcess(["node", "-e", "setTimeout(function() {}, 10)"])
+  await observable.waitForEnd()
+  assert.equal(observable.exitCode, 0)
+})

@@ -105,7 +105,11 @@ export class ObservableProcess {
   /** returns a promise that resolves when the underlying ChildProcess terminates */
   waitForEnd(): Promise<void> {
     return new Promise((resolve) => {
-      this.endedListeners.push(resolve)
+      if (this.ended) {
+        resolve()
+      } else {
+        this.endedListeners.push(resolve)
+      }
     })
   }
 

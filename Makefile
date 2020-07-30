@@ -18,11 +18,7 @@ coverage: build  # measures test coverage
 
 fix:  # runs the fixers
 	tslint --project . --fix
-	prettier --write "src/**/*.ts"
-	prettier --write "test/**/*.ts"
-	prettier --write "*.md"
-	prettier --write "*.yml"
-	prettier --write "*.json"
+	node_modules/.bin/prettier --write .
 
 help:   # prints all make targets
 	@cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -30,11 +26,7 @@ help:   # prints all make targets
 lint: # runs the linters
 	node_modules$/.bin$/tsc --noEmit
 	node_modules/.bin/tslint --project .
-	node_modules/.bin/prettier -l "src/**/*.ts"
-	node_modules/.bin/prettier -l "test/**/*.ts"
-	node_modules/.bin/prettier -l "*.md"
-	node_modules/.bin/prettier -l "*.yml"
-	node_modules/.bin/prettier -l "*.json"
+	node_modules/.bin/prettier -l .
 
 setup:   # sets up the installation on this machine
 	node_modules/o-tools/bin/check-paths

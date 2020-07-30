@@ -1,8 +1,9 @@
 import * as childProcess from "child_process"
-import delay from "delay"
 import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
+import util from "util"
+const delay = util.promisify(setTimeout)
 
 /** The options that can be provided to Spawn */
 export interface SpawnOptions {

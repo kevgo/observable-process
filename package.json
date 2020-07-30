@@ -3,7 +3,6 @@
   "version": "7.0.2",
   "author": "Kevin Goslar",
   "dependencies": {
-    "delay": "4.3.0",
     "merge-stream": "2.0.0",
     "string-argv": "0.3.1",
     "text-stream-search": "4.0.3"

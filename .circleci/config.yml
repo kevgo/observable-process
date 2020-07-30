@@ -25,7 +25,6 @@ jobs:
           key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
-
   deploy:
     <<: *defaults
     steps:
@@ -37,14 +36,12 @@ jobs:
 
 workflows:
   version: 2
-
-  test:
+  pr:
     jobs:
       - test:
           filters:
             tags:
               only: /.*/
-
   deploy:
     jobs:
       - deploy:

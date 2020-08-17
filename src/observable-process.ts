@@ -39,9 +39,6 @@ export function createObservableProcess(command: string | string[], args: SpawnO
 
 /** a long-running process whose behavior can be observed at runtime */
 export class RunningProcess {
-  /** indicates whether the process has stopped running */
-  ended: boolean
-
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
 
@@ -64,7 +61,6 @@ export class RunningProcess {
   private endedCallbacks: Array<(result: Result) => void>
 
   constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
-    this.ended = false
     this.endedCallbacks = []
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
@@ -91,7 +87,7 @@ export class RunningProcess {
   async kill(): Promise<Result> {
     this.result = new Result(-1, true)
     this.process.kill()
-    await delay(0)
+    await delay(1)
     return this.result
   }
 
@@ -102,10 +98,7 @@ export class RunningProcess {
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
   async waitForEnd(): Promise<Result> {
-    if (this.ended) {
-      if (!this.result) {
-        throw new Error("process ended but no result")
-      }
+    if (this.result) {
       return this.result
     }
     return new Promise((resolve) => {
@@ -115,10 +108,9 @@ export class RunningProcess {
 
   /** called when the underlying ChildProcess terminates */
   private onClose(exitCode: number) {
-    this.ended = true
     this.result = new Result(exitCode, false)
-    for (const resolver of this.endedCallbacks) {
-      resolver(this.result)
+    for (const endedCallback of this.endedCallbacks) {
+      endedCallback(this.result)
     }
   }
 }

@@ -6,7 +6,6 @@ import { startNodeProcess } from "./helpers/start-node-process"
 test("ObservableProcess.waitForEnd()", async function () {
   const process = startNodeProcess("setTimeout(function() {}, 1)")
   const result = await process.waitForEnd()
-  assert.equal(process.ended, true)
   assert.equal(result.killed, false)
 })
 
@@ -28,7 +27,6 @@ test("ObservableProcess.kill()", async function () {
 
   // verify the process is no longer running
   await assertIsNotRunning(port)
-  assert.equal(longRunningProcess.ended, true, "process should be ended")
   assert.equal(result.killed, true, "process should be killed")
   assert.equal(result.exitCode, -1)
 })

@@ -1,5 +1,5 @@
 import { strict as assert } from "assert"
-import { run } from "../src/observable-process"
+import { run } from "../src/run"
 import util from "util"
 const delay = util.promisify(setTimeout)
 

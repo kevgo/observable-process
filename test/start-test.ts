@@ -1,22 +1,22 @@
 import { strict as assert } from "assert"
-import { createObservableProcess } from "../src/observable-process"
+import { run } from "../src/observable-process"
 
 suite("ObservableProcess.spawn()")
 
 test("starting a process via an argv array", async function () {
-  const observable = createObservableProcess(["node", "-e", "console.log('hello')"])
+  const observable = run(["node", "-e", "console.log('hello')"])
   const result = await observable.waitForEnd()
   assert.equal(result.exitCode, 0)
 })
 
 test("starting a process via a string", async function () {
-  const observable = createObservableProcess("node -e console.log('hello')")
+  const observable = run("node -e console.log('hello')")
   const result = await observable.waitForEnd()
   assert.equal(result.exitCode, 0)
 })
 
 test("starting processes in the path", async function () {
-  const observable = createObservableProcess("node -h")
+  const observable = run("node -h")
   const result = await observable.waitForEnd()
   assert.equal(result.exitCode, 0)
 })
@@ -24,19 +24,19 @@ test("starting processes in the path", async function () {
 test("no command to run", function () {
   assert.throws(function () {
     // @ts-ignore
-    createObservableProcess()
-  }, new Error("createObservableProcess: no command to execute given"))
+    run()
+  }, new Error("run: no command to execute given"))
 })
 
 test("wrong argument type", function () {
   assert.throws(function () {
     // @ts-ignore
-    createObservableProcess(1)
-  }, new Error("createObservableProcess: you must provide the command to run as a string or string[]"))
+    run(1)
+  }, new Error("run: you must provide the command to run as a string or string[]"))
 })
 
 test("providing environment variables", async function () {
-  const observable = createObservableProcess(["node", "-e", "console.log('foo:', process.env.foo)"], {
+  const observable = run(["node", "-e", "console.log('foo:', process.env.foo)"], {
     env: { foo: "bar", PATH: process.env.PATH },
   })
   await observable.waitForEnd()

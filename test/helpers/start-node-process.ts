@@ -1,5 +1,5 @@
-import { createObservableProcess, RunningProcess } from "../../src/observable-process"
+import { run, RunningProcess } from "../../src/observable-process"
 
 export function startNodeProcess(code: string): RunningProcess {
-  return createObservableProcess(["node", "-e", code])
+  return run(["node", "-e", code])
 }

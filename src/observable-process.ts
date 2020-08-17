@@ -13,10 +13,10 @@ export interface SpawnOptions {
 }
 
 /** starts a new ObservableProcess with the given options */
-export function createObservableProcess(command: string | string[], args: SpawnOptions = {}) {
+export function run(command: string | string[], args: SpawnOptions = {}) {
   // determine args
   if (!command) {
-    throw new Error("createObservableProcess: no command to execute given")
+    throw new Error("run: no command to execute given")
   }
   let argv: string[] = []
   if (typeof command === "string") {
@@ -24,7 +24,7 @@ export function createObservableProcess(command: string | string[], args: SpawnO
   } else if (Array.isArray(command)) {
     argv = command
   } else {
-    throw new Error("createObservableProcess: you must provide the command to run as a string or string[]")
+    throw new Error("run: you must provide the command to run as a string or string[]")
   }
   const [runnable, ...params] = argv
 

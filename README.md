@@ -36,13 +36,13 @@ $ npm install observable-process
 Load this library into your JavaScript code:
 
 ```js
-const { createObservableProcess } = require("observable-process")
+const { run } = require("observable-process")
 ```
 
 &ndash; or &ndash;
 
 ```ts
-import { createObservableProcess } from "observable-process"
+import { run } from "observable-process"
 ```
 
 ## Starting processes
@@ -50,26 +50,26 @@ import { createObservableProcess } from "observable-process"
 The best way to provide the command to run is in the form of an argv array:
 
 ```js
-const observable = createObservableProcess(["node", "server.js"])
+const observable = run(["node", "server.js"])
 ```
 
 You can also provide the full command line to run as a string:
 
 ```js
-const observable = createObservableProcess("node server.js")
+const observable = run("node server.js")
 ```
 
 By default, the process runs in the current directory. To set the different
 working directory for the subprocess:
 
 ```js
-const observable = createObservableProcess("node server.js", { cwd: "~/tmp" })
+const observable = run("node server.js", { cwd: "~/tmp" })
 ```
 
 You can provide custom environment variables for the process:
 
 ```js
-const observable = createObservableProcess("node server.js", {
+const observable = run("node server.js", {
   env: {
     foo: "bar",
     PATH: process.env.PATH,

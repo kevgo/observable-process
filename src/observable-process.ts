@@ -4,6 +4,7 @@ import stringArgv from "string-argv"
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
 import util from "util"
 import { Result } from "./result"
+import { resolve } from "dns"
 const delay = util.promisify(setTimeout)
 
 /** The options that can be provided to Spawn */
@@ -15,16 +16,16 @@ export interface SpawnOptions {
 /** starts a new ObservableProcess with the given options */
 export function createObservableProcess(command: string | string[], args: SpawnOptions = {}) {
   // determine args
-  let argv: string[] = []
   if (!command) {
     throw new Error("createObservableProcess: no command to execute given")
   }
+  let argv: string[] = []
   if (typeof command === "string") {
     argv = stringArgv(command)
   } else if (Array.isArray(command)) {
     argv = command
   } else {
-    throw new Error("observable.spawn: you must provide the command to run as a string or string[]")
+    throw new Error("createObservableProcess: you must provide the command to run as a string or string[]")
   }
   const [runnable, ...params] = argv
 
@@ -44,6 +45,9 @@ export class ObservableProcess {
 
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
+
+  /** indicates whether the process was killed */
+  private result: Result | undefined
 
   /** the STDIN stream of the underlying ChildProcess */
   stdin: NodeJS.WritableStream
@@ -69,18 +73,15 @@ export class ObservableProcess {
     })
     this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stdin should not be null")
+      throw new Error("process.stdin should not be null") // this exists only to make the typechecker shut up
     }
     this.stdin = this.process.stdin
     if (this.process.stdout == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stdout should not be null")
+      throw new Error("process.stdout should not be null") // NOTE: this exists only to make the typechecker shut up
     }
     this.stdout = createSearchableStream(this.process.stdout)
     if (this.process.stderr == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stderr should not be null")
+      throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
     this.stderr = createSearchableStream(this.process.stderr)
     const outputStream = mergeStream(this.process.stdout, this.process.stderr)
@@ -89,9 +90,10 @@ export class ObservableProcess {
 
   /** stops the currently running process */
   async kill(): Promise<Result> {
+    this.result = new Result(-1, true)
     this.process.kill()
     await delay(0)
-    return new Result(0, true)
+    return this.result
   }
 
   /** returns the process ID of the underlying ChildProcess */
@@ -100,13 +102,15 @@ export class ObservableProcess {
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
-  waitForEnd(): Promise<Result> {
-    return new Promise((resolve) => {
-      if (this.ended) {
-        resolve()
-      } else {
-        this.endedListeners.push(resolve)
+  async waitForEnd(): Promise<Result> {
+    if (this.ended) {
+      if (!this.result) {
+        throw new Error("process ended by no result")
       }
+      return this.result
+    }
+    return new Promise((resolve) => {
+      this.endedListeners.push(resolve)
     })
   }
 

@@ -4,7 +4,6 @@ import stringArgv from "string-argv"
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
 import util from "util"
 import { Result } from "./result"
-import { resolve } from "dns"
 const delay = util.promisify(setTimeout)
 
 /** The options that can be provided to Spawn */
@@ -62,7 +61,7 @@ export class ObservableProcess {
   output: SearchableStream
 
   /** functions to call when this process ends  */
-  private endedListeners: Array<() => void>
+  private endedListeners: Array<(result: Result) => void>
 
   constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
     this.ended = false
@@ -105,7 +104,7 @@ export class ObservableProcess {
   async waitForEnd(): Promise<Result> {
     if (this.ended) {
       if (!this.result) {
-        throw new Error("process ended by no result")
+        throw new Error("process ended but no result")
       }
       return this.result
     }
@@ -117,9 +116,9 @@ export class ObservableProcess {
   /** called when the underlying ChildProcess terminates */
   private onClose(exitCode: number) {
     this.ended = true
-    this.exitCode = exitCode
+    this.result = new Result(exitCode, false)
     for (const resolver of this.endedListeners) {
-      resolver()
+      resolver(this.result)
     }
   }
 }

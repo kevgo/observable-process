@@ -3,6 +3,7 @@ import mergeStream from "merge-stream"
 import stringArgv from "string-argv"
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
 import util from "util"
+import { Result } from "./result"
 const delay = util.promisify(setTimeout)
 
 /** The options that can be provided to Spawn */
@@ -32,7 +33,7 @@ export function createObservableProcess(command: string | string[], args: SpawnO
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
-    runnable,
+    runnable
   })
 }
 
@@ -40,12 +41,6 @@ export function createObservableProcess(command: string | string[], args: SpawnO
 export class ObservableProcess {
   /** indicates whether the process has stopped running */
   ended: boolean
-
-  /** the code with which the process has ended */
-  exitCode: number | null
-
-  /** whether the process was manually terminated by the user */
-  killed: boolean
 
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
@@ -67,12 +62,10 @@ export class ObservableProcess {
 
   constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
     this.ended = false
-    this.killed = false
     this.endedListeners = []
-    this.exitCode = null
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
-      env: args.env,
+      env: args.env
     })
     this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
@@ -95,10 +88,10 @@ export class ObservableProcess {
   }
 
   /** stops the currently running process */
-  async kill() {
-    this.killed = true
+  async kill(): Promise<Result> {
     this.process.kill()
     await delay(0)
+    return new Result(0, true)
   }
 
   /** returns the process ID of the underlying ChildProcess */
@@ -107,8 +100,8 @@ export class ObservableProcess {
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
-  waitForEnd(): Promise<void> {
-    return new Promise((resolve) => {
+  waitForEnd(): Promise<Result> {
+    return new Promise(resolve => {
       if (this.ended) {
         resolve()
       } else {

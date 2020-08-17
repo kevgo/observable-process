@@ -29,7 +29,7 @@ export function createObservableProcess(command: string | string[], args: SpawnO
   const [runnable, ...params] = argv
 
   // start the process
-  return new ObservableProcess({
+  return new RunningProcess({
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
@@ -38,7 +38,7 @@ export function createObservableProcess(command: string | string[], args: SpawnO
 }
 
 /** a long-running process whose behavior can be observed at runtime */
-export class ObservableProcess {
+export class RunningProcess {
   /** indicates whether the process has stopped running */
   ended: boolean
 
@@ -61,11 +61,11 @@ export class ObservableProcess {
   output: SearchableStream
 
   /** functions to call when this process ends  */
-  private endedListeners: Array<(result: Result) => void>
+  private endedCallbacks: Array<(result: Result) => void>
 
   constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
     this.ended = false
-    this.endedListeners = []
+    this.endedCallbacks = []
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
       env: args.env,
@@ -109,7 +109,7 @@ export class ObservableProcess {
       return this.result
     }
     return new Promise((resolve) => {
-      this.endedListeners.push(resolve)
+      this.endedCallbacks.push(resolve)
     })
   }
 
@@ -117,7 +117,7 @@ export class ObservableProcess {
   private onClose(exitCode: number) {
     this.ended = true
     this.result = new Result(exitCode, false)
-    for (const resolver of this.endedListeners) {
+    for (const resolver of this.endedCallbacks) {
       resolver(this.result)
     }
   }

@@ -8,7 +8,7 @@ export interface SpawnOptions {
 }
 
 /** starts a new ObservableProcess with the given options */
-export function run(command: string | string[], args: SpawnOptions = {}) {
+export function run(command: string | string[], args: SpawnOptions = {}): RunningProcess {
   // determine args
   if (!command) {
     throw new Error("run: no command to execute given")

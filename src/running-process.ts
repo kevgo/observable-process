@@ -53,7 +53,13 @@ export class RunningProcess {
 
   /** stops the currently running process */
   async kill(): Promise<Result> {
-    this.result = new Result(-1, true)
+    this.result = {
+      exitCode: -1,
+      killed: true,
+      stdOutput: this.stdout.fullText(),
+      errOutput: this.stderr.fullText(),
+      combinedOutput: this.output.fullText(),
+    }
     this.process.kill()
     await delay(1)
     return this.result
@@ -76,7 +82,13 @@ export class RunningProcess {
 
   /** called when the underlying ChildProcess terminates */
   private onClose(exitCode: number) {
-    this.result = new Result(exitCode, false)
+    this.result = {
+      exitCode,
+      killed: false,
+      stdOutput: this.stdout.fullText(),
+      errOutput: this.stderr.fullText(),
+      combinedOutput: this.output.fullText(),
+    }
     for (const endedCallback of this.endedCallbacks) {
       endedCallback(this.result)
     }

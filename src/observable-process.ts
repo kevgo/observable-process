@@ -6,7 +6,7 @@ import { Result } from "./result"
 const delay = util.promisify(setTimeout)
 
 /** a long-running process whose behavior can be observed at runtime */
-export class RunningProcess {
+export class ObservableProcess {
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
 

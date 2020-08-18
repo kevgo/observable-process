@@ -9,13 +9,11 @@ test("process ends before calling it", async function () {
   const observable = start(["node", "-e", "console.log('hello')"])
   await delay(50)
   const result = await observable.waitForEnd()
-  assert.deepEqual(result, {
-    exitCode: 0,
-    killed: false,
-    stdOutput: "hello\n",
-    errOutput: "",
-    combinedOutput: "hello\n",
-  })
+  assert.deepEqual(result.exitCode, 0)
+  assert.deepEqual(result.killed, false)
+  assert.deepEqual(result.stdOutput, "hello\n")
+  assert.deepEqual(result.errOutput, "")
+  assert.deepEqual(result.combinedOutput, "hello\n")
 })
 
 test("process still running when calling it", async function () {

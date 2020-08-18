@@ -23,9 +23,9 @@ test("ObservableProcess.kill()", async function () {
   await assertIsNotRunning(port)
   assert.equal(result.killed, true, "process should be killed")
   assert.equal(result.exitCode, -1)
-  assert.equal(result.stdOutput, "online\n")
-  assert.equal(result.errOutput, "")
-  assert.equal(result.combinedOutput, "online\n")
+  assert.equal(result.stdText, "online\n")
+  assert.equal(result.errText, "")
+  assert.equal(result.combinedText, "online\n")
 })
 
 async function assertIsRunning(port: number) {

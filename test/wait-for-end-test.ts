@@ -11,9 +11,9 @@ test("process ends before calling it", async function () {
   const result = await observable.waitForEnd()
   assert.deepEqual(result.exitCode, 7)
   assert.deepEqual(result.killed, false)
-  assert.deepEqual(result.stdOutput, "hello\n")
-  assert.deepEqual(result.errOutput, "")
-  assert.deepEqual(result.combinedOutput, "hello\n")
+  assert.deepEqual(result.stdText, "hello\n")
+  assert.deepEqual(result.errText, "")
+  assert.deepEqual(result.combinedText, "hello\n")
 })
 
 test("process still running when calling it", async function () {
@@ -21,7 +21,7 @@ test("process still running when calling it", async function () {
   const result = await observable.waitForEnd()
   assert.equal(result.exitCode, 8)
   assert.equal(result.killed, false)
-  assert.equal(result.stdOutput, "finally\n")
-  assert.equal(result.errOutput, "")
-  assert.equal(result.combinedOutput, "finally\n")
+  assert.equal(result.stdText, "finally\n")
+  assert.equal(result.errText, "")
+  assert.equal(result.combinedText, "finally\n")
 })

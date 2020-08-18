@@ -1,6 +1,6 @@
 import { strict as assert } from "assert"
 import { start } from "../src/start"
-import util from "util"
+import * as util from "util"
 const delay = util.promisify(setTimeout)
 
 suite("ObservableProcess.waitForEnd()")

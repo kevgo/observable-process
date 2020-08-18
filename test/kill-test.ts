@@ -1,6 +1,6 @@
 import { strict as assert } from "assert"
 import got from "got"
-import portFinder from "portfinder"
+import * as portFinder from "portfinder"
 import { startNodeProcess } from "./helpers/start-node-process"
 
 test("ObservableProcess.kill()", async function () {

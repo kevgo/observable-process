@@ -1,7 +1,7 @@
 import * as childProcess from "child_process"
-import mergeStream from "merge-stream"
+import mergeStream = require("merge-stream")
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
-import util from "util"
+import * as util from "util"
 import { Result } from "./result"
 const delay = util.promisify(setTimeout)
 

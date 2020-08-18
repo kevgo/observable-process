@@ -24,7 +24,6 @@ help:   # prints all make targets
 	@cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
 lint: # runs the linters
-	node_modules$/.bin$/tsc --noEmit
 	node_modules/.bin/tslint --project .
 	node_modules/.bin/prettier -l .
 
@@ -32,7 +31,7 @@ setup:   # sets up the installation on this machine
 	node_modules/o-tools/bin/check-paths
 	yarn install
 
-test: lint unit   # runs all tests
+test: build lint unit   # runs all tests
 
 unit:  # runs the unit tests
 	@node_modules/.bin/mocha test/*-test.ts --reporter dot

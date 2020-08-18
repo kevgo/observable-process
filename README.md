@@ -125,9 +125,9 @@ const result = observable.waitForEnd()
 assert.equal(result, {
   exitCode: 0,
   killed: false,
-  stdOutput: "... content from STDOUT ...",
-  errOutput: "... content from STDERR ...",
-  combinedOutput: "... content from both STDOUT and STDERR ...",
+  stdText: "... content from STDOUT ...",
+  errText: "... content from STDERR ...",
+  combinedText: "... content from both STDOUT and STDERR ...",
 })
 ```
 

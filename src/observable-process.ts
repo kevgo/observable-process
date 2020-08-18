@@ -10,7 +10,7 @@ export class ObservableProcess {
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
 
-  /** indicates whether the process was killed */
+  /** populated when the process finishes */
   private result: Result | undefined
 
   /** the STDIN stream of the underlying ChildProcess */

@@ -34,7 +34,7 @@
   ],
   "homepage": "https://github.com/Originate/observable-process",
   "license": "ISC",
-  "main": "dist/observable-process.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Originate/observable-process.git"

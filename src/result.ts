@@ -7,11 +7,11 @@ export interface Result {
   killed: boolean
 
   /** full output on the STDOUT stream */
-  stdOutput: string
+  stdText: string
 
   /** full output on the STDERR stream */
-  errOutput: string
+  errText: string
 
   /** combined output from STDOUT and STDERR */
-  combinedOutput: string
+  combinedText: string
 }

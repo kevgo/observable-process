@@ -56,9 +56,9 @@ export class ObservableProcess {
     this.result = {
       exitCode: -1,
       killed: true,
-      stdOutput: this.stdout.fullText(),
-      errOutput: this.stderr.fullText(),
-      combinedOutput: this.output.fullText(),
+      stdText: this.stdout.fullText(),
+      errText: this.stderr.fullText(),
+      combinedText: this.output.fullText(),
     }
     this.process.kill()
     await delay(1)
@@ -85,9 +85,9 @@ export class ObservableProcess {
     this.result = {
       exitCode,
       killed: false,
-      stdOutput: this.stdout.fullText(),
-      errOutput: this.stderr.fullText(),
-      combinedOutput: this.output.fullText(),
+      stdText: this.stdout.fullText(),
+      errText: this.stderr.fullText(),
+      combinedText: this.output.fullText(),
     }
     for (const endedCallback of this.endedCallbacks) {
       endedCallback(this.result)

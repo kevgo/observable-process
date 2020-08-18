@@ -1,6 +1,6 @@
 import { ObservableProcess } from "../../src/observable-process"
-import { run } from "../../src/run"
+import { start } from "../../src/start"
 
 export function startNodeProcess(code: string): ObservableProcess {
-  return run(["node", "-e", code])
+  return start(["node", "-e", code])
 }

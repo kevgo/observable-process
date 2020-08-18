@@ -1,54 +1,17 @@
 import * as childProcess from "child_process"
 import mergeStream from "merge-stream"
-import stringArgv from "string-argv"
 import { createSearchableStream, SearchableStream } from "./searchable-stream"
 import util from "util"
+import { Result } from "./result"
 const delay = util.promisify(setTimeout)
-
-/** The options that can be provided to Spawn */
-export interface SpawnOptions {
-  cwd?: string
-  env?: NodeJS.ProcessEnv
-}
-
-/** starts a new ObservableProcess with the given options */
-export function createObservableProcess(command: string | string[], args: SpawnOptions = {}) {
-  // determine args
-  let argv: string[] = []
-  if (!command) {
-    throw new Error("createObservableProcess: no command to execute given")
-  }
-  if (typeof command === "string") {
-    argv = stringArgv(command)
-  } else if (Array.isArray(command)) {
-    argv = command
-  } else {
-    throw new Error("observable.spawn: you must provide the command to run as a string or string[]")
-  }
-  const [runnable, ...params] = argv
-
-  // start the process
-  return new ObservableProcess({
-    cwd: args.cwd || process.cwd(),
-    env: args.env || process.env,
-    params,
-    runnable,
-  })
-}
 
 /** a long-running process whose behavior can be observed at runtime */
 export class ObservableProcess {
-  /** indicates whether the process has stopped running */
-  ended: boolean
-
-  /** the code with which the process has ended */
-  exitCode: number | null
-
-  /** whether the process was manually terminated by the user */
-  killed: boolean
-
   /** the underlying ChildProcess instance */
   process: childProcess.ChildProcess
+
+  /** populated when the process finishes */
+  private result: Result | undefined
 
   /** the STDIN stream of the underlying ChildProcess */
   stdin: NodeJS.WritableStream
@@ -63,31 +26,25 @@ export class ObservableProcess {
   output: SearchableStream
 
   /** functions to call when this process ends  */
-  private endedListeners: Array<() => void>
+  private endedCallbacks: Array<(result: Result) => void>
 
   constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
-    this.ended = false
-    this.killed = false
-    this.endedListeners = []
-    this.exitCode = null
+    this.endedCallbacks = []
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
       env: args.env,
     })
     this.process.on("close", this.onClose.bind(this))
     if (this.process.stdin == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stdin should not be null")
+      throw new Error("process.stdin should not be null") // this exists only to make the typechecker shut up
     }
     this.stdin = this.process.stdin
     if (this.process.stdout == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stdout should not be null")
+      throw new Error("process.stdout should not be null") // NOTE: this exists only to make the typechecker shut up
     }
     this.stdout = createSearchableStream(this.process.stdout)
     if (this.process.stderr == null) {
-      // NOTE: this exists only to make the typechecker shut up
-      throw new Error("process.stderr should not be null")
+      throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
     this.stderr = createSearchableStream(this.process.stderr)
     const outputStream = mergeStream(this.process.stdout, this.process.stderr)
@@ -95,10 +52,17 @@ export class ObservableProcess {
   }
 
   /** stops the currently running process */
-  async kill() {
-    this.killed = true
+  async kill(): Promise<Result> {
+    this.result = {
+      exitCode: -1,
+      killed: true,
+      stdOutput: this.stdout.fullText(),
+      errOutput: this.stderr.fullText(),
+      combinedOutput: this.output.fullText(),
+    }
     this.process.kill()
-    await delay(0)
+    await delay(1)
+    return this.result
   }
 
   /** returns the process ID of the underlying ChildProcess */
@@ -107,21 +71,26 @@ export class ObservableProcess {
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
-  async waitForEnd(): Promise<void> {
-    if (this.ended) {
-      return
+  async waitForEnd(): Promise<Result> {
+    if (this.result) {
+      return this.result
     }
     return new Promise((resolve) => {
-      this.endedListeners.push(resolve)
+      this.endedCallbacks.push(resolve)
     })
   }
 
   /** called when the underlying ChildProcess terminates */
   private onClose(exitCode: number) {
-    this.ended = true
-    this.exitCode = exitCode
-    for (const resolver of this.endedListeners) {
-      resolver()
+    this.result = {
+      exitCode,
+      killed: false,
+      stdOutput: this.stdout.fullText(),
+      errOutput: this.stderr.fullText(),
+      combinedOutput: this.output.fullText(),
+    }
+    for (const endedCallback of this.endedCallbacks) {
+      endedCallback(this.result)
     }
   }
 }

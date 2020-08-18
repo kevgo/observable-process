@@ -3,13 +3,6 @@ import got from "got"
 import portFinder from "portfinder"
 import { startNodeProcess } from "./helpers/start-node-process"
 
-test("ObservableProcess.waitForEnd()", async function () {
-  const process = startNodeProcess("setTimeout(function() {}, 1)")
-  await process.waitForEnd()
-  assert.equal(process.ended, true)
-  assert.equal(process.killed, false)
-})
-
 test("ObservableProcess.kill()", async function () {
   this.timeout(8000)
 
@@ -24,13 +17,15 @@ test("ObservableProcess.kill()", async function () {
   await assertIsRunning(port)
 
   // kill the process
-  await longRunningProcess.kill()
+  const result = await longRunningProcess.kill()
 
   // verify the process is no longer running
   await assertIsNotRunning(port)
-  assert.equal(longRunningProcess.ended, true, "process should be ended")
-  assert.equal(longRunningProcess.killed, true, "process should be killed")
-  assert.equal(longRunningProcess.exitCode, null)
+  assert.equal(result.killed, true, "process should be killed")
+  assert.equal(result.exitCode, -1)
+  assert.equal(result.stdOutput, "online\n")
+  assert.equal(result.errOutput, "")
+  assert.equal(result.combinedOutput, "online\n")
 })
 
 async function assertIsRunning(port: number) {

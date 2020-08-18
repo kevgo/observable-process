@@ -4,8 +4,8 @@ import { startNodeProcess } from "./helpers/start-node-process"
 test("ObservableProcess.stdin", async function () {
   // start a process that reads from STDIN
   const running = startNodeProcess(
-    "process.stdin.on('data', data => { process.stdout.write(data) });\
-       process.stdin.on('end', () => { process.stdout.write('\\nEND') })"
+    `process.stdin.on("data", data => { process.stdout.write(data) });\
+       process.stdin.on("end", () => { process.stdout.write("\\nEND") })`
   )
 
   // write some stuff into the STDIN stream of this process

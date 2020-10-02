@@ -1,4 +1,5 @@
 import { strict as assert } from "assert"
+
 import { startNodeProcess } from "./helpers/start-node-process"
 
 suite("ObservableProcess.stdout")

@@ -1,4 +1,5 @@
 import { strict as assert } from "assert"
+
 import { start } from "../src/start"
 
 suite("ObservableProcess.spawn()")

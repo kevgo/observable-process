@@ -5,8 +5,8 @@ import { TextStreamSearch } from "text-stream-search"
  */
 export interface TextStreamSearcher {
   fullText(): string
-  waitForText(text: string, timeout?: number): Promise<string>
   waitForRegex(regex: RegExp, timeout?: number): Promise<string>
+  waitForText(text: string, timeout?: number): Promise<string>
 }
 
 /**

@@ -1,4 +1,5 @@
 import stringArgv from "string-argv"
+
 import { ObservableProcess } from "./observable-process"
 
 /** The options that can be provided to Spawn */

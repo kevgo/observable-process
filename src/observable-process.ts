@@ -1,8 +1,9 @@
 import * as childProcess from "child_process"
 import mergeStream = require("merge-stream")
-import { createSearchableStream, SearchableStream } from "./searchable-stream"
 import * as util from "util"
+
 import { Result } from "./result"
+import { createSearchableStream, SearchableStream } from "./searchable-stream"
 const delay = util.promisify(setTimeout)
 
 /** a long-running process whose behavior can be observed at runtime */
@@ -28,7 +29,7 @@ export class ObservableProcess {
   /** functions to call when this process ends  */
   private endedCallbacks: Array<(result: Result) => void>
 
-  constructor(args: { runnable: string; params: string[]; cwd: string; env: NodeJS.ProcessEnv }) {
+  constructor(args: { cwd: string; env: NodeJS.ProcessEnv; params: string[]; runnable: string }) {
     this.endedCallbacks = []
     this.process = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
@@ -66,7 +67,7 @@ export class ObservableProcess {
   }
 
   /** returns the process ID of the underlying ChildProcess */
-  pid() {
+  pid(): number {
     return this.process.pid
   }
 

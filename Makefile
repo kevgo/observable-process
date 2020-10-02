@@ -5,8 +5,8 @@ else
 	/ := /
 endif
 
-build: clean  # builds the production version
-	@node_modules$/.bin$/tsc -p .
+build: # builds the production version
+	@node_modules$/.bin$/tsc -p tsconfig-build.json
 
 clean:  # removes all build artifacts
 	@rm -rf dist

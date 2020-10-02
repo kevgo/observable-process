@@ -20,8 +20,8 @@ lint: # runs the linters
 	${CURDIR}/node_modules/.bin/prettier -l .
 
 setup:   # sets up the installation on this machine
-	${CURDIR}/node_modules/o-tools/bin/check-paths
 	yarn install
+	make build
 
 test: build lint unit   # runs all tests
 

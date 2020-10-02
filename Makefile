@@ -9,14 +9,14 @@ coverage: build  # measures test coverage
 	${CURDIR}/node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls
 
 fix:  # runs the fixers
-	tslint --project . --fix
+	${CURDIR}/node_modules/.bin/eslint . --fix --ext .ts --ignore-path .eslintignore
 	${CURDIR}/node_modules/.bin/prettier --write .
 
 help:   # prints all make targets
 	cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
 lint: # runs the linters
-	${CURDIR}/node_modules/.bin/tslint --project .
+	${CURDIR}/node_modules/.bin/eslint . --ext .ts --ignore-path .eslintignore
 	${CURDIR}/node_modules/.bin/prettier -l .
 
 setup:   # sets up the installation on this machine

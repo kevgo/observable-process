@@ -29,6 +29,6 @@ export function start(command: string | string[], args: SpawnOptions = {}): obse
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
-    runnable
+    runnable,
   })
 }

@@ -27,6 +27,7 @@
     "portfinder": "1.0.28",
     "prettier": "2.1.2",
     "source-map-support": "0.5.19",
+    "text-runner": "5.0.0-pre1",
     "ts-node": "9.0.0",
     "typescript": "4.0.3"
   },

@@ -3,13 +3,13 @@ import stringArgv from "string-argv"
 import * as observableProcess from "./process"
 
 /** The options that can be provided to Spawn */
-export interface SpawnOptions {
+export interface StartOptions {
   cwd?: string
   env?: NodeJS.ProcessEnv
 }
 
 /** starts a new ObservableProcess with the given options */
-export function start(command: string | string[], args: SpawnOptions = {}): observableProcess.Process {
+export function start(command: string | string[], options: StartOptions = {}): observableProcess.Process {
   // determine args
   if (!command) {
     throw new Error("start: no command to execute given")
@@ -26,9 +26,9 @@ export function start(command: string | string[], args: SpawnOptions = {}): obse
 
   // start the process
   return new observableProcess.Process({
-    cwd: args.cwd || process.cwd(),
-    env: args.env || process.env,
+    cwd: options.cwd || process.cwd(),
+    env: options.env || process.env,
     params,
-    runnable,
+    runnable
   })
 }

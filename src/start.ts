@@ -1,6 +1,6 @@
 import stringArgv from "string-argv"
 
-import * as observableProcess from "./class"
+import * as observableProcess from "./process"
 
 /** The options that can be provided to Spawn */
 export interface SpawnOptions {

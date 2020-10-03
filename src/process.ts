@@ -46,13 +46,13 @@ export class Process {
     if (this.childProcess.stdout == null) {
       throw new Error("process.stdout should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stdout = searchableStream.createSearchableStream(this.childProcess.stdout)
+    this.stdout = searchableStream.create(this.childProcess.stdout)
     if (this.childProcess.stderr == null) {
       throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stderr = searchableStream.createSearchableStream(this.childProcess.stderr)
+    this.stderr = searchableStream.create(this.childProcess.stderr)
     const outputStream = mergeStream(this.childProcess.stdout, this.childProcess.stderr)
-    this.output = searchableStream.createSearchableStream(outputStream)
+    this.output = searchableStream.create(outputStream)
   }
 
   /** stops the currently running process */

@@ -47,7 +47,7 @@ import * as observableProcess from "observable-process"
 
 ## Starting processes
 
-The best way to provide the command to start is in the form of an argv array:
+The best way to provide the command to start is in the form of an `argv` array:
 
 ```js
 const observable = observableProcess.start(["node", "server.js"])
@@ -59,7 +59,7 @@ You can also provide the full command line to run as a string:
 const observable = observableProcess.start("node server.js")
 ```
 
-By default, the process runs in the current directory. To set the different
+By default, the process runs in the current directory. To set a different
 working directory for the subprocess:
 
 ```js
@@ -77,8 +77,8 @@ const observable = observableProcess.start("node server.js", {
 })
 ```
 
-Without a custom `env` parameter, ObservableProcess uses the environment
-variables from the parent process.
+Without an `env` parameter, ObservableProcess uses the environment variables
+from the parent process.
 
 ## Reading output
 

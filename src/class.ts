@@ -36,7 +36,7 @@ export class Process {
     this.endedCallbacks = []
     this.childProcess = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
-      env: args.env
+      env: args.env,
     })
     this.childProcess.on("close", this.onClose.bind(this))
     if (this.childProcess.stdin == null) {
@@ -62,7 +62,7 @@ export class Process {
       killed: true,
       stdText: this.stdout.fullText(),
       errText: this.stderr.fullText(),
-      combinedText: this.output.fullText()
+      combinedText: this.output.fullText(),
     }
     this.childProcess.kill()
     await delay(1)
@@ -79,7 +79,7 @@ export class Process {
     if (this.result) {
       return this.result
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.endedCallbacks.push(resolve)
     })
   }
@@ -91,7 +91,7 @@ export class Process {
       killed: false,
       stdText: this.stdout.fullText(),
       errText: this.stderr.fullText(),
-      combinedText: this.output.fullText()
+      combinedText: this.output.fullText(),
     }
     for (const endedCallback of this.endedCallbacks) {
       endedCallback(this.result)

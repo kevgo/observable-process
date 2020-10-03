@@ -6,7 +6,7 @@ import * as util from "util"
 import * as scanner from "./scanner"
 const delay = util.promisify(setTimeout)
 
-export * from "./scanner"
+export * as scanner from "./scanner"
 
 /** a long-running process whose behavior can be observed at runtime */
 export class Process {

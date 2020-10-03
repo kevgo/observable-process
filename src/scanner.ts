@@ -1,22 +1,17 @@
 import { TextStreamSearch } from "text-stream-search"
 
-/**
- * the API we use to search streams for text or regular expressions
- */
+/** the API to search streams for text or regular expressions */
 interface TextStreamSearcher {
   fullText(): string
   waitForRegex(regex: RegExp, timeout?: number): Promise<string>
   waitForText(text: string, timeout?: number): Promise<string>
 }
 
-/**
- * A NodeJS.ReadableStream decorated with additional capabilities
- * to search the stream content.
- */
-export type SearchableStream = NodeJS.ReadableStream & TextStreamSearcher
+/** A NodeJS.ReadableStream that can search the stream content. */
+export type Stream = NodeJS.ReadableStream & TextStreamSearcher
 
-export function createSearchableStream(stream: NodeJS.ReadableStream): SearchableStream {
-  const result = stream as SearchableStream
+export function wrapStream(stream: NodeJS.ReadableStream): Stream {
+  const result = stream as Stream
   const search = new TextStreamSearch(stream)
   result.waitForText = async function (text: string, timeout?: number) {
     return search.waitForText(text, timeout)

@@ -98,7 +98,7 @@ export class Process {
   }
 }
 
-/** Provides the results of running the process */
+/** the result of running a process */
 export interface Result {
   /** combined output from STDOUT and STDERR */
   combinedText: string
@@ -116,9 +116,12 @@ export interface Result {
   stdText: string
 }
 
-/** The options that can be provided to Spawn */
+/** options for start */
 export interface StartOptions {
+  /** the directory to run the process in */
   cwd?: string
+
+  /** environment variables for the process */
   env?: NodeJS.ProcessEnv
 }
 
@@ -129,6 +132,7 @@ export function start(command: string | string[], options: StartOptions = {}): P
     throw new Error("start: no command to execute given")
   }
   let argv: string[] = []
+  // TODO: instanceOfString
   if (typeof command === "string") {
     argv = stringArgv(command)
   } else if (Array.isArray(command)) {

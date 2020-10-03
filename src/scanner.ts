@@ -8,10 +8,10 @@ interface TextStreamSearcher {
 }
 
 /** A NodeJS.ReadableStream that can search the stream content. */
-export type SearchableStream = NodeJS.ReadableStream & TextStreamSearcher
+export type Stream = NodeJS.ReadableStream & TextStreamSearcher
 
-export function create(stream: NodeJS.ReadableStream): SearchableStream {
-  const result = stream as SearchableStream
+export function wrapStream(stream: NodeJS.ReadableStream): Stream {
+  const result = stream as Stream
   const search = new TextStreamSearch(stream)
   result.waitForText = async function (text: string, timeout?: number) {
     return search.waitForText(text, timeout)

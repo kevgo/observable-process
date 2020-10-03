@@ -3,16 +3,15 @@ import stringArgv from "string-argv"
 import mergeStream = require("merge-stream")
 import * as util from "util"
 
-import * as searchableStream from "./searchable-stream"
+import * as scanner from "./scanner"
 const delay = util.promisify(setTimeout)
 
-/** Function signature to call when the process has ended */
-export type EndedCallback = (result: Result) => void
+export * from "./scanner"
 
 /** a long-running process whose behavior can be observed at runtime */
 export class Process {
   /** the underlying ChildProcess instance */
-  childProcess: childProcess.ChildProcess
+  private childProcess: childProcess.ChildProcess
 
   /** populated when the process finishes */
   private result: Result | undefined
@@ -21,16 +20,16 @@ export class Process {
   stdin: NodeJS.WritableStream
 
   /** searchable STDOUT stream of the underlying ChildProcess */
-  stdout: searchableStream.SearchableStream
+  stdout: scanner.Stream
 
   /** searchable STDERR stream of the underlying ChildProcess */
-  stderr: searchableStream.SearchableStream
+  stderr: scanner.Stream
 
   /** searchable combined STDOUT and STDERR stream */
-  output: searchableStream.SearchableStream
+  output: scanner.Stream
 
   /** functions to call when this process ends  */
-  private endedCallbacks: Array<EndedCallback>
+  private endedCallbacks: Array<(result: Result) => void>
 
   constructor(args: { cwd: string; env: NodeJS.ProcessEnv; params: string[]; runnable: string }) {
     this.endedCallbacks = []
@@ -46,13 +45,13 @@ export class Process {
     if (this.childProcess.stdout == null) {
       throw new Error("process.stdout should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stdout = searchableStream.create(this.childProcess.stdout)
+    this.stdout = scanner.wrapStream(this.childProcess.stdout)
     if (this.childProcess.stderr == null) {
       throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stderr = searchableStream.create(this.childProcess.stderr)
+    this.stderr = scanner.wrapStream(this.childProcess.stderr)
     const outputStream = mergeStream(this.childProcess.stdout, this.childProcess.stderr)
-    this.output = searchableStream.create(outputStream)
+    this.output = scanner.wrapStream(outputStream)
   }
 
   /** stops the currently running process */

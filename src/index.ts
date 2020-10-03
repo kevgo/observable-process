@@ -133,12 +133,12 @@ export function start(command: string | string[], options: StartOptions = {}): P
   }
   let argv: string[] = []
   // TODO: instanceOfString
-  if (typeof command === "string") {
+  if (instanceOfString(command)) {
     argv = stringArgv(command)
-  } else if (Array.isArray(command)) {
+  } else if (instanceOfArray(command)) {
     argv = command
   } else {
-    throw new Error("start: you must provide the command to run as a string or string[]")
+    throw new Error("you must provide the command to run as a string or string[]")
   }
   const [runnable, ...params] = argv
 
@@ -149,4 +149,12 @@ export function start(command: string | string[], options: StartOptions = {}): P
     params,
     runnable,
   })
+}
+
+function instanceOfString(arg: any): arg is string {
+  return typeof arg === "string"
+}
+
+function instanceOfArray(arg: string | string[]): arg is string[] {
+  return Array.isArray(arg)
 }

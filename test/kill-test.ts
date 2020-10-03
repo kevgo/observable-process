@@ -38,5 +38,7 @@ async function assertIsNotRunning(port: number) {
     await got(`http://localhost:${port}`)
   } catch (e) {
     assert.equal(e.code, "ECONNREFUSED")
+    return
   }
+  assert.fail("should not reach this")
 }

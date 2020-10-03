@@ -29,6 +29,6 @@ export function start(command: string | string[], options: StartOptions = {}): o
     cwd: options.cwd || process.cwd(),
     env: options.env || process.env,
     params,
-    runnable
+    runnable,
   })
 }

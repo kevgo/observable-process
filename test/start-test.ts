@@ -2,7 +2,7 @@ import { strict as assert } from "assert"
 
 import * as observableProcess from "../src/index"
 
-suite("ObservableProcess.spawn()")
+suite("ObservableProcess.start()")
 
 test("starting a process via an argv array", async function () {
   const observable = observableProcess.start(["node", "-e", "console.log('hello')"])
@@ -33,7 +33,7 @@ test("wrong argument type", function () {
   assert.throws(function () {
     // @ts-ignore
     observableProcess.start(1)
-  }, new Error("start: you must provide the command to run as a string or string[]"))
+  }, new Error("you must provide the command to run as a string or string[]"))
 })
 
 test("providing environment variables", async function () {

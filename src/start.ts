@@ -9,7 +9,7 @@ export interface SpawnOptions {
 }
 
 /** starts a new ObservableProcess with the given options */
-export function start(command: string | string[], args: SpawnOptions = {}): observableProcess.Class {
+export function start(command: string | string[], args: SpawnOptions = {}): observableProcess.Process {
   // determine args
   if (!command) {
     throw new Error("start: no command to execute given")
@@ -25,10 +25,10 @@ export function start(command: string | string[], args: SpawnOptions = {}): obse
   const [runnable, ...params] = argv
 
   // start the process
-  return new observableProcess.Class({
+  return new observableProcess.Process({
     cwd: args.cwd || process.cwd(),
     env: args.env || process.env,
     params,
-    runnable,
+    runnable
   })
 }

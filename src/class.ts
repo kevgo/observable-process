@@ -6,11 +6,11 @@ import { Result } from "./result"
 import * as searchableStream from "./searchable-stream"
 const delay = util.promisify(setTimeout)
 
-/** Signature of the function to call when the process has ended */
+/** Function signature to call when the process has ended */
 export type EndedCallback = (result: Result) => void
 
 /** a long-running process whose behavior can be observed at runtime */
-export class Class {
+export class Process {
   /** the underlying ChildProcess instance */
   childProcess: childProcess.ChildProcess
 
@@ -36,7 +36,7 @@ export class Class {
     this.endedCallbacks = []
     this.childProcess = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
-      env: args.env,
+      env: args.env
     })
     this.childProcess.on("close", this.onClose.bind(this))
     if (this.childProcess.stdin == null) {
@@ -62,7 +62,7 @@ export class Class {
       killed: true,
       stdText: this.stdout.fullText(),
       errText: this.stderr.fullText(),
-      combinedText: this.output.fullText(),
+      combinedText: this.output.fullText()
     }
     this.childProcess.kill()
     await delay(1)
@@ -79,7 +79,7 @@ export class Class {
     if (this.result) {
       return this.result
     }
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.endedCallbacks.push(resolve)
     })
   }
@@ -91,7 +91,7 @@ export class Class {
       killed: false,
       stdText: this.stdout.fullText(),
       errText: this.stderr.fullText(),
-      combinedText: this.output.fullText(),
+      combinedText: this.output.fullText()
     }
     for (const endedCallback of this.endedCallbacks) {
       endedCallback(this.result)

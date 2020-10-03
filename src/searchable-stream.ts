@@ -3,7 +3,7 @@ import { TextStreamSearch } from "text-stream-search"
 /**
  * the API we use to search streams for text or regular expressions
  */
-export interface TextStreamSearcher {
+interface TextStreamSearcher {
   fullText(): string
   waitForRegex(regex: RegExp, timeout?: number): Promise<string>
   waitForText(text: string, timeout?: number): Promise<string>

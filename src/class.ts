@@ -3,13 +3,16 @@ import mergeStream = require("merge-stream")
 import * as util from "util"
 
 import { Result } from "./result"
-import { createSearchableStream, SearchableStream } from "./searchable-stream"
+import * as searchableStream from "./searchable-stream"
 const delay = util.promisify(setTimeout)
 
+/** Signature of the function to call when the process has ended */
+export type EndedCallback = (result: Result) => void
+
 /** a long-running process whose behavior can be observed at runtime */
-export class ObservableProcess {
+export class Class {
   /** the underlying ChildProcess instance */
-  process: childProcess.ChildProcess
+  childProcess: childProcess.ChildProcess
 
   /** populated when the process finishes */
   private result: Result | undefined
@@ -18,38 +21,38 @@ export class ObservableProcess {
   stdin: NodeJS.WritableStream
 
   /** searchable STDOUT stream of the underlying ChildProcess */
-  stdout: SearchableStream
+  stdout: searchableStream.SearchableStream
 
   /** searchable STDERR stream of the underlying ChildProcess */
-  stderr: SearchableStream
+  stderr: searchableStream.SearchableStream
 
   /** searchable combined STDOUT and STDERR stream */
-  output: SearchableStream
+  output: searchableStream.SearchableStream
 
   /** functions to call when this process ends  */
-  private endedCallbacks: Array<(result: Result) => void>
+  private endedCallbacks: Array<EndedCallback>
 
   constructor(args: { cwd: string; env: NodeJS.ProcessEnv; params: string[]; runnable: string }) {
     this.endedCallbacks = []
-    this.process = childProcess.spawn(args.runnable, args.params, {
+    this.childProcess = childProcess.spawn(args.runnable, args.params, {
       cwd: args.cwd,
       env: args.env,
     })
-    this.process.on("close", this.onClose.bind(this))
-    if (this.process.stdin == null) {
+    this.childProcess.on("close", this.onClose.bind(this))
+    if (this.childProcess.stdin == null) {
       throw new Error("process.stdin should not be null") // this exists only to make the typechecker shut up
     }
-    this.stdin = this.process.stdin
-    if (this.process.stdout == null) {
+    this.stdin = this.childProcess.stdin
+    if (this.childProcess.stdout == null) {
       throw new Error("process.stdout should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stdout = createSearchableStream(this.process.stdout)
-    if (this.process.stderr == null) {
+    this.stdout = searchableStream.createSearchableStream(this.childProcess.stdout)
+    if (this.childProcess.stderr == null) {
       throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
-    this.stderr = createSearchableStream(this.process.stderr)
-    const outputStream = mergeStream(this.process.stdout, this.process.stderr)
-    this.output = createSearchableStream(outputStream)
+    this.stderr = searchableStream.createSearchableStream(this.childProcess.stderr)
+    const outputStream = mergeStream(this.childProcess.stdout, this.childProcess.stderr)
+    this.output = searchableStream.createSearchableStream(outputStream)
   }
 
   /** stops the currently running process */
@@ -61,14 +64,14 @@ export class ObservableProcess {
       errText: this.stderr.fullText(),
       combinedText: this.output.fullText(),
     }
-    this.process.kill()
+    this.childProcess.kill()
     await delay(1)
     return this.result
   }
 
   /** returns the process ID of the underlying ChildProcess */
   pid(): number {
-    return this.process.pid
+    return this.childProcess.pid
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */

@@ -2,23 +2,25 @@ import { strict as assert } from "assert"
 import got from "got"
 import * as portFinder from "portfinder"
 
-import { startNodeProcess } from "./helpers/start-node-process"
+import * as observableProcess from "../src/index"
 
 test("ObservableProcess.kill()", async function () {
   this.timeout(8000)
 
   // start a long-running process
   const port = await portFinder.getPortPromise()
-  const longRunningProcess = startNodeProcess(
+  const process = observableProcess.start([
+    "node",
+    "-e",
     `http = require('http');\
       http.createServer(function(_, res) { res.end('hello') }).listen(${port}, 'localhost');\
-      console.log('online')`
-  )
-  await longRunningProcess.stdout.waitForText("online")
+      console.log('online')`,
+  ])
+  await process.stdout.waitForText("online")
   await assertIsRunning(port)
 
   // kill the process
-  const result = await longRunningProcess.kill()
+  const result = await process.kill()
 
   // verify the process is no longer running
   await assertIsNotRunning(port)

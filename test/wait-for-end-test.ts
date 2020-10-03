@@ -1,15 +1,15 @@
 import { strict as assert } from "assert"
 import * as util from "util"
 
-import { start } from "../src/start"
+import * as observableProcess from "../src/index"
 const delay = util.promisify(setTimeout)
 
 suite("ObservableProcess.waitForEnd()")
 
 test("process ends before calling it", async function () {
-  const observable = start(["node", "-e", "console.log('hello'); process.exit(7)"])
+  const process = observableProcess.start(["node", "-e", "console.log('hello'); process.exit(7)"])
   await delay(50)
-  const result = await observable.waitForEnd()
+  const result = await process.waitForEnd()
   assert.deepEqual(result.exitCode, 7)
   assert.deepEqual(result.killed, false)
   assert.deepEqual(result.stdText, "hello\n")
@@ -18,8 +18,12 @@ test("process ends before calling it", async function () {
 })
 
 test("process still running when calling it", async function () {
-  const observable = start(["node", "-e", "setTimeout(function() { console.log('finally'); process.exit(8)}, 10)"])
-  const result = await observable.waitForEnd()
+  const process = observableProcess.start([
+    "node",
+    "-e",
+    "setTimeout(function() { console.log('finally'); process.exit(8)}, 10)",
+  ])
+  const result = await process.waitForEnd()
   assert.equal(result.exitCode, 8)
   assert.equal(result.killed, false)
   assert.equal(result.stdText, "finally\n")

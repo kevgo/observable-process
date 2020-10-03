@@ -14,13 +14,13 @@ particular:
   [stdout](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout)
   and
   [stderr](https://nodejs.org/api/child_process.html#child_process_subprocess_stderr)
-- wait for content in `stdout` and `stderr`
+- await content in `stdout` and `stderr`
 - combines `stdout` and `stderr` into a new `output` stream
-- `await` the process end
+- await the process end
 - easier access to the process exit code
 - signals whether the process ended naturally or was manually terminated
 
-This is intended for short-lived processes, for example when testing the
+ObservableProcess is for short-lived processes, for example when testing the
 terminal output of applications. Since ObservableProcess stores all output from
 the child process in memory, executing long-running processes that produce lots
 of output through ObservableProcess will cause high memory consumption.

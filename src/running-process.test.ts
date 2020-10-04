@@ -57,7 +57,17 @@ suite("RunningProcess", function () {
       assert.equal(result.combinedText, "online\n")
     })
 
-    test("an already exited process")
+    test("an already exited process", async function () {
+      const process = observableProcess.start(["node", "-e", "console"])
+      await process.waitForEnd()
+      try {
+        await process.kill()
+      } catch (e) {
+        assert.equal(e.message, "process has already finished and cannot be killed anymore")
+        return
+      }
+      throw new Error("expected failure")
+    })
   })
 
   suite("output", function () {

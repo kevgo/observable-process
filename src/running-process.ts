@@ -55,6 +55,9 @@ export class RunningProcess {
 
   /** stops the currently running process */
   async kill(): Promise<KilledProcess> {
+    if (this.result) {
+      throw new Error("process has already finished and cannot be killed anymore")
+    }
     this.result = {
       state: "killed",
       stdText: this.stdout.fullText(),

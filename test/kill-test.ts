@@ -4,7 +4,7 @@ import * as portFinder from "portfinder"
 
 import * as observableProcess from "../src/index"
 
-test("ObservableProcess.kill()", async function () {
+test("RunningProcess.kill()", async function () {
   this.timeout(8000)
 
   // start a long-running process
@@ -30,6 +30,8 @@ test("ObservableProcess.kill()", async function () {
   assert.equal(result.errText, "")
   assert.equal(result.combinedText, "online\n")
 })
+
+test("killing an already exited process")
 
 async function assertIsRunning(port: number) {
   await got(`http://localhost:${port}`)

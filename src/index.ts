@@ -14,7 +14,7 @@ export class Process {
   private childProcess: childProcess.ChildProcess
 
   /** populated when the process finishes */
-  private result: Result | undefined
+  private result: FinishedProcess | KilledProcess | undefined
 
   /** the STDIN stream of the underlying ChildProcess */
   stdin: NodeJS.WritableStream
@@ -29,7 +29,7 @@ export class Process {
   output: scanner.Stream
 
   /** functions to call when this process ends  */
-  private endedCallbacks: Array<(result: Result) => void>
+  private endedCallbacks: Array<(result: FinishedProcess | KilledProcess) => void>
 
   constructor(args: { cwd: string; env: NodeJS.ProcessEnv; params: string[]; runnable: string }) {
     this.endedCallbacks = []
@@ -55,10 +55,9 @@ export class Process {
   }
 
   /** stops the currently running process */
-  async kill(): Promise<Result> {
+  async kill(): Promise<KilledProcess> {
     this.result = {
       exitCode: -1,
-      killed: true,
       stdText: this.stdout.fullText(),
       errText: this.stderr.fullText(),
       combinedText: this.output.fullText(),
@@ -74,7 +73,7 @@ export class Process {
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */
-  async waitForEnd(): Promise<Result> {
+  async waitForEnd(): Promise<FinishedProcess | KilledProcess> {
     if (this.result) {
       return this.result
     }
@@ -98,8 +97,8 @@ export class Process {
   }
 }
 
-/** the result of running a process */
-export interface Result {
+/** data about a process that has finished naturally */
+export interface FinishedProcess {
   /** combined output from STDOUT and STDERR */
   combinedText: string
 
@@ -109,8 +108,17 @@ export interface Result {
   /** the code with which the process has ended */
   exitCode: number
 
-  /** whether the process was manually terminated by the user */
-  killed: boolean
+  /** full output on the STDOUT stream */
+  stdText: string
+}
+
+/** data about a process that was terminated by the user */
+export interface KilledProcess {
+  /** combined output from STDOUT and STDERR */
+  combinedText: string
+
+  /** full output on the STDERR stream */
+  errText: string
 
   /** full output on the STDOUT stream */
   stdText: string

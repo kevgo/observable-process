@@ -26,7 +26,7 @@ setup:   # sets up the installation on this machine
 test: build lint unit   # runs all tests
 
 unit:  # runs the unit tests
-	${CURDIR}/node_modules/.bin/mocha test/*-test.ts --reporter dot
+	${CURDIR}/node_modules/.bin/mocha src/*.test.ts --reporter dot
 
 update:  # updates the dependencies
 	yarn upgrade --latest

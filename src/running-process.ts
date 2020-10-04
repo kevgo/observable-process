@@ -81,15 +81,28 @@ export class RunningProcess {
     })
   }
 
-  /** called when the underlying ChildProcess terminates */
-  private onClose(exitCode: number) {
-    console.log("ONCLOSE")
-    this.result = {
-      exitCode,
-      stdText: this.stdout.fullText(),
-      errText: this.stderr.fullText(),
-      combinedText: this.output.fullText(),
-      state: "finished",
+  /**
+   * Called when the underlying ChildProcess ends.
+   * This gets called for natural ends and kills.
+   */
+  private onClose(exitCode: number): void {
+    if (exitCode != null) {
+      const finishedProcess: FinishedProcess = {
+        exitCode,
+        errText: this.stderr.fullText(),
+        combinedText: this.output.fullText(),
+        state: "finished",
+        stdText: this.stdout.fullText(),
+      }
+      this.result = finishedProcess
+    } else {
+      const killedProcess: KilledProcess = {
+        errText: this.stderr.fullText(),
+        combinedText: this.output.fullText(),
+        state: "killed",
+        stdText: this.stdout.fullText(),
+      }
+      this.result = killedProcess
     }
     for (const endedCallback of this.endedCallbacks) {
       endedCallback(this.result)

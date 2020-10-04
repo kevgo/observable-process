@@ -3,4 +3,4 @@ recursive: true
 bail: true
 slow: 0
 exclude: text-run/**/*.js
-ui: qunit
+ui: tdd

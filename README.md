@@ -83,29 +83,38 @@ from the parent process.
 ## Reading output
 
 The `stdout` and `stderr` variables of an ObservableProcess behave like normal
-[readable streams](https://nodejs.org/api/stream.html#stream_readable_streams)
-and provide extra functionality to access and search their content while the
-process runs.
+[readable streams](https://nodejs.org/api/stream.html#stream_readable_streams):
 
 ```js
-// normal access to STDOUT
+// normal consumption of data from STDOUT via the event stream
 observable.stdout.on("data", function () {
   // ...
 })
+```
 
-// get all content from STDOUT as a string
+They also provide extra functionality to access and search their aggregated
+content. To get all content from STDOUT as a string:
+
+```js
 const text = observable.stdout.fullText()
+```
 
-// wait for text to appear in STDOUT
-await observable.stdout.waitForText("server is online")
+To wait for text to appear in STDOUT:
 
-// wait for a regex on STDOUT
-const serverPort = await observable.stdout.waitForRegex(/running at port \d+/)
+```js
+const match = await observable.stdout.waitForText("server is online")
+// => "server is online"
+```
+
+To wait for a regular expression on STDOUT:
+
+```js
+const match = await observable.stdout.waitForRegex(/running at port \d+/)
 // => "running at port 3000"
 ```
 
 Comparable functionality is available for `stderr`. ObservableProcess also
-creates a new `output` stream with the combined content of STDOUT and STDERR:
+provides a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
 observable.output.on("data", function (data) {
@@ -116,11 +125,7 @@ await observable.output.waitForText("server is online")
 const port = await observable.output.waitForRegex(/running at port \d+./)
 ```
 
-You also get the process output after it ended:
-
-```js
-const result = await observable.waitForEnd()
-```
+You also get a copy of the process output after it ended (see below).
 
 ## Sending input to the process
 
@@ -142,26 +147,25 @@ observable.pid()
 
 ## Stop the process
 
-Wait until a process ends naturally:
+Wait until the process ends naturally:
 
 ```js
 const result = await observable.waitForEnd()
 assert.equal(result, {
+  status: "finished",
   exitCode: 0,
-  killed: false,
   stdText: "... content from STDOUT ...",
   errText: "... content from STDERR ...",
   combinedText: "... content from both STDOUT and STDERR ...",
 })
 ```
 
-Manually stop a running process:
+Manually stop the process:
 
 ```js
 const result = await observable.kill()
 assert.equal(result, {
-  exitCode: -1,
-  killed: true,
+  status: "killed",
   stdText: "... content from STDOUT ...",
   errText: "... content from STDERR ...",
   combinedText: "... content from both STDOUT and STDERR ...",

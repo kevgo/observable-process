@@ -4,6 +4,7 @@ import * as portFinder from "portfinder"
 import * as util from "util"
 
 import * as observableProcess from "../src/index"
+import { instanceOfFinishedProcess } from "./finished-process"
 const delay = util.promisify(setTimeout)
 
 suite("RunningProcess", function () {
@@ -57,7 +58,7 @@ suite("RunningProcess", function () {
       assert.equal(result.combinedText, "online\n")
     })
 
-    test("an already exited process", async function () {
+    test("an already finished process", async function () {
       const process = observableProcess.start(["node", "-e", "console"])
       await process.waitForEnd()
       try {
@@ -71,7 +72,7 @@ suite("RunningProcess", function () {
   })
 
   suite("output", function () {
-    test("reading", async function () {
+    test(".fullText()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -81,7 +82,7 @@ suite("RunningProcess", function () {
       assert.equal(process.output.fullText(), "helloworld")
     })
 
-    test("waiting for text", async function () {
+    test(".waitForText()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -91,13 +92,13 @@ suite("RunningProcess", function () {
       assert.equal(text, "helloworld")
     })
 
-    test("waiting for text times out", async function () {
+    test(".waitForText() timeout", async function () {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.output.waitForText("hello", 1)
       await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
-    test("waiting for regex", async function () {
+    test("waitForRegex()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -107,7 +108,7 @@ suite("RunningProcess", function () {
       assert.equal(text, "helloworld")
     })
 
-    test("waiting for regex times out", async function () {
+    test("waitForRegex() timeout", async function () {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.output.waitForRegex(/h.+d/, 1)
       await assert.rejects(promise, new Error("Regex /h.+d/ not found within 1 ms. The captured text so far is:\n"))
@@ -115,17 +116,24 @@ suite("RunningProcess", function () {
   })
 
   suite("pid()", function () {
-    test("a running process", async function () {
+    test("running process", async function () {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 1)"])
       const pid = process.pid()
       assert.equal(typeof pid, "number")
       assert.ok(pid > 0)
       await process.waitForEnd()
     })
+    test("finished process", async function () {
+      const process = observableProcess.start(["node", "-e", "console"])
+      await process.waitForEnd()
+      const pid = process.pid()
+      assert.equal(typeof pid, "number")
+      assert.ok(pid > 0)
+    })
   })
 
   suite("stderr", function () {
-    test("reading", async function () {
+    test(".fullText()", async function () {
       const observable = observableProcess.start([
         "node",
         "-e",
@@ -135,7 +143,7 @@ suite("RunningProcess", function () {
       assert.equal(observable.stderr.fullText(), "world")
     })
 
-    test("waiting for text", async function () {
+    test("waitForText()", async function () {
       const observable = observableProcess.start([
         "node",
         "-e",
@@ -145,13 +153,13 @@ suite("RunningProcess", function () {
       assert.equal(text, "world")
     })
 
-    test("waiting for text times out", async function () {
+    test(".waitForText() timeout", async function () {
       const observable = observableProcess.start(["node", "-e", "setTimeout(function() {}, 10)"])
       const promise = observable.stderr.waitForText("hello", 1)
       await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
-    test("waiting for regex", async function () {
+    test(".waitForRegex()", async function () {
       const observable = observableProcess.start([
         "node",
         "-e",
@@ -161,7 +169,7 @@ suite("RunningProcess", function () {
       assert.equal(text, "world")
     })
 
-    test("waiting for regex times out", async function () {
+    test(".waitForRegex() timeout", async function () {
       const observable = observableProcess.start(["node", "-e", "setTimeout(function() {}, 10)"])
       const promise = observable.stderr.waitForRegex(/w.+d/, 1)
       await assert.rejects(promise, new Error("Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"))
@@ -169,7 +177,7 @@ suite("RunningProcess", function () {
   })
 
   suite("stdout", function () {
-    test("reading", async function () {
+    test(".fullText()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -179,7 +187,7 @@ suite("RunningProcess", function () {
       assert.equal(process.stdout.fullText(), "hello")
     })
 
-    test("waiting for text", async function () {
+    test(".waitForText()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -189,13 +197,13 @@ suite("RunningProcess", function () {
       assert.equal(text, "world")
     })
 
-    test("waiting for text times out", async function () {
+    test(".waitForText() timeout", async function () {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.stdout.waitForText("hello", 1)
       await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
-    test("waiting for regex", async function () {
+    test(".waitForRegex()", async function () {
       const process = observableProcess.start([
         "node",
         "-e",
@@ -205,25 +213,26 @@ suite("RunningProcess", function () {
       assert.equal(text, "world")
     })
 
-    test("waiting for regex times out", async function () {
+    test(".waitForRegex() timeout", async function () {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.stdout.waitForRegex(/w.+d/, 1)
       await assert.rejects(promise, new Error("Regex /w.+d/ not found within 1 ms. The captured text so far is:\n"))
     })
   })
 
-  suite("waitForEnd()", function () {
-    test("process ends before calling it", async function () {
+  suite(".waitForEnd()", function () {
+    test("finished process", async function () {
       const process = observableProcess.start(["node", "-e", "console.log('hello'); process.exit(7)"])
       await delay(50)
       const result = await process.waitForEnd()
-      // assert.deepEqual(result.exitCode, 7)
-      assert.deepEqual(result.stdText, "hello\n")
-      assert.deepEqual(result.errText, "")
-      assert.deepEqual(result.combinedText, "hello\n")
+      assert.ok(instanceOfFinishedProcess(result))
+      assert.equal(result.exitCode, 7)
+      assert.equal(result.stdText, "hello\n")
+      assert.equal(result.errText, "")
+      assert.equal(result.combinedText, "hello\n")
     })
 
-    test("process still running when calling it", async function () {
+    test("running process", async function () {
       const process = observableProcess.start([
         "node",
         "-e",

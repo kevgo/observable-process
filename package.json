@@ -34,7 +34,7 @@
     "yarn": ">= 1.5.0"
   },
   "files": [
-    "dist"
+    "dist/*.js"
   ],
   "homepage": "https://github.com/Originate/observable-process",
   "license": "ISC",

@@ -1,23 +1,27 @@
 import { strict as assert } from "assert"
 
-import * as observableProcess from "../src/index"
+import { instanceOfFinishedProcess } from "./finished-process"
+import * as observableProcess from "./index"
 
 suite("start()", function () {
   test("starting a process via an argv array", async function () {
     const observable = observableProcess.start(["node", "-e", "console.log('hello')"])
     const result = await observable.waitForEnd()
+    assert.ok(instanceOfFinishedProcess(result))
     assert.equal(result.exitCode, 0)
   })
 
   test("starting a process via a string", async function () {
     const observable = observableProcess.start("node -e console.log('hello')")
     const result = await observable.waitForEnd()
+    assert.ok(instanceOfFinishedProcess(result))
     assert.equal(result.exitCode, 0)
   })
 
   test("starting processes in the path", async function () {
     const observable = observableProcess.start("node -h")
     const result = await observable.waitForEnd()
+    assert.ok(instanceOfFinishedProcess(result))
     assert.equal(result.exitCode, 0)
   })
 

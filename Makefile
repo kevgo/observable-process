@@ -5,7 +5,7 @@ clean:  # removes all build artifacts
 	rm -rf dist
 
 coverage: build  # measures test coverage
-	${CURDIR}/node_modules/.bin/nyc node_modules/.bin/mocha --require source-map-support/register test/*-test.ts
+	${CURDIR}/node_modules/.bin/nyc node_modules/.bin/mocha --require source-map-support/register src/*.test.ts
 	${CURDIR}/node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls
 
 fix:  # runs the fixers
@@ -26,7 +26,7 @@ setup:   # sets up the installation on this machine
 test: build lint unit   # runs all tests
 
 unit:  # runs the unit tests
-	${CURDIR}/node_modules/.bin/mocha test/*-test.ts --reporter dot
+	${CURDIR}/node_modules/.bin/mocha src/*.test.ts --reporter dot
 
 update:  # updates the dependencies
 	yarn upgrade --latest

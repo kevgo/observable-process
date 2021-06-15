@@ -71,7 +71,7 @@ export class RunningProcess {
 
   /** returns the process ID of the underlying ChildProcess */
   pid(): number {
-    return this.childProcess.pid
+    return this.childProcess.pid ?? -1
   }
 
   /** returns a promise that resolves when the underlying ChildProcess terminates */

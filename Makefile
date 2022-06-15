@@ -13,7 +13,7 @@ fix:  # runs the fixers
 	${CURDIR}/node_modules/.bin/prettier --write .
 
 help:   # prints all make targets
-	cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
+	cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
 lint: # runs the linters
 	${CURDIR}/node_modules/.bin/eslint . --ext .ts --ignore-path .eslintignore
@@ -32,3 +32,4 @@ update:  # updates the dependencies
 	yarn upgrade --latest
 
 .SILENT:
+.DEFAULT_GOAL := help

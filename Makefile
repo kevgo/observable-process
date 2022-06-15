@@ -11,6 +11,7 @@ coverage: build  # measures test coverage
 fix:  # runs the fixers
 	${CURDIR}/node_modules/.bin/eslint . --fix --ext .ts --ignore-path .eslintignore
 	${CURDIR}/node_modules/.bin/prettier --write .
+	${CURDIR}/node_modules/.bin/sort-package-json
 
 help:   # prints all make targets
 	cat Makefile | grep '^[^ ]*:' | grep -v '.PHONY' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -18,6 +19,7 @@ help:   # prints all make targets
 lint: # runs the linters
 	${CURDIR}/node_modules/.bin/eslint . --ext .ts --ignore-path .eslintignore
 	${CURDIR}/node_modules/.bin/prettier -l .
+	${CURDIR}/node_modules/.bin/sort-package-json --check
 
 setup:   # sets up the installation on this machine
 	yarn install

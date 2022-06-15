@@ -1,13 +1,28 @@
 {
   "name": "observable-process",
   "version": "8.0.0-pre4",
+  "description": "High-level support for running, observing, and interacting with child processes in Node.js",
+  "homepage": "https://github.com/Originate/observable-process",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Originate/observable-process.git"
+  },
+  "license": "ISC",
   "author": "Kevin Goslar",
+  "main": "dist/index.js",
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
+  "scripts": {
+    "prepublishOnly": "make build",
+    "test": "make spec"
+  },
   "dependencies": {
     "merge-stream": "2.0.0",
     "string-argv": "0.3.1",
     "text-stream-search": "4.0.3"
   },
-  "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.1",
     "@types/got": "9.6.11",
@@ -26,27 +41,13 @@
     "nyc": "15.1.0",
     "portfinder": "1.0.28",
     "prettier": "2.3.1",
+    "sort-package-json": "1.57.0",
     "source-map-support": "0.5.19",
     "ts-node": "10.0.0",
     "typescript": "4.3.2"
   },
   "engines": {
     "yarn": ">= 1.5.0"
-  },
-  "files": [
-    "dist/*.js",
-    "dist/*.d.ts"
-  ],
-  "homepage": "https://github.com/Originate/observable-process",
-  "license": "ISC",
-  "main": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/Originate/observable-process.git"
-  },
-  "scripts": {
-    "prepublishOnly": "make build",
-    "test": "make spec"
   },
   "standard": {
     "parser": "babel-eslint",

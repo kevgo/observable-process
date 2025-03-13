@@ -74,7 +74,7 @@ suite("RunningProcess", function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       await process.waitForEnd()
       assert.equal(process.output.fullText(), "helloworld")
@@ -84,7 +84,7 @@ suite("RunningProcess", function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       const text = await process.output.waitForText("helloworld")
       assert.equal(text, "helloworld")
@@ -93,14 +93,14 @@ suite("RunningProcess", function() {
     test(".waitForText() timeout", async function() {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.output.waitForText("hello", 1)
-      await assert.rejects(promise, new Error("Text \"hello\" not found within 1 ms. The captured text so far is:\n"))
+      await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
     test("waitForRegex()", async function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       const text = await process.output.waitForRegex(/h.+d/)
       assert.equal(text, "helloworld")
@@ -135,7 +135,7 @@ suite("RunningProcess", function() {
       const observable = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       await observable.waitForEnd()
       assert.equal(observable.stderr.fullText(), "world")
@@ -145,7 +145,7 @@ suite("RunningProcess", function() {
       const observable = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       const text = await observable.stderr.waitForText("world")
       assert.equal(text, "world")
@@ -154,14 +154,14 @@ suite("RunningProcess", function() {
     test(".waitForText() timeout", async function() {
       const observable = observableProcess.start(["node", "-e", "setTimeout(function() {}, 10)"])
       const promise = observable.stderr.waitForText("hello", 1)
-      await assert.rejects(promise, new Error("Text \"hello\" not found within 1 ms. The captured text so far is:\n"))
+      await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
     test(".waitForRegex()", async function() {
       const observable = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       const text = await observable.stderr.waitForRegex(/w.+d/)
       assert.equal(text, "world")
@@ -179,7 +179,7 @@ suite("RunningProcess", function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stdout.write(\"hello\"); process.stderr.write(\"world\")",
+        'process.stdout.write("hello"); process.stderr.write("world")',
       ])
       await process.waitForEnd()
       assert.equal(process.stdout.fullText(), "hello")
@@ -189,7 +189,7 @@ suite("RunningProcess", function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stderr.write(\"hello\"); process.stdout.write(\"world\")",
+        'process.stderr.write("hello"); process.stdout.write("world")',
       ])
       const text = await process.stdout.waitForText("world")
       assert.equal(text, "world")
@@ -198,14 +198,14 @@ suite("RunningProcess", function() {
     test(".waitForText() timeout", async function() {
       const process = observableProcess.start(["node", "-e", "setTimeout(function() {}, 3)"])
       const promise = process.stdout.waitForText("hello", 1)
-      await assert.rejects(promise, new Error("Text \"hello\" not found within 1 ms. The captured text so far is:\n"))
+      await assert.rejects(promise, new Error('Text "hello" not found within 1 ms. The captured text so far is:\n'))
     })
 
     test(".waitForRegex()", async function() {
       const process = observableProcess.start([
         "node",
         "-e",
-        "process.stderr.write(\"hello\"); process.stdout.write(\"world\")",
+        'process.stderr.write("hello"); process.stdout.write("world")',
       ])
       const text = await process.stdout.waitForRegex(/w.+d/)
       assert.equal(text, "world")

@@ -1,7 +1,8 @@
 {
   "typescript": {
     "lineWidth": 120,
-    "semiColons": "asi"
+    "semiColons": "asi",
+    "quoteStyle": "preferDouble"
   },
   "json": {
   },

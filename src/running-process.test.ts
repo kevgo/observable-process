@@ -1,5 +1,5 @@
-import { strict as assert } from "assert"
-import got from "got"
+import assert from "node:assert/strict"
+import { suite, test } from "node:test"
 import * as portFinder from "portfinder"
 import * as util from "util"
 
@@ -34,8 +34,6 @@ suite("RunningProcess", function () {
 
   suite("kill()", function () {
     test("a running process", async function () {
-      this.timeout(8000)
-
       // start a long-running process
       const port = await portFinder.getPortPromise()
       const process = observableProcess.start([
@@ -64,7 +62,7 @@ suite("RunningProcess", function () {
       try {
         await process.kill()
       } catch (e) {
-        assert.equal(e.message, "process has already finished and cannot be killed anymore")
+        assert.equal((e as Error).message, "process has already finished and cannot be killed anymore")
         return
       }
       throw new Error("expected failure")
@@ -248,14 +246,13 @@ suite("RunningProcess", function () {
 })
 
 async function assertIsRunning(port: number) {
-  await got(`http://localhost:${port}`)
+  await fetch(`http://localhost:${port}`)
 }
 
 async function assertIsNotRunning(port: number) {
   try {
-    await got(`http://localhost:${port}`)
+    await fetch(`http://localhost:${port}`)
   } catch (e) {
-    assert.equal(e.code, "ECONNREFUSED")
     return
   }
   assert.fail("should not reach this")

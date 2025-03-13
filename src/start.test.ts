@@ -1,5 +1,5 @@
-import { strict as assert } from "assert"
-
+import assert from "node:assert/strict"
+import { suite, test } from "node:test"
 import { instanceOfFinishedProcess } from "./finished-process"
 import * as observableProcess from "./index"
 

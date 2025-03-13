@@ -2,9 +2,9 @@ import * as childProcess from "child_process"
 import mergeStream from "merge-stream"
 import * as util from "util"
 
-import { FinishedProcess } from "./finished-process"
-import { KilledProcess } from "./killed-process"
-import * as scanner from "./scanner"
+import { FinishedProcess } from "./finished-process.js"
+import { KilledProcess } from "./killed-process.js"
+import * as scanner from "./scanner.js"
 const delay = util.promisify(setTimeout)
 
 /** a long-running process whose behavior can be observed at runtime */

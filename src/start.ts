@@ -1,6 +1,6 @@
-import stringArgv from "string-argv"
+import { parseArgsStringToArgv } from "string-argv"
 
-import { RunningProcess } from "./running-process"
+import { RunningProcess } from "./running-process.js"
 
 /** options for start */
 export interface StartOptions {
@@ -19,7 +19,7 @@ export function start(command: string | string[], options: StartOptions = {}): R
   }
   let argv: string[] = []
   if (instanceOfString(command)) {
-    argv = stringArgv(command)
+    argv = parseArgsStringToArgv(command)
   } else if (instanceOfArray(command)) {
     argv = command
   } else {

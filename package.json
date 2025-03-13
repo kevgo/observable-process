@@ -8,6 +8,7 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "license": "ISC",
+  "type": "module",
   "author": "Kevin Goslar",
   "main": "dist/index.js",
   "files": [
@@ -27,7 +28,7 @@
   },
   "dependencies": {
     "merge-stream": "2.0.0",
-    "string-argv": "0.3.1",
+    "string-argv": "0.3.2",
     "text-stream-search": "4.0.3"
   },
   "devDependencies": {

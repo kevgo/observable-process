@@ -14,8 +14,16 @@
     "dist"
   ],
   "scripts": {
-    "prepublishOnly": "make build",
-    "test": "make test"
+    "build": "tsc -p tsconfig-build.json",
+    "clean": "rm -rf dist",
+    "coverage": "",
+    "fix": "eslint . --fix --ext .ts --ignore-path .eslintignore && prettier --write . && sort-package-json",
+    "lint": "eslint . --ext .ts --ignore-path .eslintignore && prettier -l . && sort-package-json --check",
+    "prepublishOnly": "npm run build",
+    "setup": "npm install",
+    "test": " npm run build && npm run lint && npm run unit",
+    "unit": "mocha src/*.test.ts --reporter dot",
+    "update": "npm-check-updates -u && npm install"
   },
   "dependencies": {
     "merge-stream": "2.0.0",
@@ -39,6 +47,8 @@
     "prettier": "2.3.1",
     "sort-package-json": "1.57.0",
     "source-map-support": "0.5.19",
+    "text-runner": "7.1.0",
+    "textrun-npm": "0.3.0",
     "ts-node": "10.0.0",
     "typescript": "4.3.2"
   }

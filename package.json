@@ -8,8 +8,8 @@
     "url": "git+ssh://git@github.com/Originate/observable-process.git"
   },
   "license": "ISC",
-  "type": "module",
   "author": "Kevin Goslar",
+  "type": "module",
   "main": "dist/index.js",
   "files": [
     "dist"

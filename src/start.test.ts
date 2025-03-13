@@ -1,8 +1,8 @@
 import assert from "node:assert/strict"
 import { suite, test } from "node:test"
 
-import { instanceOfFinishedProcess } from "./finished-process"
-import * as observableProcess from "./index"
+import { instanceOfFinishedProcess } from "./finished-process.js"
+import * as observableProcess from "./index.js"
 
 suite("start()", function() {
   test("starting a process via an argv array", async function() {

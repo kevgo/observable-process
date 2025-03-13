@@ -1,4 +1,4 @@
-import { KilledProcess } from "./killed-process"
+import { KilledProcess } from "./killed-process.js"
 
 /** data about a process that has finished naturally */
 export interface FinishedProcess {

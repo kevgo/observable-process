@@ -1,5 +1,5 @@
+import mergeStreams from "@sindresorhus/merge-streams"
 import * as childProcess from "child_process"
-import mergeStream from "merge-stream"
 import * as util from "util"
 
 import { FinishedProcess } from "./finished-process.js"
@@ -49,7 +49,7 @@ export class RunningProcess {
       throw new Error("process.stderr should not be null") // NOTE: this exists only to make the typechecker shut up
     }
     this.stderr = scanner.wrapStream(this.childProcess.stderr)
-    const outputStream = mergeStream(this.childProcess.stdout, this.childProcess.stderr)
+    const outputStream = mergeStreams([this.childProcess.stdout, this.childProcess.stderr])
     this.output = scanner.wrapStream(outputStream)
   }
 

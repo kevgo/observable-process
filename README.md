@@ -182,11 +182,10 @@ assert.equal(result, {
 
 If you want to hack on ObservableProcess:
 
-- run all tests: <code type="make/target">make test</code>
-- run automated code repair: <code target="make/target">make fix</code>
-- see all make commands: <code target="make/target">make help</code>
+- run all tests: <code type="npm/script-call">npm run test</code>
+- run automated code repair: <code target="npm/script-call">npm run fix</code>
 
 To deploy a new version:
 
-- update the version in `package.json` and commit to `master`
-- run <code target="make/target">npm publish</code>
+- update the version in `package.json` and commit to `main`
+- run <code target="npm/script-call">npm publish</code>

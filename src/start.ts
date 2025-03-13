@@ -18,7 +18,6 @@ export function start(command: string | string[], options: StartOptions = {}): R
     throw new Error("start: no command to execute given")
   }
   let argv: string[] = []
-  // TODO: instanceOfString
   if (instanceOfString(command)) {
     argv = stringArgv(command)
   } else if (instanceOfArray(command)) {
@@ -27,6 +26,9 @@ export function start(command: string | string[], options: StartOptions = {}): R
     throw new Error("you must provide the command to run as a string or string[]")
   }
   const [runnable, ...params] = argv
+  if (runnable == null) {
+    throw new Error("start: no command to execute given")
+  }
 
   // start the process
   return new RunningProcess({

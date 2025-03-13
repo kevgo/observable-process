@@ -42,7 +42,7 @@ suite("start()", function() {
 
   test("providing environment variables", async function() {
     const observable = observableProcess.start(["node", "-e", "console.log('foo:', process.env.foo)"], {
-      env: { foo: "bar", PATH: process.env.PATH },
+      env: { foo: "bar", PATH: process.env["PATH"] },
     })
     await observable.waitForEnd()
     assert.equal(observable.output.fullText(), "foo: bar\n")

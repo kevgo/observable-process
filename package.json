@@ -10,7 +10,9 @@
   "license": "ISC",
   "author": "Kevin Goslar",
   "main": "dist/index.js",
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepublishOnly": "make build",
     "test": "make test"

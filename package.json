@@ -11,8 +11,7 @@
   "author": "Kevin Goslar",
   "main": "dist/index.js",
   "files": [
-    "dist/*.js",
-    "dist/*.d.ts"
+    "dist"
   ],
   "scripts": {
     "prepublishOnly": "make build",

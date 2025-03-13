@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": "4.27.0",
     "eslint": "7.28.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "eslint-plugin-typescript-sort-keys": "1.6.0",
+    "eslint-plugin-typescript-sort-keys": "3.3.0",
     "got": "11.8.2",
     "mocha": "9.0.0",
     "portfinder": "1.0.28",

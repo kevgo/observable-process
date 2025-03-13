@@ -42,11 +42,5 @@
     "source-map-support": "0.5.19",
     "ts-node": "10.0.0",
     "typescript": "4.3.2"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "flowtype"
-    ]
   }
 }

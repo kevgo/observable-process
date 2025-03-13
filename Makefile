@@ -22,7 +22,7 @@ lint: # runs the linters
 	${CURDIR}/node_modules/.bin/sort-package-json --check
 
 setup:   # sets up the installation on this machine
-	yarn install
+	npm install
 	make build
 
 test: build lint unit   # runs all tests
@@ -31,7 +31,7 @@ unit:  # runs the unit tests
 	${CURDIR}/node_modules/.bin/mocha src/*.test.ts --reporter dot
 
 update:  # updates the dependencies
-	yarn upgrade --latest
+	npm-check-updates -u && npm install
 
 .SILENT:
 .DEFAULT_GOAL := help

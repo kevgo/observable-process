@@ -3,8 +3,8 @@ import { suite, test } from "node:test"
 import * as portFinder from "portfinder"
 import * as util from "util"
 
-import * as observableProcess from "../src/index"
-import { instanceOfFinishedProcess } from "./finished-process"
+import * as observableProcess from "../src/index.js"
+import { instanceOfFinishedProcess } from "./finished-process.js"
 const delay = util.promisify(setTimeout)
 
 suite("RunningProcess", function() {

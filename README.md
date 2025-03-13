@@ -1,9 +1,8 @@
 # ObservableProcess
 
-[![CircleCI](https://circleci.com/gh/kevgo/observable-process/tree/master.svg?style=shield)](https://circleci.com/gh/kevgo/observable-process/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/kevgo/observable-process/badge.svg?branch=master)](https://coveralls.io/github/kevgo/observable-process?branch=master)
+[![test status](https://github.com/kevgo/observable-process/actions/workflows/test.yml/badge.svg)](https://github.com/kevgo/observable-process/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/kevgo/observable-process/badge.svg?branch=main)](https://coveralls.io/github/kevgo/observable-process?branch=main)
 [![install size](https://packagephobia.now.sh/badge?p=observable-process)](https://packagephobia.now.sh/result?p=observable-process)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kevgo/observable-process.svg)](https://lgtm.com/projects/g/kevgo/observable-process/context:javascript)
 
 ObservableProcess enhances the slightly too low-level
 [Node.JS ChildProcess](https://nodejs.org/api/child_process.html) model with

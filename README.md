@@ -86,7 +86,7 @@ The `stdout` and `stderr` variables of an ObservableProcess behave like normal
 
 ```js
 // normal consumption of data from STDOUT via the event stream
-observable.stdout.on("data", function () {
+observable.stdout.on("data", function() {
   // ...
 })
 ```
@@ -116,7 +116,7 @@ Comparable functionality is available for `stderr`. ObservableProcess also
 provides a new `output` stream with the combined content of STDOUT and STDERR:
 
 ```js
-observable.output.on("data", function (data) {
+observable.output.on("data", function(data) {
   // ...
 })
 const text = observable.output.fullText()

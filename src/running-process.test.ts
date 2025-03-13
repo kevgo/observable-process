@@ -34,8 +34,6 @@ suite("RunningProcess", function () {
 
   suite("kill()", function () {
     test("a running process", async function () {
-      // this.timeout(8000)
-
       // start a long-running process
       const port = await portFinder.getPortPromise()
       const process = observableProcess.start([

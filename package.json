@@ -14,8 +14,16 @@
     "dist"
   ],
   "scripts": {
-    "prepublishOnly": "make build",
-    "test": "make test"
+    "build": "tsc -p tsconfig-build.json",
+    "clean": "rm -rf dist",
+    "coverage": "",
+    "fix": "eslint . --fix --ext .ts --ignore-path .eslintignore && prettier --write . && sort-package-json",
+    "lint": "eslint . --ext .ts --ignore-path .eslintignore && prettier -l . && sort-package-json --check",
+    "setup": "npm install",
+    "prepublishOnly": "npm run build",
+    "test": " npm run build && npm run lint && npm run unit",
+    "unit": "mocha src/*.test.ts --reporter dot",
+    "update": "npm-check-updates -u && npm install"
   },
   "dependencies": {
     "merge-stream": "2.0.0",

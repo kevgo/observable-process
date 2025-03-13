@@ -28,14 +28,14 @@ suite("start()", function () {
 
   test("no command to run", function () {
     assert.throws(function () {
-      // @ts-ignore
+      // @ts-expect-error providing no command to run causes an exception
       observableProcess.start()
     }, new Error("start: no command to execute given"))
   })
 
   test("wrong argument type", function () {
     assert.throws(function () {
-      // @ts-ignore
+      // @ts-expect-error providing a number as the command to run causes an exception
       observableProcess.start(1)
     }, new Error("you must provide the command to run as a string or string[]"))
   })

@@ -1,5 +1,5 @@
 import * as childProcess from "child_process"
-import mergeStream = require("merge-stream")
+import mergeStream from "merge-stream"
 import * as util from "util"
 
 import { FinishedProcess } from "./finished-process"

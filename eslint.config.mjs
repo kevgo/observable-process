@@ -29,6 +29,7 @@ export default [
       "prefer-const": "error",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-call": "error",
+      "@typescript-eslint/no-unused-vars": "off"
     },
   },
 ]

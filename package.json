@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc -p tsconfig-build.json",
     "clean": "rm -rf dist",
-    "coverage": "node --test --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info -- src/*.test.ts",
+    "coverage": "node --test --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info -- test/*.test.ts",
     "fix": "eslint --fix && dprint fmt && sort-package-json --quiet",
     "lint": "eslint && dprint check && sort-package-json --check --quiet",
     "prepublishOnly": "npm run build",

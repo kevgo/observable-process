@@ -34,12 +34,6 @@ $ npm install observable-process
 
 Load this library into your JavaScript code:
 
-```js
-const observableProcess = require("observable-process")
-```
-
-or
-
 ```ts
 import * as observableProcess from "observable-process"
 ```

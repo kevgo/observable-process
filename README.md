@@ -65,7 +65,7 @@ You can provide custom environment variables for the process:
 const observable = observableProcess.start("node server.js", {
   env: {
     foo: "bar",
-    PATH: process.env.PATH,
+    PATH: process.env["PATH"],
   },
 })
 ```

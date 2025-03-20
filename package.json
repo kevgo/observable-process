@@ -1,6 +1,6 @@
 {
   "name": "observable-process",
-  "version": "8.0.0-pre4",
+  "version": "8.0.0",
   "description": "High-level support for running, observing, and interacting with child processes in Node.js",
   "homepage": "https://github.com/Originate/observable-process",
   "repository": {
